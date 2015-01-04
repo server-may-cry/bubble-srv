@@ -1,0 +1,5 @@
+.DS_Store
+/vendor/
+error.log
+access.log
+composer.phar
