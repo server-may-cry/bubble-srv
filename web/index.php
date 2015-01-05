@@ -1,5 +1,5 @@
 <?php
-define('ROOT', rtrim(dirname(__DIR__), '/') . '/');
+define('ROOT', dirname(__DIR__) . '/');
 define('APP_ROOT', ROOT . 'app/');
 //define('SRC_ROOT', APP_ROOT . 'src/');
 define('ROUTE_ROOT', APP_ROOT . 'routes/');
@@ -7,7 +7,7 @@ define('TEMPLATES_ROOT', APP_ROOT . 'templates/');
 define('DB_CONFIG_ROOT', APP_ROOT . 'db/');
 
 // Composer Autoloader
-$loader = require ROOT . '/vendor/autoload.php';
+$loader = require ROOT . 'vendor/autoload.php';
 
 // RedBeanPHP 4
 // The Power ORM
