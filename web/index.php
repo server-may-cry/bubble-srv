@@ -1,5 +1,5 @@
 <?php
-define('ROOT', dirname(__DIR__) . '/');
+define('ROOT', rtrim(dirname(__DIR__), '/') . '/');
 define('APP_ROOT', ROOT . 'app/');
 //define('SRC_ROOT', APP_ROOT . 'src/');
 define('ROUTE_ROOT', APP_ROOT . 'routes/');
