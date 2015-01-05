@@ -73,6 +73,7 @@ $app->on(404, function(\Bullet\Request $request, \Bullet\Response $response) use
     $log = R::dispense('404log');
 	$log->request = $request->url();
 	$log->dateTime = time();
+    $log->raw = $request->raw();
 	R::store($log);
 	echo json_encode('Not Found');
 	die();
