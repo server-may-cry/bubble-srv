@@ -11,3 +11,5 @@ foreach ($tests as $test) {
 		require __DIR__ . '/test/' . $test;
 	}
 }
+
+echo PHP_EOL;

@@ -19,8 +19,10 @@ $app->path('enter', function($request) use ($app) {
 		throw new Exception('Social platform not set');
 	if(!$request->extId)
 		throw new Exception('Social id not set');
-	$user = R::findOne('user', 'sysId = :sysId AND extId = :extId', [ ':sysId'=>$request->sysId, ':extId'=>$request->extId ]);
+	$user = R::findOne('user', 'sys_id = ? AND ext_id = ?', [$request->sysId, (int)$request->extId ]);
 	//var_dump($user);
+	//var_dump($request->sysId, $request->extId);
+	//die();
 	if($user === NULL) {
 		$user = R::dispense('user');
 		$user->sysId = $request->sysId;
