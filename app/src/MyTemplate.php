@@ -7,8 +7,9 @@ class MyTemplate {
 		$this->template = $template;
 	}
 
-	public function declare() {
-		throw new Exception("Function not ready yet");
+	public function prepare($key, $default) {
+		$this->template[$key] = $default;
+		return $this;
 	}
 
 	public function set($key, $value) {
@@ -21,8 +22,9 @@ class MyTemplate {
 			$pointer = $pointer[$step];
 		}*/
 
-		if (isset($this->template[$key]))
+		if (!isset($this->template[$key])){
 			throw new InvalidArgumentException("Try to set undeclared template attribute ".$key);
+		}
 
 		$this->template[$key] = $value;
 		return $this;

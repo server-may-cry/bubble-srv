@@ -1,6 +1,36 @@
 <?php
 
+require_once(SRC_ROOT . 'MyTemplate.php');
+
 $app->path('enter', function($request) use ($app) {
+/*
+{
+	"userId":null, // Идентификатор пользователя, получается с сервера приложения при входе в систему
+	"appFriends":"0", // количество друзей в приложении
+	"srcExtId":null, // vk_id друга откуда пришли
+	"authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
+	"sysId":"VK",
+	"extId":"123439103", // vk_id
+	"msgId":"123", // unic ?
+	"referer":null
+}
+*/
+	if(!$request->sysId)
+		throw new Exception('Social platform not set');
+	if(!$request->extId)
+		throw new Exception('Social id not set');
+	$user = R::findOne('user', 'sysId = :sysId AND extId = :extId', [ ':sysId'=>$request->sysId, ':extId'=>$request->extId ]);
+	//var_dump($user);
+	if($user === NULL) {
+		$user = R::dispense('user');
+		$user->sysId = $request->sysId;
+		$user->extId = $request->extId;
+		$user->authKey = $request->authKey;
+		$user->referer = $request->referer;
+		$user->srcExtId = $request->srcExtId;
+		$user->appFriends = $request->appFriends;
+		$user->id = R::store($user);
+	}
 
 	$templateMask = [
 		'reqMsgId'=>'',
@@ -29,12 +59,15 @@ $app->path('enter', function($request) use ($app) {
 		'stagesProgressStat01'=>[], // unsigned integer array // Список чисел. Каждое число обозначает количество игроков дошедших до определенного уровня в стандартном моде.
 		'stagesProgressStat02'=>[],
 		// Список объектов subStagesRecordStat. Отображает количество звезд на подуровнях в стандартном моде.
-		'subStagesRecordStats01'=>[[],[]], // array of array unsigned int
-		'subStagesRecordStats02'=>[[],[]], // array of array unsigned int
+		'subStagesRecordStats01'=>[[0,1,2],[3,2,1,0]], // array of array unsigned int
+		'subStagesRecordStats02'=>[[0,1,2],[3,2,1,0]], // array of array unsigned int
 	];
 
 	// манипуляции с шаблоном ответа (подстановка значений)
-	$template = new MyTemplate($templateMask);
+	$template = new \MyTemplate($templateMask);
+
+	$template->set('userId', $user->id);
+	$template->set('credits', (int)$user->credits);
 
 	return $template->template();
 });

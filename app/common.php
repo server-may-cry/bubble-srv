@@ -53,7 +53,7 @@ $app->on('Exception', function(\Bullet\Request $request, \Bullet\Response $respo
     //} else {
     //    $response->content($app->template('errors/exception', array('e' => $e))->content());
     //}
-    if(BULLET_ENV === 'production') {
+    //if(BULLET_ENV === 'production' or true) {
     	$log = R::dispense('errorlog');
     	$log->class = str_replace('Exception', 'E', get_class($e));
     	$log->message = $e->getMessage();
@@ -64,7 +64,7 @@ $app->on('Exception', function(\Bullet\Request $request, \Bullet\Response $respo
 		R::store($log);
         // An error happened in production. You should really let yourself know about it.
         // TODO: Email, log to file, or send to error-logging service like Sentry, Airbrake, etc.
-    }
+    //}
 });
 
 // Custom 404 Error Page

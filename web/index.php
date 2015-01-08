@@ -1,7 +1,7 @@
 <?php
 define('ROOT', dirname(__DIR__) . '/');
 define('APP_ROOT', ROOT . 'app/');
-//define('SRC_ROOT', APP_ROOT . 'src/');
+define('SRC_ROOT', APP_ROOT . 'src/');
 define('ROUTE_ROOT', APP_ROOT . 'routes/');
 define('TEMPLATES_ROOT', APP_ROOT . 'templates/');
 define('DB_CONFIG_ROOT', APP_ROOT . 'db/');
