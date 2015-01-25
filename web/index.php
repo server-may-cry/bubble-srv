@@ -25,7 +25,7 @@ require APP_ROOT . 'common.php';
 if( $request->isBot() ) {
 	$log = R::dispense('botrequest');
 	$log->dateTime = time();
-	$log->raw = $request->raw();
+	$log->url = $request->url();
 	R::store($log);
 	die();
 }

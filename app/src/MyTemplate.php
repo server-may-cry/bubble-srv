@@ -34,10 +34,10 @@ class MyTemplate {
 		$this->set($key, $value);
 	}
 
-	public function template() {
+	public function render() {
 		foreach ($this->template as &$value) {
-			if( is_object($value) )
-				$value = $value->template();
+			if( is_object($value) and get_class($value) == 'MyTemplate' )
+				$value = $value->render();
 		}
 		return $this->template;
 	}

@@ -1,8 +1,6 @@
 <?php
 
-require_once(SRC_ROOT . 'MyTemplate.php');
-
-$app->path('enter', function($request) use ($app) {
+$app->path('ReqEnter', function($request) use ($app) {
 /*
 {
 	"userId":null, // Идентификатор пользователя, получается с сервера приложения при входе в систему
@@ -31,6 +29,10 @@ $app->path('enter', function($request) use ($app) {
 		$user->referer = $request->referer;
 		$user->srcExtId = $request->srcExtId;
 		$user->appFriends = $request->appFriends;
+		$user->reachedStage01 = 1;
+		$user->reachedSubStage01 = 1;
+		$user->reachedStage02 = 1;
+		$user->reachedSubStage02 = 1;
 		$user->id = R::store($user);
 	}
 
@@ -70,6 +72,10 @@ $app->path('enter', function($request) use ($app) {
 
 	$template->set('userId', $user->id);
 	$template->set('credits', (int)$user->credits);
+	$template->set('reachedStage01', $user->reachedStage01);
+	$template->set('reachedStage02', $user->reachedStage02);
+	$template->set('reachedSubStage01', $user->reachedSubStage01);
+	$template->set('reachedSubStage02', $user->reachedSubStage02);
 
-	return $template->template();
+	return $template->render();
 });
