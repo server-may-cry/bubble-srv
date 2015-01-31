@@ -1,6 +1,6 @@
 <?php
 
-$app->path('ReqEnter', function($request) use ($app) {
+$app->path('ReqEnter', function(\Bullet\Request $request) use ($app) {
 /*
 {
 	"userId":null, // Идентификатор пользователя, получается с сервера приложения при входе в систему
@@ -14,9 +14,9 @@ $app->path('ReqEnter', function($request) use ($app) {
 }
 */
 	if(!$request->sysId)
-		throw new Exception('Social platform not set');
+		throw new \Exception('Social platform not set');
 	if(!$request->extId)
-		throw new Exception('Social id not set');
+		throw new \Exception('Social id not set');
 	$user = R::findOne('user', 'sys_id = ? AND ext_id = ?', [$request->sysId, (int)$request->extId ]);
 	//var_dump($user);
 	//var_dump($request->sysId, $request->extId);

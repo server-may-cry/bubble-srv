@@ -21,8 +21,10 @@ function curl($url, $data) {
 	$rawAnswer = curl_exec($ch);
 	curl_close($ch);
 	$answer = json_decode($rawAnswer);
-	if(!is_object($answer))
+	if($answer === NULL) {
 		echo '"'.$url.'" json false' . PHP_EOL;
+		var_dump($answer);
+	}
 	return $answer;
 }
 

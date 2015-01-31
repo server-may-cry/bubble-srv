@@ -4,7 +4,6 @@ define('APP_ROOT', ROOT . 'app/');
 define('SRC_ROOT', APP_ROOT . 'src/');
 define('ROUTE_ROOT', APP_ROOT . 'routes/');
 define('TEMPLATES_ROOT', APP_ROOT . 'templates/');
-define('DB_CONFIG_ROOT', APP_ROOT . 'db/');
 
 // Composer Autoloader
 $loader = require ROOT . 'vendor/autoload.php';
@@ -13,8 +12,13 @@ $loader = require ROOT . 'vendor/autoload.php';
 // The Power ORM
 // http://redbeanphp.com/
 require APP_ROOT . 'rb.php';
-R::setup('mysql:host=localhost;dbname=bubble', 'bubble','');
-//R::addDatabase( 'DB1', 'sqlite:/tmp/d1.db', 'usr', 'pss', $frozen );
+//phpinfo();
+try {
+    new PDO('pgsql:host=localhost;dbname=bubble', 'bubble', 'bubble');
+    R::setup('pgsql:host=localhost;dbname=bubble', 'bubble', 'bubble');
+} catch (PDOException $e) {
+    R::setup('mysql:host=localhost;dbname=bubble', 'bubble', 'bubble');
+} 
 
 // Bullet App
 $app = new Bullet\App(require APP_ROOT . 'config.php');

@@ -22,32 +22,29 @@ $app->path('ReqSavePlayerProgress', function($request) use ($app) {
 	// currentStage
 	// completeSubStage
 	// completeSubStageRecordStat
-	// userId
 */
-	if(!$request->sysId)
-		throw new Exception('Social platform not set');
-	if(!$request->extId)
-		throw new Exception('Social id not set');
-	$user = R::findOne('user', 'sys_id = ? AND ext_id = ?', [$request->sysId, (int)$request->extId ]);
+	if(!$request->userId)
+		throw new \Exception('user id not set');
+	$user = R::findOne('user', 'id = ?', [(int)$request->userId]);
 
 	if($user === NULL)
-		throw new Exception("User ".$request->sysId.': '.$request->extId.' not found');
+		throw new Exception("UserID: ".$request->userId.' not found');
 		
 	switch($request->levelMode) {
 		case 'standart':
-			$user->reachedStage01 = max($reuest->reachedStage, $user->reachedStage01);
-			$user->reachedSubStage01 = max($reuest->reachedSubStage, $user->reachedSubStage01);
+			$user->reachedStage01 = max($request->reachedStage, $user->reachedStage01);
+			$user->reachedSubStage01 = max($request->reachedSubStage, $user->reachedSubStage01);
 			break;
 		case 'arcade':
-			$user->reachedStage02 = max($reuest->reachedStage, $user->reachedStage02);
-			$user->reachedSubStage02 = max($reuest->reachedSubStage, $user->reachedSubStage02);
+			$user->reachedStage02 = max($request->reachedStage, $user->reachedStage02);
+			$user->reachedSubStage02 = max($request->reachedSubStage, $user->reachedSubStage02);
 			break;
 	}
 
 	R::store($user);
 
 	$templateMask = [
-		'NotRedyYet'
+		'ok'
 	];
 
 	// манипуляции с шаблоном ответа (подстановка значений)

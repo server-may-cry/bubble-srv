@@ -15,8 +15,6 @@ if(BULLET_ENV == 'production') {
     // Hide errors in production
     error_reporting(0);
     ini_set('display_errors', '0');
-
-    // R::freeze( ['book','page','book_page'] ); // true
 } else {
     /*$log = R::dispense('dumper');
     $log->dateTime = time();
@@ -24,7 +22,7 @@ if(BULLET_ENV == 'production') {
     //var_dump($log->requestData);
     $log->format = $request->format();
     $log->raw = $request->raw();
-    $log->serialize = serialize($request);
+    $log->requestUrl = $request->uri().' OR '.$request->url();
     R::store($log);*/
 }
 // Throw Exceptions for everything so we can see the errors
@@ -41,22 +39,20 @@ function app() {
 }
 // Display exceptions with error and 500 status
 $app->on('Exception', function(\Bullet\Request $request, \Bullet\Response $response, \Exception $e) use($app) {
-    //if($request->format() === 'json') {
-        $data = array(
-            'error' => str_replace('Exception', '', get_class($e)),
-            'message' => $e->getMessage()
-        );
-        // Debugging info for development ENV
-        if(BULLET_ENV !== 'production') {
-            $data['file'] = $e->getFile();
-            $data['line'] = $e->getLine();
-            $data['trace'] = $e->getTrace();
-        }
-        $response->content($data);
-    //} else {
-    //    $response->content($app->template('errors/exception', array('e' => $e))->content());
-    //}
-    //if(BULLET_ENV === 'production' or true) {
+    $data = array(
+        'error' => get_class($e),
+        'message' => $e->getMessage()
+    );
+    // Debugging info for development ENV
+    if(BULLET_ENV !== 'production') {
+        $data['file'] = $e->getFile();
+        $data['line'] = $e->getLine();
+        $data['trace'] = $e->getTrace();
+    }
+    $response->content($data);
+    if(BULLET_ENV === 'production') {
+        // make error store to sentry $e $request->uri() $request->raw()
+    } else {
     	$log = R::dispense('errorlog');
     	$log->class = str_replace('Exception', 'E', get_class($e));
     	$log->message = $e->getMessage();
@@ -67,7 +63,7 @@ $app->on('Exception', function(\Bullet\Request $request, \Bullet\Response $respo
 		R::store($log);
         // An error happened in production. You should really let yourself know about it.
         // TODO: Email, log to file, or send to error-logging service like Sentry, Airbrake, etc.
-    //}
+    }
 });
 
 // Custom 404 Error Page
@@ -80,5 +76,4 @@ $app->on(404, function(\Bullet\Request $request, \Bullet\Response $response) use
 	R::store($log);
 	echo json_encode('Not Found');
 	die();
-	$response->content($app->template('errors/404')->content());
 });
