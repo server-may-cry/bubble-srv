@@ -17,7 +17,7 @@ try {
     new PDO('pgsql:host=localhost;dbname=bubble', 'bubble', 'bubble');
     R::setup('pgsql:host=localhost;dbname=bubble', 'bubble', 'bubble');
 } catch (PDOException $e) {
-    R::setup('mysql:host=localhost;dbname=bubble', 'bubble', 'bubble');
+    R::setup('mysql:host=localhost;dbname=bubble', 'bubble');
 } 
 
 // Bullet App
