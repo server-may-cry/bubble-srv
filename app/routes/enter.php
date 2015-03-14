@@ -64,9 +64,40 @@ $app->path('ReqEnter', function(\Bullet\Request $request) use ($app) {
 		'firstGame'=>$firstGame, // Может принимать значения 0 и 1. Если пользователь зашел в игру в первый раз в жизни, то 1, в остальных случаях 0.
 		'stagesProgressStat01'=>[], // unsigned integer array // Список чисел. Каждое число обозначает количество игроков дошедших до определенного уровня в стандартном моде. // острова
 		'stagesProgressStat02'=>[], // Список объектов subStagesRecordStat. Отображает количество звезд на подуровнях в стандартном моде.
-		'subStagesRecordStats01'=>[[0,1,2],[3,2,1,0]], // индекс первого массива это reachedStage, а во втором массиве это reachedSubStage, а самое значение в массиве это reqSavePlayerProgress.completeSubStageRecordStat
-		'subStagesRecordStats02'=>[[0,1,2],[3,2,1,0]], // array of array unsigned int
+		
+		// индекс первого массива это reachedStage, а во втором массиве это reachedSubStage, а самое значение в массиве это reqSavePlayerProgress.completeSubStageRecordStat
+		'subStagesRecordStats01'=>[
+			array_fill(0,ISLAND_1_1_COUNT,0),
+			array_fill(0,ISLAND_1_2_COUNT,0),
+			array_fill(0,ISLAND_1_3_COUNT,0),
+			array_fill(0,ISLAND_1_4_COUNT,0),
+			array_fill(0,ISLAND_1_5_COUNT,0),
+			array_fill(0,ISLAND_1_6_COUNT,0),
+		],
+		'subStagesRecordStats02'=>[
+			array_fill(0,ISLAND_2_1_COUNT,0),
+			array_fill(0,ISLAND_2_2_COUNT,0),
+			array_fill(0,ISLAND_2_3_COUNT,0),
+			array_fill(0,ISLAND_2_4_COUNT,0),
+			array_fill(0,ISLAND_2_5_COUNT,0),
+			array_fill(0,ISLAND_2_6_COUNT,0),
+		],
 	];
+
+	$collectionStars = R::findCollection('star', 'user_id = 1');
+	while( $star = $collectionStars->next() ) {
+        switch( $star->levelMode ) {
+        	case 'standart':
+        		$key = 'subStagesRecordStats01';
+        		break;
+    		case 'standart':
+        		$key = 'subStagesRecordStats02';
+        		break;
+    		default:
+    			throw new Exception('Unknown game type in DB: ' . $star->levelMode);
+        }
+        $template [ $key ] [ $star->currentStage ] [ $star->completeSubStage ] = $star->completeSubStageRecordStat;
+    }
 
 	// количество игроков дошедших до каждого острова
 	/*$usersProgresRaw = R::getAll('select 

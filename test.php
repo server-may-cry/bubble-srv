@@ -23,7 +23,7 @@ function curl($url, $data) {
 	$answer = json_decode($rawAnswer);
 	if($answer === NULL) {
 		echo '"'.$url.'" json false' . PHP_EOL;
-		var_dump($answer);
+		var_dump($rawAnswer);
 	}
 	if(isset($answer->error)){
 		echo '"'.$url.'" error ' . $answer->error . PHP_EOL;
