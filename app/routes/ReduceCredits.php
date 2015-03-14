@@ -11,14 +11,22 @@ $app->path('ReqReduceCredits', function($request) use ($app) {
 	"userId":null
 }
 */
+	if(!$request->userId)
+		throw new \Exception('user id not set');
+	$user = R::findOne('user', 'id = ?', [(int)$request->userId]);
 
-	$templateMask = [
-		'NotRedyYet'
+	if($user === NULL)
+		throw new Exception("UserID: ".$request->userId.' not found');
+
+	$user->credits -= $request->amount;
+
+	R::store($user);
+
+	$template = [
+		'reqMsgId' => $request->msgId,
+		'userId' => $user->id,
+		'credits' => $user->credits,
 	];
 
-	// манипуляции с шаблоном ответа (подстановка значений)
-	$template = new \MyTemplate($templateMask);
-
-
-	return $template->render();
+	return $template;
 });

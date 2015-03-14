@@ -10,14 +10,20 @@ $app->path('ReqReduceTries', function($request) use ($app) {
 	"userId":null
 }
 */
+	if(!$request->userId)
+		throw new \Exception('user id not set');
+	$user = R::findOne('user', 'id = ?', [(int)$request->userId]);
 
-	$templateMask = [
-		'NotRedyYet'
+	if($user === NULL)
+		throw new Exception("UserID: ".$request->userId.' not found');
+
+	$user->remainingTries = max($user->remainingTries-1, 0);
+
+	R::store($user);
+
+	$template = [
+		$user->remainingTries
 	];
 
-	// манипуляции с шаблоном ответа (подстановка значений)
-	$template = new \MyTemplate($templateMask);
-
-
-	return $template->render();
+	return $template;
 });

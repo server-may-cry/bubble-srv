@@ -25,6 +25,10 @@ function curl($url, $data) {
 		echo '"'.$url.'" json false' . PHP_EOL;
 		var_dump($answer);
 	}
+	if(isset($answer->error)){
+		echo '"'.$url.'" error ' . $answer->error . PHP_EOL;
+		var_dump($answer);
+	}
 	return $answer;
 }
 

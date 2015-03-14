@@ -1,7 +1,5 @@
 {
     "require": {
-        "vlucas/bulletphp": "~1.4",
-        "doctrine/orm": "*",
-        "symfony/yaml": "*"
+        "vlucas/bulletphp": "~1.4"
     }
 }

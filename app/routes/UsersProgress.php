@@ -14,13 +14,9 @@ $app->path('ReqUsersProgress', function($request) use ($app) {
 }
 */
 
-	$templateMask = [
+	$template = [
 		'NotRedyYet'
 	];
 
-	// манипуляции с шаблоном ответа (подстановка значений)
-	$template = new \MyTemplate($templateMask);
-
-
-	return $template->render();
+	return $template;
 });

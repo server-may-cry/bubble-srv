@@ -1,7 +1,5 @@
 <?php
 
-require_once(SRC_ROOT . 'MyTemplate.php');
-
 // Setup defaults...
 date_default_timezone_set('UTC');
 error_reporting(-1); // Display ALL errors

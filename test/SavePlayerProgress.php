@@ -2,6 +2,7 @@
 
 $reschedLevel = 40;
 $data = '{
+	"isTest":true,
 	"authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
 	"sysId":"test",
 	"msgId":"123",
@@ -10,7 +11,7 @@ $data = '{
 	"currentStage":"20",
 	"reachedStage":"'.$reschedLevel.'",
 	"completeSubStage":"40",
-	"completeSubStageRecordStat":"50",
+	"completeSubStageRecordStat":"40",
 	"levelMode":"standart",
 	"userId":1
 }';
