@@ -28,12 +28,12 @@ $app->path('ReqSavePlayerProgress', function($request) use ($app) {
 
 	switch($request->levelMode) {
 		case 'standart':
-			$user->reachedStage01 = max($request->reachedStage, $user->reachedStage01);
-			$user->reachedSubStage01 = max($request->reachedSubStage, $user->reachedSubStage01);
+			$user->reachedStage01 = max((int)$request->reachedStage, $user->reachedStage01);
+			$user->reachedSubStage01 = max((int)$request->reachedSubStage, $user->reachedSubStage01);
 			break;
 		case 'arcade':
-			$user->reachedStage02 = max($request->reachedStage, $user->reachedStage02);
-			$user->reachedSubStage02 = max($request->reachedSubStage, $user->reachedSubStage02);
+			$user->reachedStage02 = max((int)$request->reachedStage, $user->reachedStage02);
+			$user->reachedSubStage02 = max((int)$request->reachedSubStage, $user->reachedSubStage02);
 			break;
 	}
 
@@ -43,8 +43,8 @@ $app->path('ReqSavePlayerProgress', function($request) use ($app) {
 		[
 			$user->id,
 			$request->levelMode,
-			$request->currentStage,
-			$request->completeSubStage,
+			(int)$request->currentStage,
+			(int)$request->completeSubStage,
 		]
 	);
 
@@ -52,12 +52,12 @@ $app->path('ReqSavePlayerProgress', function($request) use ($app) {
 		$star = R::dispense('star');
 		$star->user = $user;
 		$star->levelMode = $request->levelMode;
-		$star->currentStage = $request->currentStage;
-		$star->completeSubStage = $request->completeSubStage;
-		$star->completeSubStageRecordStat = $request->completeSubStageRecordStat;
+		$star->currentStage = (int)$request->currentStage;
+		$star->completeSubStage = (int)$request->completeSubStage;
+		$star->completeSubStageRecordStat = (int)$request->completeSubStageRecordStat;
 		R::store($star);
 	} elseif($star->completeSubStageRecordStat < $request->completeSubStageRecordStat) {
-		$star->completeSubStageRecordStat = $request->completeSubStageRecordStat;
+		$star->completeSubStageRecordStat = (int)$request->completeSubStageRecordStat;
 		R::store($star);
 	}
 
