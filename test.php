@@ -7,7 +7,6 @@ if($host === false)
 define('HOST', $host);
 
 $tests = array_diff(scandir(__DIR__ . '/test'), array('.','..'));
-sort($tests);
 
 function getmicrotime(){ 
     list($usec, $sec) = explode(" ",microtime()); 
