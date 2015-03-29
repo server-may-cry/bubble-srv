@@ -19,6 +19,9 @@ $app->path('ReqEnter', function(\Bullet\Request $request) use ($app) {
 		throw new \Exception('Social id not set');
 	$user = R::findOne('user', 'sys_id = ? AND ext_id = ?', [$request->sysId, (int)$request->extId ]);
 
+	$bonusCredits = 0;
+	$userFriendsBonusCredits = 0;
+	$timestamp = time();
 	$firstGame = 0;
 	if($user === NULL) {
 		$firstGame = 1;
@@ -35,8 +38,34 @@ $app->path('ReqEnter', function(\Bullet\Request $request) use ($app) {
 		$user->reachedSubStage02 = 0;
 		$user->remainingTries = defaultUserRemainingTries;
 		$user->credits = defaultUserCredits;
+		$user->bonusCreditsReceiveTime = $timestamp;
+		$user->friendsBonusCreditsTime = $timestamp;
 		$user->id = R::store($user);
 	}
+	$needUpdateTimer = false;
+	if( $timestamp - $user->bonusCreditsReceiveTime > intervalBonusCreditsReceiveTime ) {
+		$user->bonusCreditsReceiveTime = $timestamp;
+		$user->credits += bonusCreditsReceive;
+		$bonusCredits = bonusCreditsReceive;
+		$needUpdateTimer = true;
+	}
+	if( $timestamp - $user->friendsBonusCreditsTime > intervalFriendsBonusCreditsReceiveTime) {
+		$user->friendsBonusCreditsTime = $timestamp;
+		$userFriendsBonusCredits = $request->appFriends * userFriendsBonusCreditsMultiplier;
+		$user->credits += $userFriendsBonusCredits;
+		$needUpdateTimer = true;
+	}
+	if($needUpdateTimer)
+		R::store($user);
+
+	$islandsLevelCount = [
+		array_fill(0,ISLAND_1_COUNT,0),
+		array_fill(0,ISLAND_2_COUNT,0),
+		array_fill(0,ISLAND_3_COUNT,0),
+		array_fill(0,ISLAND_4_COUNT,0),
+		array_fill(0,ISLAND_5_COUNT,0),
+		array_fill(0,ISLAND_6_COUNT,0),
+	];
 
 	$template = [
 		'reqMsgId'=>$request->msgId,
@@ -58,30 +87,16 @@ $app->path('ReqEnter', function(\Bullet\Request $request) use ($app) {
 		'inifinityExtra07'=>0, // Может принимать значения 0 и 1
 		'inifinityExtra08'=>0, // Может принимать значения 0 и 1
 		'inifinityExtra09'=>0, // Может принимать значения 0 и 1
-		'bonusCredits'=>0, // Количество монет в 12-часовом бонусе, сейчас это 1000(возможно надо будет куда-нибудь вынести как параметр)
-		'appFriendsBonusCredits'=>0, // Количество монет в ежедневном бонусе за друзей. Рассчитывается по формуле reqEnter.appFriends умноженное на 30 монет за друга(возможно надо будет куда-нибудь вынести как параметр)
+		'bonusCredits'=>$bonusCredits, // Количество монет в 12-часовом бонусе, сейчас это 1000(возможно надо будет куда-нибудь вынести как параметр)
+		'appFriendsBonusCredits'=>$userFriendsBonusCredits, // Количество монет в ежедневном бонусе за друзей. Рассчитывается по формуле reqEnter.appFriends умноженное на 30 монет за друга
 		'offerAvailable'=>0, // Может принимать значения 0 и 1. Включать ли акцию сегодня или нет(возможно надо будет куда-нибудь вынести как параметр)
 		'firstGame'=>$firstGame, // Может принимать значения 0 и 1. Если пользователь зашел в игру в первый раз в жизни, то 1, в остальных случаях 0.
 		'stagesProgressStat01'=>[], // unsigned integer array // Список чисел. Каждое число обозначает количество игроков дошедших до определенного уровня в стандартном моде. // острова
 		'stagesProgressStat02'=>[], // Список объектов subStagesRecordStat. Отображает количество звезд на подуровнях в стандартном моде.
 		
 		// индекс первого массива это reachedStage, а во втором массиве это reachedSubStage, а самое значение в массиве это reqSavePlayerProgress.completeSubStageRecordStat
-		'subStagesRecordStats01'=>[
-			array_fill(0,ISLAND_1_1_COUNT,0),
-			array_fill(0,ISLAND_1_2_COUNT,0),
-			array_fill(0,ISLAND_1_3_COUNT,0),
-			array_fill(0,ISLAND_1_4_COUNT,0),
-			array_fill(0,ISLAND_1_5_COUNT,0),
-			array_fill(0,ISLAND_1_6_COUNT,0),
-		],
-		'subStagesRecordStats02'=>[
-			array_fill(0,ISLAND_2_1_COUNT,0),
-			array_fill(0,ISLAND_2_2_COUNT,0),
-			array_fill(0,ISLAND_2_3_COUNT,0),
-			array_fill(0,ISLAND_2_4_COUNT,0),
-			array_fill(0,ISLAND_2_5_COUNT,0),
-			array_fill(0,ISLAND_2_6_COUNT,0),
-		],
+		'subStagesRecordStats01'=>$islandsLevelCount,
+		'subStagesRecordStats02'=>$islandsLevelCount,
 	];
 
 	$collectionStars = R::findCollection('star', 'user_id = 1');
@@ -99,27 +114,31 @@ $app->path('ReqEnter', function(\Bullet\Request $request) use ($app) {
         $template [ $key ] [ $star->currentStage ] [ $star->completeSubStage ] = $star->completeSubStageRecordStat;
     }
 
-	// количество игроков дошедших до каждого острова
-	/*$usersProgresRaw = R::getAll('select 
-		count(*) as `cnt`, reached_stage01, reached_stage02
-	from
-		bubble.user
-	where
-		reached_stage01 is not null
-	group by
-		reached_stage01, reached_stage02
-	order by
-		reached_stage01, reached_stage02');
-	$usersProgres = [];
-	$i = 0;
-	$totalUsers01 = 0;
-	$totalUsers02 = 0;
-	foreach($usersProgresRaw as $row) {
-		$row->cnt
-		$totalUsers01 += $row->reached_stage01;
-		$totalUsers02 += $row->reached_stage02;
-		++$i;
-	}*/
+    $usersProgresStandartRaw = R::getAll('select count(*), reached_stage01 from bubble.user
+     group by reached_stage01 order by reached_stage01 desc;');
+    $usersProgresStandart = [];
+    $i = 0;
+    $playersCount = 0;
+    foreach($usersProgresStandartRaw as $row) {
+    	$playersCount += $row->count;
+    	while($i++ < $row->reached_stage01) {
+    		$usersProgresStandart[] = $playersCount;
+    	}
+    }
+    $template['stagesProgressStat01'] = $usersProgresStandart;
 
+    $usersProgresArcadeRaw = R::getAll('select count(*), reached_stage02 from bubble.user
+     group by reached_stage02 order by reached_stage02 desc;');
+    $usersProgresArcade = [];
+    $i = 0;
+    $playersCount = 0;
+    foreach($usersProgresArcadeRaw as $row) {
+    	$playersCount += $row->count;
+    	while($i++ < $row->reached_stage01) {
+    		$usersProgresArcade[] = $playersCount;
+    	}
+    }
+    $template['subStagesRecordStats02'] = $usersProgresArcade;
+	
 	return $template;
 });

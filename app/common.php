@@ -13,23 +13,12 @@ if(BULLET_ENV == 'production') {
     // Hide errors in production
     error_reporting(0);
     ini_set('display_errors', '0');
-} else {
-    /*$log = R::dispense('dumper');
-    $log->dateTime = time();
-    $log->requestData = str_replace("\n", ' _N_N_ ', var_export($request, true));
-    //var_dump($log->requestData);
-    $log->format = $request->format();
-    $log->raw = $request->raw();
-    $log->requestUrl = $request->uri().' OR '.$request->url();
-    R::store($log);*/
 }
 // Throw Exceptions for everything so we can see the errors
 function exception_error_handler($errno, $errstr, $errfile, $errline ) {
     throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
 }
 set_error_handler("exception_error_handler");
-// Start user session
-//session_start();
 // Shortcut to access $app instance anywhere
 function app() {
     global $app;
@@ -66,7 +55,6 @@ $app->on('Exception', function(\Bullet\Request $request, \Bullet\Response $respo
 
 // Custom 404 Error Page
 $app->on(404, function(\Bullet\Request $request, \Bullet\Response $response) use($app) {
-    //$response->content($app->template('errors/404')->content());
     $log = R::dispense('404log');
 	$log->request = $request->url();
 	$log->dateTime = time();
