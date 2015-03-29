@@ -114,27 +114,27 @@ $app->path('ReqEnter', function(\Bullet\Request $request) use ($app) {
         $template [ $key ] [ $star->currentStage ] [ $star->completeSubStage ] = $star->completeSubStageRecordStat;
     }
 
-    $usersProgresStandartRaw = R::getAll('select count(*), reached_stage01 from bubble.user
+    $usersProgresStandartRaw = R::getAll('select count(*) as `count`, reached_stage01 from bubble.user
      group by reached_stage01 order by reached_stage01 desc;');
     $usersProgresStandart = [];
     $i = 0;
     $playersCount = 0;
     foreach($usersProgresStandartRaw as $row) {
-    	$playersCount += $row->count;
-    	while($i++ < $row->reached_stage01) {
+    	$playersCount += $row['count'];
+    	while($i++ < $row['reached_stage01']) {
     		$usersProgresStandart[] = $playersCount;
     	}
     }
     $template['stagesProgressStat01'] = $usersProgresStandart;
 
-    $usersProgresArcadeRaw = R::getAll('select count(*), reached_stage02 from bubble.user
+    $usersProgresArcadeRaw = R::getAll('select count(*) as `count`, reached_stage02 from bubble.user
      group by reached_stage02 order by reached_stage02 desc;');
     $usersProgresArcade = [];
     $i = 0;
     $playersCount = 0;
     foreach($usersProgresArcadeRaw as $row) {
-    	$playersCount += $row->count;
-    	while($i++ < $row->reached_stage01) {
+    	$playersCount += $row['count'];
+    	while($i++ < $row['reached_stage02']) {
     		$usersProgresArcade[] = $playersCount;
     	}
     }

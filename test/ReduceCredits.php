@@ -14,8 +14,12 @@ $answer0 = curl('ReqEnter', $data);
 $answer = curl('ReqReduceCredits', $data);
 if($answer !== NULL){
 	$answer2 = curl('ReqEnter', $data);
-	if($answer2->credits >= $answer0->credits)
-		echo '"ReqEnter" credits not dicreased ('.$answer0->credits.')'.PHP_EOL;
-	else
-		echo '. ';
+	if($answer2 !== null) {
+		if($answer2->credits >= $answer0->credits)
+			echo '"ReqEnter" credits not dicreased ('.$answer0->credits.')'.PHP_EOL;
+		else
+			echo '. ';
+	} else {
+		'reqenter after reduce credits problem';
+	}
 }

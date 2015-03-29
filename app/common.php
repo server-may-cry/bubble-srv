@@ -34,7 +34,7 @@ $app->on('Exception', function(\Bullet\Request $request, \Bullet\Response $respo
     if(BULLET_ENV !== 'production') {
         $data['file'] = $e->getFile();
         $data['line'] = $e->getLine();
-        $data['trace'] = $e->getTrace();
+        //$data['trace'] = $e->getTrace();
     }
     $response->content($data);
     if(BULLET_ENV === 'production') {

@@ -2,8 +2,8 @@
 
 $host = getenv('BULLET_HOSTNAME');
 if($host === false)
-	//$host = 'http://b.bl';
-	$host = 'http://dev.opletaev.tk:8080';
+	$host = 'http://b.bl';
+	//$host = 'http://dev.opletaev.tk:8080';
 define('HOST', $host);
 
 $tests = array_diff(scandir(__DIR__ . '/test'), array('.','..'));
@@ -29,6 +29,7 @@ function curl($url, $data) {
 	if(isset($answer->error)){
 		echo '"'.$url.'" ' . $answer->error . ': ' . $answer->message . PHP_EOL;
 		var_dump($answer);
+		return null;
 	}
 	return $answer;
 }

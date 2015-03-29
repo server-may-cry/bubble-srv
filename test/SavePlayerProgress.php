@@ -19,7 +19,10 @@ $data = '{
 $answer = curl('ReqSavePlayerProgress', $data);
 if($answer !== NULL){
 	$answer2 = curl('ReqEnter', $data);
-	if($answer2->reachedStage01 != $reschedLevel)
-		echo '"ReqSavePlayerProgress" progres not updated'.PHP_EOL;
-
+	if($answer2 !== NULL){
+		if($answer2->reachedStage01 != $reschedLevel)
+			echo '"ReqSavePlayerProgress" progres not updated'.PHP_EOL;
+	} else {
+		echo ' regEnter after save progress problem';
+	}
 }
