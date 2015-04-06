@@ -138,7 +138,7 @@ $app->path('ReqEnter', function(\Bullet\Request $request) use ($app) {
     		$usersProgresArcade[] = $playersCount;
     	}
     }
-    $template['subStagesRecordStats02'] = $usersProgresArcade;
+    $template['stagesProgressStat02'] = $usersProgresArcade;
 	
 	return $template;
 });
