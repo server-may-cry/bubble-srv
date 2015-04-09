@@ -59,12 +59,12 @@ $app->path('ReqEnter', function(\Bullet\Request $request) use ($app) {
 		R::store($user);
 
 	$islandsLevelCount = [
-		array_fill(0,ISLAND_1_COUNT,0),
-		array_fill(0,ISLAND_2_COUNT,0),
-		array_fill(0,ISLAND_3_COUNT,0),
-		array_fill(0,ISLAND_4_COUNT,0),
-		array_fill(0,ISLAND_5_COUNT,0),
-		array_fill(0,ISLAND_6_COUNT,0),
+		array_fill(0,ISLAND_1_COUNT,-1),
+		array_fill(0,ISLAND_2_COUNT,-1),
+		array_fill(0,ISLAND_3_COUNT,-1),
+		array_fill(0,ISLAND_4_COUNT,-1),
+		array_fill(0,ISLAND_5_COUNT,-1),
+		array_fill(0,ISLAND_6_COUNT,-1),
 	];
 
 	$template = [
