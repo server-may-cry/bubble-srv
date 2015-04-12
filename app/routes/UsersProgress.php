@@ -27,7 +27,14 @@ $app->path('ReqUsersProgress', function($request) use ($app) {
 	$template = [];
 
 	foreach($friends as $friend) {
-		$template[ $friend['extId'] ] = $friend['id'];
+		$template[] = [
+			'userId' => $friend['id'],
+			'socId' =>  $friend['extId'],
+			'reachedStage01' => $friend['reachedStage01'],
+			'reachedStage02' => $friend['reachedStage02'],
+			'reachedSubStage01' => $friend['reachedSubStage01'],
+			'reachedSubStage02' => $friend['reachedSubStage02'],
+		];
 	}
 
 	return $template;
