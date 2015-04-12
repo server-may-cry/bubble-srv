@@ -15,7 +15,7 @@ $app->path('ReqBuyProduct', function($request) use ($app) {
 */
 
 	$template = [
-		'NotRedyYet'
+		'ReqBuyProduct_NotRedyYet'
 	];
 
 	return $template;

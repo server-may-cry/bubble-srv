@@ -14,7 +14,7 @@ $app->path('ReqBuyBonus', function($request) use ($app) {
 */
 
 	$template = [
-		'NotRedyYet'
+		'ReqBuyBonus_NotRedyYet'
 	];
 
 	return $template;

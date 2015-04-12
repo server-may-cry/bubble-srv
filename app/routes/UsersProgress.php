@@ -14,9 +14,21 @@ $app->path('ReqUsersProgress', function($request) use ($app) {
 }
 */
 
-	$template = [
-		'NotRedyYet'
-	];
+	if(!$request->userId)
+		throw new \Exception('user id not set');
+	$user = R::findOne('user', 'id = ?', [(int)$request->userId]);
+
+	if($user === NULL)
+		throw new Exception("UserID: ".$request->userId.' not found');
+
+	$friends = R::find('user', 
+		' ext_id IN ('.R::genSlots( $request->socIds ).') AND sys_id = ?',
+		[ $request->socIds, $user->sys_id ]);
+	$template = [];
+
+	foreach($friends as $friend) {
+		$template[ $friend['extId'] ] = $friend['id'];
+	}
 
 	return $template;
 });
