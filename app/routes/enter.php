@@ -14,7 +14,7 @@ $app->path('ReqEnter', function(\Bullet\Request $request) use ($app) {
 }
 */
 	if(!$request->sysId)
-		throw new \Exception('Social platform not set');
+		throw new \Exception('Social platform not set. request: '.json_encode($request));
 	if(!$request->extId)
 		throw new \Exception('Social id not set');
 	$user = R::findOne('user', 'sys_id = ? AND ext_id = ?', [$request->sysId, (int)$request->extId ]);
