@@ -19,5 +19,5 @@ if(is_object($answer)){
 } else {
 	echo '"ReqEnter" registration fail'.PHP_EOL;
 	echo $host.PHP_EOL;
-	die('No more test srsly');
+	die('No more test srsly'.PHP_EOL);
 }

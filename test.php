@@ -42,4 +42,4 @@ foreach ($tests as $test) {
 
 echo $host.PHP_EOL;
 $time_end = getmicrotime();$time = $time_end - $time_start; 
-echo 'time: '.$time.PHP_EOL; 
+echo 'time: '.$time.PHP_EOL;
