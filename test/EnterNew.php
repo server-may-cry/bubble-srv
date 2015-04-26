@@ -18,4 +18,6 @@ if(is_object($answer)){
 		echo '. ';
 } else {
 	echo '"ReqEnter" registration fail'.PHP_EOL;
+	echo $host.PHP_EOL;
+	die('No more test srsly');
 }
