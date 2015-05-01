@@ -1,6 +1,7 @@
 <?php
 
-$app->path('ReqEnter', function(\Bullet\Request $request) use ($app) {
+$app->post('/ReqEnter', function() use ($app) {
+	$request = request();
 /*
 {
 	"userId":null, // Идентификатор пользователя, получается с сервера приложения при входе в систему
@@ -140,5 +141,5 @@ $app->path('ReqEnter', function(\Bullet\Request $request) use ($app) {
     }
     $template['stagesProgressStat02'] = $usersProgresArcade;
 	
-	return $template;
+	render( $template );
 });

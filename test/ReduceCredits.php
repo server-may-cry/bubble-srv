@@ -7,7 +7,8 @@ $data = '{
 	"extId":"1234",
 	"amount":"2",
 	"msgId":"123",
-	"userId":'.$userID.'
+	"userId":'.$userID.',
+	"appFriends":"0"
 }';
 
 $answer0 = curl('ReqEnter', $data);

@@ -1,6 +1,7 @@
 <?php
 
-$app->path('ReqBuyProduct', function($request) use ($app) {
+$app->post('/ReqBuyProduct', function() use ($app) {
+	$request = request();
 /*
 {
 	"userId":null.
@@ -18,5 +19,5 @@ $app->path('ReqBuyProduct', function($request) use ($app) {
 		'ReqBuyProduct_NotRedyYet'
 	];
 
-	return $template;
+	render( $template );
 });

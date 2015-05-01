@@ -1,6 +1,7 @@
 <?php
 
-$app->path('ReqReduceTries', function($request) use ($app) {
+$app->post('/ReqReduceTries', function() use ($app) {
+	$request = request();
 /*
 {
 	"authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -25,5 +26,5 @@ $app->path('ReqReduceTries', function($request) use ($app) {
 		$user->remainingTries
 	];
 
-	return $template;
+	render( $template );
 });

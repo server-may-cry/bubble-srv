@@ -1,6 +1,7 @@
 <?php
 
-$app->path('ReqBuyBonus', function($request) use ($app) {
+$app->post('/ReqBuyBonus', function() use ($app) {
+	$request = request();
 /*
 {
 	"msgId":"123",
@@ -17,5 +18,5 @@ $app->path('ReqBuyBonus', function($request) use ($app) {
 		'ReqBuyBonus_NotRedyYet'
 	];
 
-	return $template;
+	render( $template );
 });

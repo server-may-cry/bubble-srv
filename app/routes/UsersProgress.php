@@ -1,6 +1,7 @@
 <?php
 
-$app->path('ReqUsersProgress', function($request) use ($app) {
+$app->post('/ReqUsersProgress', function() use ($app) {
+	$request = request();
 /*
 {
 	"authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -37,5 +38,5 @@ $app->path('ReqUsersProgress', function($request) use ($app) {
 		];
 	}
 
-	return $template;
+	render( $template );
 });

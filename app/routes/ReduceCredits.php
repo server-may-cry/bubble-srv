@@ -1,6 +1,7 @@
 <?php
 
-$app->path('ReqReduceCredits', function($request) use ($app) {
+$app->post('/ReqReduceCredits', function() use ($app) {
+	$request = request();
 /*
 {
 	"authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -28,5 +29,5 @@ $app->path('ReqReduceCredits', function($request) use ($app) {
 		'credits' => $user->credits,
 	];
 
-	return $template;
+	render( $template );
 });

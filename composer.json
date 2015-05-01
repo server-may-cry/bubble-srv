@@ -1,5 +1,5 @@
 {
     "require": {
-        "vlucas/bulletphp": "*"
+        "slim/slim": "~2.6"
     }
 }

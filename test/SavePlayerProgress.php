@@ -13,7 +13,8 @@ $data = '{
 	"completeSubStage":"40",
 	"completeSubStageRecordStat":"40",
 	"levelMode":"standart",
-	"userId":'.$userID.'
+	"userId":'.$userID.',
+	"appFriends":"0"
 }';
 
 $answer = curl('ReqSavePlayerProgress', $data);

@@ -25,8 +25,7 @@ function curl($url, $data) {
 	if($answer === NULL) {
 		echo '"'.$url.'" json false' . PHP_EOL;
 		var_dump($rawAnswer);
-	}
-	if(isset($answer->error)){
+	} elseif (isset($answer->error)){
 		echo '"'.$url.'" ' . $answer->error . ': ' . $answer->message . PHP_EOL;
 		var_dump($answer);
 		return null;
