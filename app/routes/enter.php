@@ -14,9 +14,9 @@ $app->post('/ReqEnter', function() use ($app) {
 	"referer":null
 }
 */
-	if(!$request->sysId)
+	if(!isset($request->sysId))
 		throw new \Exception('Social platform not set. request: '.json_encode($request));
-	if(!$request->extId)
+	if(!isset($request->extId))
 		throw new \Exception('Social id not set');
 	$user = R::findOne('user', 'sys_id = ? AND ext_id = ?', [$request->sysId, (int)$request->extId ]);
 

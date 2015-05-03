@@ -11,7 +11,7 @@ $app->post('/ReqReduceTries', function() use ($app) {
 	"userId":null
 }
 */
-	if(!$request->userId)
+	if(!isset($request->userId))
 		throw new \Exception('user id not set');
 	$user = R::findOne('user', 'id = ?', [(int)$request->userId]);
 
