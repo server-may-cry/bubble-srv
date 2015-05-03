@@ -14,7 +14,10 @@ $app = new \Slim\Slim([
 $data = json_decode( $app->request->getBody() );
 function request() {
 	global $data;
-	return $data;
+	if(is_object($data))
+		return $data;
+	else
+		return new stdClass;
 }
 function render($data) {
 	global $app;
@@ -28,7 +31,7 @@ function render($data) {
 // The Power ORM
 // http://redbeanphp.com/
 require APP_ROOT . 'rb.php';
-if(is_object(request()) and request()->isTest) {
+if(request()->isTest) {
 	R::setup('sqlite:'.ROOT.'/web/test.db'); // SQLite DB in temp dir
 } else {
 	R::setup('mysql:host=localhost;dbname=bubble', 'bubble');

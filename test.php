@@ -27,7 +27,7 @@ function curl($url, $data) {
 		var_dump($rawAnswer);
 	} elseif (isset($answer->error)){
 		echo '"'.$url.'" ' . $answer->error . ': ' . $answer->message . PHP_EOL;
-		var_dump($answer);
+		print_r($answer);
 		return null;
 	}
 	return $answer;
