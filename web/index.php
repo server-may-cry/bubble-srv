@@ -23,7 +23,11 @@ function render($data) {
 	$response = $app->response();
 	$response['Content-Type'] = 'application/json';
 	$response->status(200);
-	$response->body(json_encode($data));
+	$response->body(
+		json_encode(
+			(object)$data
+		)
+	);
 }
 
 // RedBeanPHP 4
