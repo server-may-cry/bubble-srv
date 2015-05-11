@@ -62,6 +62,8 @@ $app->post('/ReqSavePlayerProgress', function() use ($app) {
 		$star->completeSubStageRecordStat = (int)$request->completeSubStageRecordStat;
 		$result = R::store($star);
 		render( 'updated ('.var_export($result, true).')' );
+	} else {
+		render( 'less' );
 	}
 
 	// в этом запросе ответ не имеет значения
