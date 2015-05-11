@@ -22,9 +22,10 @@ $app->post('/ReqUsersProgress', function() use ($app) {
 	if($user === NULL)
 		throw new Exception("UserID: ".$request->userId.' not found');
 
+	$friendsIds = explode(',',  str_replace(' ', '', $request->socIds[0]));
 	$friends = R::find('user', 
 		' ext_id IN ('.R::genSlots( $request->socIds ).') AND sys_id = ?',
-		[ $request->socIds, $user->sys_id ]);
+		[ $friendsIds, $user->sys_id ]);
 	$template = [];
 
 	foreach($friends as $friend) {
