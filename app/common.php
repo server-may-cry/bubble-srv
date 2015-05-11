@@ -48,5 +48,5 @@ $app->notFound(function() use($app) {
 	$log->dateTime = time();
     $log->raw = json_encode( request() );
 	R::store($log);
-	echo json_encode( 'Not Found' );
+	echo json_encode( 'Not Found' . $app->request->getResourceUri() );
 });
