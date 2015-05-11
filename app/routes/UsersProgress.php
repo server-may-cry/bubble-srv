@@ -24,11 +24,13 @@ $app->post('/ReqUsersProgress', function() use ($app) {
 
 	$friendsIds = explode(',',  str_replace(' ', '', $request->socIds[0]));
 	$friends = R::find('user', 
-		' ext_id IN ('.R::genSlots( $request->socIds ).') AND sys_id = ?',
-		[ $friendsIds, $user->sys_id ]);
+		' ext_id IN ('.R::genSlots( $friendsIds ).')',
+		$friendsIds);
 	$template = [];
 
 	foreach($friends as $friend) {
+		if( $user->sys_id != $friend['sys_id'] )
+			continue;
 		$template[] = [
 			'userId' => $friend['id'],
 			'socId' =>  $friend['extId'],
