@@ -56,12 +56,14 @@ $app->post('/ReqSavePlayerProgress', function() use ($app) {
 		$star->currentStage = (int)$request->currentStage;
 		$star->completeSubStage = (int)$request->completeSubStage;
 		$star->completeSubStageRecordStat = (int)$request->completeSubStageRecordStat;
-		R::store($star);
+		$result = R::store($star);
+		render( 'added ('.var_export($result, true).')' );
 	} elseif($star->completeSubStageRecordStat < $request->completeSubStageRecordStat) {
 		$star->completeSubStageRecordStat = (int)$request->completeSubStageRecordStat;
-		R::store($star);
+		$result = R::store($star);
+		render( 'updated ('.var_export($result, true).')' );
 	}
 
 	// в этом запросе ответ не имеет значения
-	render( 'ok' );
+	//render( 'ok' );
 });

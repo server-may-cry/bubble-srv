@@ -9,7 +9,6 @@ $loader = require ROOT . 'vendor/autoload.php';
 
 $app = new \Slim\Slim([
 		'mode' => BULLET_ENV,
-		'debug' => DEBUG,
 	]);
 $data = json_decode( $app->request->getBody() );
 function request() {
