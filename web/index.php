@@ -21,7 +21,7 @@ function request() {
 function render($data) {
 	global $app;
 	$response = $app->response();
-	$response['Content-Type'] = 'application/json';
+	$response['Content-Type'] = 'application/json; encoding=utf-8';
 	$response->status(200);
 	$response->body(
 		json_encode(
