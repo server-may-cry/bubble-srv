@@ -1,7 +1,7 @@
 <?php
 
 $app->post('/vk_pay', function() use ($app) {
-    $secret_key = ''; // Защищенный ключ приложения 
+    $secret_key = getenv('VK_SECRET'); // Защищенный ключ приложения 
 
     $input = $_POST;
 
@@ -24,98 +24,41 @@ $app->post('/vk_pay', function() use ($app) {
         // Подпись правильная 
         switch ($input['notification_type']) { 
             case 'get_item': 
-                // Получение информации о товаре 
-                $item = $input['item']; // наименование товара 
-
-                if ($item == 'item1') { 
-                    $response['response'] = array( 
-                    'item_id' => 25, 
-                    'title' => '300 золотых монет', 
-                    'photo_url' => 'http://somesite/images/coin.jpg', 
-                    'price' => 5 
-                    ); 
-                } elseif ($item == 'item2') { 
-                    $response['response'] = array( 
-                    'item_id' => 27, 
-                    'title' => '500 золотых монет', 
-                    'photo_url' => 'http://somesite/images/coin.jpg', 
-                    'price' => 10 
-                    ); 
-                } else { 
-                    $response['error'] = array( 
-                    'error_code' => 20, 
-                    'error_msg' => 'Товара не существует.', 
-                    'critical' => true 
-                    ); 
-                } 
-                break; 
-
             case 'get_item_test': 
                 // Получение информации о товаре в тестовом режиме 
                 $item = $input['item']; 
-                if ($item == 'item1') { 
+                if ($item == 'helpPack01') { 
                     $response['response'] = array( 
-                    'item_id' => 125, 
-                    'title' => '300 золотых монет (тестовый режим)', 
-                    'photo_url' => 'http://somesite/images/coin.jpg', 
-                    'price' => 5 
+                    'item_id' => 1, 
+                    'title' => 'Extra help pack', 
+                    'photo_url' => 'http://example.com/img.jpg',
+                    'price' => 15
                     ); 
-                } elseif ($item == 'item2') { 
-                    $response['response'] = array( 
-                    'item_id' => 127, 
-                    'title' => '500 золотых монет (тестовый режим)', 
-                    'photo_url' => 'http://somesite/images/coin.jpg', 
-                    'price' => 10 
-                    ); 
-                } else { 
-                    $response['error'] = array( 
-                    'error_code' => 20, 
-                    'error_msg' => 'Товара не существует.', 
-                    'critical' => true 
-                    ); 
-                } 
+                }
                 break; 
-
             case 'order_status_change': 
+            case 'order_status_change_test':
                 // Изменение статуса заказа 
                 if ($input['status'] == 'chargeable') { 
                     $order_id = intval($input['order_id']); 
+                    error_log(json_encode($input));
 
                     // Код проверки товара, включая его стоимость 
-                    $app_order_id = 1; // Получающийся у вас идентификатор заказа. 
+                    // fake id
+                    $app_order_id = microtime(true) * 10000; // Получающийся у вас идентификатор заказа. 
 
                     $response['response'] = array( 
-                    'order_id' => $order_id, 
-                    'app_order_id' => $app_order_id, 
+                        'order_id' => $order_id, 
+                        'app_order_id' => $app_order_id, 
                     ); 
                 } else { 
                     $response['error'] = array( 
-                    'error_code' => 100, 
-                    'error_msg' => 'Передано непонятно что вместо chargeable.', 
-                    'critical' => true 
+                        'error_code' => 100, 
+                        'error_msg' => 'Передано непонятно что вместо chargeable.', 
+                        'critical' => true 
                     ); 
                 } 
-                break; 
-
-            case 'order_status_change_test': 
-                // Изменение статуса заказа в тестовом режиме 
-                if ($input['status'] == 'chargeable') { 
-                    $order_id = intval($input['order_id']); 
-
-                    $app_order_id = 1; // Тут фактического заказа может не быть - тестовый режим. 
-
-                    $response['response'] = array( 
-                    'order_id' => $order_id, 
-                    'app_order_id' => $app_order_id, 
-                    ); 
-                } else { 
-                    $response['error'] = array( 
-                    'error_code' => 100, 
-                    'error_msg' => 'Передано непонятно что вместо chargeable.', 
-                    'critical' => true 
-                    ); 
-                } 
-                break; 
+                break;
         } 
     } 
 
