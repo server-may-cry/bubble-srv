@@ -40,7 +40,7 @@ function render($data) {
 // The Power ORM
 // http://redbeanphp.com/
 require APP_ROOT . 'rb.php';
-if(request()->isTest) {
+if(isset(request()->isTest)) {
 	R::setup('sqlite:'.ROOT.'/web/test.db'); // SQLite DB in temp dir
 } else {
 	R::setup('mysql:host=localhost;dbname=bubble', 'bubble');
