@@ -8,6 +8,7 @@ $app->get('/test', function() use ($app) {
 					[
 						'vk'=>$VK_SECRET,
 						'BULLET_ENV'=>$BULLET_ENV,
+						'env'=>$_ENV,
 					]
 				)
 		);
