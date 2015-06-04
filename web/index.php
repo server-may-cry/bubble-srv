@@ -7,6 +7,11 @@ include_once(ROOT . 'web/config.php'); // Nazim constants
 // Composer Autoloader
 $loader = require ROOT . 'vendor/autoload.php';
 
+$env = getenv('BULLET_ENV');
+if(strlen($env) < 1) {
+	$env = 'dev';
+}
+define('BULLET_ENV', $env);
 $app = new \Slim\Slim([
 		'mode' => BULLET_ENV,
 	]);
