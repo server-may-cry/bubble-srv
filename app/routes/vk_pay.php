@@ -1,7 +1,22 @@
 <?php
 
+/*
+{
+    "app_id":"4890xxx",
+    "item":"creditsPacxxx",
+    "lang":"ru_RU",
+    "notification_type":"get_item_test",
+    "order_id":"829xxx",
+    "receiver_id":"5523xxx",
+    "user_id":"5523xxx",
+    "sig":"bd59934272e8xxxx"
+}
+*/
 $app->post('/vk_pay', function() use ($app) {
     $secret_key = getenv('VK_SECRET'); // Защищенный ключ приложения 
+    if(strlen($secret_key) < 1) {
+        error_log('VK_SECRET not set');
+    }
 
     $input = $_POST;
 

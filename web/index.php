@@ -33,6 +33,7 @@ function render($data) {
 			(object)$data
 		)
 	);
+	error_log(json_encode($data));
 }
 
 // RedBeanPHP 4
