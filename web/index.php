@@ -3,6 +3,7 @@ define('ROOT', dirname(__DIR__) . '/');
 define('APP_ROOT', ROOT . 'app/');
 define('ROUTE_ROOT', APP_ROOT . 'routes/');
 include_once(ROOT . 'web/config.php'); // Nazim constants
+include_once(ROOT . 'web/secret.php'); // srv env, keys
 
 // Composer Autoloader
 $loader = require ROOT . 'vendor/autoload.php';

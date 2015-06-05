@@ -4,3 +4,4 @@ error.log
 access.log
 composer.phar
 web/test.db
+web/secret.php
