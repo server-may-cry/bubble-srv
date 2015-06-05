@@ -1,6 +1,8 @@
 {
     "require": {
-        "slim/slim": "~2.6",
-        "heroku/heroku-buildpack-php": "^68.0"
+        "slim/slim": "~2.6"
+    },
+    "require-dev": {
+    	"heroku/heroku-buildpack-php": "^68.0"
     }
 }
