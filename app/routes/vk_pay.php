@@ -42,13 +42,15 @@ $app->post('/vk_pay', function() use ($app) {
             case 'get_item_test': 
                 // Получение информации о товаре в тестовом режиме 
                 $item = $input['item']; 
-                if ($item == 'helpPack01') { 
+                if ($item == 'helpPack01' or $item = 'creditsPack01') { 
                     $response['response'] = array( 
                     'item_id' => 1, 
                     'title' => 'Extra help pack', 
                     'photo_url' => 'http://example.com/img.jpg',
                     'price' => 15
                     ); 
+                } else {
+                    error_log('unknown item '.$item);
                 }
                 break; 
             case 'order_status_change': 
