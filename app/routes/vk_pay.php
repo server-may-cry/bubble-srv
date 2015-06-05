@@ -74,6 +74,8 @@ $app->post('/vk_pay', function() use ($app) {
                     ); 
                 } 
                 break;
+            default:
+                $response = ['wtf'=>$input];
         } 
     } 
 
