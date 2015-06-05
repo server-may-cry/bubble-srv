@@ -29,7 +29,7 @@ function render($data) {
 			(object)$data
 		)
 	);
-	error_log(json_encode((object)$data));
+	//error_log('response: '.json_encode((object)$data));
 }
 
 // RedBeanPHP 4
