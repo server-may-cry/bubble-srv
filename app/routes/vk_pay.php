@@ -74,7 +74,16 @@ $app->post('/vk_pay', function() use ($app) {
                 // Изменение статуса заказа 
                 if ($input['status'] == 'chargeable') { 
                     $order_id = intval($input['order_id']); 
-
+                    switch($input['item_price']) {
+                        case "15":
+                            //"+420 монет и +10 жизней за 15 голосов"
+                            $user = R::findOne('user', 'sys_id = "VK" AND ext_id = ?', $input['user_id']);
+                            $user->credits += 420;
+                            $user->remainingTries += 10;
+                            R::store($user);
+                        break;
+                    }
+                    
                     // Код проверки товара, включая его стоимость 
                     // fake id
                     $app_order_id = microtime(true) * 10000; // Получающийся у вас идентификатор заказа. 
