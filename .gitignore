@@ -3,5 +3,5 @@
 error.log
 access.log
 composer.phar
-/web/config.php
 web/test.db
+web/secret.php

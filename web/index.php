@@ -3,6 +3,7 @@ define('ROOT', dirname(__DIR__) . '/');
 define('APP_ROOT', ROOT . 'app/');
 define('ROUTE_ROOT', APP_ROOT . 'routes/');
 include_once(ROOT . 'web/config.php'); // Nazim constants
+include_once(ROOT . 'web/secret.php'); // srv env, keys
 
 // Composer Autoloader
 $loader = require ROOT . 'vendor/autoload.php';
@@ -28,13 +29,14 @@ function render($data) {
 			(object)$data
 		)
 	);
+	//error_log('response: '.json_encode((object)$data));
 }
 
 // RedBeanPHP 4
 // The Power ORM
 // http://redbeanphp.com/
 require APP_ROOT . 'rb.php';
-if(request()->isTest) {
+if(isset(request()->isTest)) {
 	R::setup('sqlite:'.ROOT.'/web/test.db'); // SQLite DB in temp dir
 } else {
 	R::setup('mysql:host=localhost;dbname=bubble', 'bubble');
