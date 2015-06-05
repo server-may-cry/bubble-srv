@@ -13,7 +13,7 @@
 }
 */
 $app->post('/vk_pay', function() use ($app) {
-    $secret_key = getenv('VK_SECRET'); // Защищенный ключ приложения 
+    $secret_key = VK_SECRET; // Защищенный ключ приложения 
     if(strlen($secret_key) < 1) {
         error_log('VK_SECRET not set');
     }
