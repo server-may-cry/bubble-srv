@@ -127,7 +127,7 @@ $app->post('/ReqEnter', function() use ($app) {
     }
     $template['stagesProgressStat01'] = $usersProgresStandart;
 
-    $usersProgresArcadeRaw = R::getAll('select count(*) as `count`, reached_stage02 from bubble.user
+    $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from bubble.user
      group by reached_stage02 order by reached_stage02 desc;');
     $usersProgresArcade = [];
     $i = 0;
