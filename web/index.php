@@ -2,7 +2,7 @@
 define('ROOT', dirname(__DIR__) . '/');
 define('APP_ROOT', ROOT . 'app/');
 define('ROUTE_ROOT', APP_ROOT . 'routes/');
-include_once(ROOT . 'web/config.php'); // Nazim constants
+require_once(ROOT . 'web/config.php'); // Nazim constants
 include_once(ROOT . 'web/secret.php'); // srv env, keys
 
 // Composer Autoloader
@@ -11,9 +11,9 @@ $loader = require ROOT . 'vendor/autoload.php';
 $app = new \Slim\Slim([
 		'mode' => BULLET_ENV,
 	]);
-$data = json_decode( $app->request->getBody() );
 function request() {
-	global $data;
+	global $app;
+	$data = json_decode( $app->request->getBody() );
 	if(is_object($data))
 		return $data;
 	else
@@ -36,11 +36,7 @@ function render($data) {
 // The Power ORM
 // http://redbeanphp.com/
 require APP_ROOT . 'rb.php';
-if(isset(request()->isTest)) {
-	R::setup('sqlite:'.ROOT.'/web/test.db'); // SQLite DB in temp dir
-} else {
-	R::setup('mysql:host=localhost;dbname=bubble', 'bubble');
-}
+R::setup('mysql:host=localhost;dbname=bubble', 'bubble');
 R::setAutoResolve( TRUE );
 
 require APP_ROOT . 'common.php';
