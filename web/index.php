@@ -43,7 +43,8 @@ function render($data) {
 require APP_ROOT . 'rb.php';
 $dburl = getenv('DATABASE_URL');
 if(strlen($dburl)>0) {
-	R::setup($dburl);
+	$dbopts = parse_url(getenv('DATABASE_URL'));
+	R::setup('pgsql:dbname='.ltrim($dbopts["path"],'/').';host='.$dbopts["host"].';port='.$dbopts["port"], $dbopts["user"], $dbopts["pass"]);
 } else {
 	R::setup('mysql:host=localhost;dbname=bubble', 'bubble');
 }
