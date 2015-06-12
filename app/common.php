@@ -10,10 +10,10 @@ function exception_error_handler($errno, $errstr, $errfile, $errline ) {
 set_error_handler("exception_error_handler");
 // Display exceptions with error and 500 status
 $app->error(function(\Exception $e) use($app) {
-    $data = array(
+    $data = [
         'error' => get_class($e),
         'message' => $e->getMessage()
-    );
+    ];
     // Debugging info for development ENV
     if(BULLET_ENV !== 'production') {
         $data['file'] = $e->getFile();
