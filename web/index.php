@@ -5,6 +5,9 @@ define('ROUTE_ROOT', APP_ROOT . 'routes/');
 require_once(ROOT . 'web/config.php'); // Nazim constants
 include_once(ROOT . 'web/secret.php'); // srv env, keys
 
+if(!defined('BULLET_ENV')) {
+	define('BULLET_ENV', getenv('BULLET_ENV'));
+}
 // Composer Autoloader
 $loader = require ROOT . 'vendor/autoload.php';
 
@@ -36,17 +39,21 @@ function render($data) {
 // The Power ORM
 // http://redbeanphp.com/
 require APP_ROOT . 'rb.php';
-R::setup('mysql:host=localhost;dbname=bubble', 'bubble');
+$dburl = getenv('DATABASE_URL');
+if(strlen($dburl)>0) {
+	R::setup($dburl);
+} else {
+	R::setup('mysql:host=localhost;dbname=bubble', 'bubble');
+}
 R::setAutoResolve( TRUE );
 
 require APP_ROOT . 'common.php';
 
 // Require all paths/routes
-$routes = array_diff(scandir(ROUTE_ROOT), array('.','..'));
+$routes = array_diff(scandir(ROUTE_ROOT), ['.','..']);
 foreach ($routes as $route) {
 	if ( is_file(ROUTE_ROOT . $route) ) {
 		require ROUTE_ROOT . $route;
 	}
 }
-
 $app->run();
