@@ -115,8 +115,7 @@ $app->post('/ReqEnter', function() use ($app) {
         $template [ $key ] [ $star->currentStage ] [ $star->completeSubStage ] = $star->completeSubStageRecordStat;
     }
 
-    $usersProgresStandartRaw = R::getAll('select count(*) as `count`, reached_stage01 from bubble.user
-     group by reached_stage01 order by reached_stage01 desc;');
+    $usersProgresStandartRaw = R::getAll('select count(*) as `count`, reached_stage01 from bubble.user group by reached_stage01 order by reached_stage01 desc;');
     $usersProgresStandart = [];
     $i = 0;
     $playersCount = 0;
