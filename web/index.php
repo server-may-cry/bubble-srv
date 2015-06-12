@@ -10,7 +10,7 @@ if(!defined('BULLET_ENV')) {
 }
 // Composer Autoloader
 $loader = require ROOT . 'vendor/autoload.php';
-var_dump(BULLET_ENV);
+
 $app = new \Slim\Slim([
 		'mode' => BULLET_ENV,
 	]);
