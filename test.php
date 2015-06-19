@@ -2,7 +2,8 @@
 
 $host = getenv('BULLET_HOSTNAME');
 if($host === false)
-	$host = 'http://b.bl';
+	$host = 'https://bubble-srv.herokuapp.com';
+	//$host = 'http://b.bl';
 	//$host = 'http://dev.opletaev.tk:8080';
 define('HOST', $host);
 

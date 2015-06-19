@@ -12,32 +12,66 @@ set_error_handler("exception_error_handler");
 $app->error(function(\Exception $e) use($app) {
     $data = [
         'error' => get_class($e),
-        'message' => $e->getMessage()
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
     ];
     // Debugging info for development ENV
     if(BULLET_ENV !== 'production') {
-        $data['file'] = $e->getFile();
-        $data['line'] = $e->getLine();
         //$data['trace'] = $e->getTrace();
+    } else {
+        $client = new \Raygun4php\RaygunClient(getenv('RAYGUN_APIKEY'));
+        $client->SendException($e);
+
+        $apiKey  = getenv('AIRBRAKE_API_KEY'); // This is required
+        $options = array(); // This is optional
+
+        $config = new Airbrake\Configuration($apiKey, $options);
+        $client = new Airbrake\Client($config);
+        $client->notifyOnException($e);
+
+        Rollbar::init(array('access_token' => getenv('ROLLBAR_ACCESS_TOKEN')));
+        //ROLLBAR_ENDPOINT
+        Rollbar::report_exception($e);
+
+        // Message at level 'info'
+        //Rollbar::report_message('testing 123', 'info');
+
+        // With extra data (3rd arg) and custom payload options (4th arg)
+        //Rollbar::report_message('testing 123', 'info',
+                                // // key-value additional data
+                                // array("some_key" => "some value"),  
+                                // // payload options (overrides defaults) - see api docs
+                                // array("fingerprint" => "custom-fingerprint-here"));
+
+        // raises an E_NOTICE which will *not* be reported by the error handler
+        //$foo = $bar;
     }
 
-	$log = R::dispense('errorlog');
-	$log->class = get_class($e);
-	$log->message = $e->getMessage();
-	$log->file = $e->getFile();
-	$log->line = $e->getLine();
-	$log->dateTime = time();
-	R::store($log);
+    $log = R::dispense('errorlog');
+    $log->class = get_class($e);
+    $log->message = $e->getMessage();
+    $log->file = $e->getFile();
+    $log->line = $e->getLine();
+    $log->dateTime = time();
+    R::store($log);
 
     render( $data );
 });
 
+function error_handler($errno, $errstr, $errfile, $errline ) {
+    $client = new \Raygun4php\RaygunClient(getenv('RAYGUN_APIKEY'));
+    $client->SendError($errno, $errstr, $errfile, $errline);
+}
+
+set_error_handler("error_handler");
+
 // Custom 404 Error Page
 $app->notFound(function() use($app) {
     $log = R::dispense('404log');
-	$log->request = $app->request->getResourceUri();
-	$log->dateTime = time();
+    $log->request = $app->request->getResourceUri();
+    $log->dateTime = time();
     $log->raw = json_encode( request() );
-	R::store($log);
+    R::store($log);
     render( 'Not Found' . $app->request->getResourceUri() );
 });
