@@ -33,19 +33,6 @@ $app->error(function(\Exception $e) use($app) {
         Rollbar::init(array('access_token' => getenv('ROLLBAR_ACCESS_TOKEN')));
         //ROLLBAR_ENDPOINT
         Rollbar::report_exception($e);
-
-        // Message at level 'info'
-        //Rollbar::report_message('testing 123', 'info');
-
-        // With extra data (3rd arg) and custom payload options (4th arg)
-        //Rollbar::report_message('testing 123', 'info',
-                                // // key-value additional data
-                                // array("some_key" => "some value"),  
-                                // // payload options (overrides defaults) - see api docs
-                                // array("fingerprint" => "custom-fingerprint-here"));
-
-        // raises an E_NOTICE which will *not* be reported by the error handler
-        //$foo = $bar;
     }
 
     $log = R::dispense('errorlog');
@@ -58,13 +45,6 @@ $app->error(function(\Exception $e) use($app) {
 
     render( $data );
 });
-
-function error_handler($errno, $errstr, $errfile, $errline ) {
-    $client = new \Raygun4php\RaygunClient(getenv('RAYGUN_APIKEY'));
-    $client->SendError($errno, $errstr, $errfile, $errline);
-}
-
-set_error_handler("error_handler");
 
 // Custom 404 Error Page
 $app->notFound(function() use($app) {

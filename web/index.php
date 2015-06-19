@@ -15,6 +15,7 @@ $loader = require ROOT . 'vendor/autoload.php';
 
 $app = new \Slim\Slim([
 		'mode' => BULLET_ENV,
+		'debug' => false,
 	]);
 function request() {
 	global $app;
