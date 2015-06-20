@@ -181,7 +181,7 @@ $app->post('/ReqEnter', function() use ($app) {
             foreach($usersProgresArcade as $k => $count) {
                 $to_redis[ (string)$k ] = $count;
             }
-            $redis->hmset('arcade_levels', $usersProgresArcade);
+            $redis->hmset('arcade_levels', $to_redis);
             $redis->expire('arcade_levels', 3600); // 1 hour
         }
     }
