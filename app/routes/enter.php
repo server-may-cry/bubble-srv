@@ -134,6 +134,7 @@ $app->post('/ReqEnter', function() use ($app) {
             'port' => $redis_p['port'],
             'password' => $redis_p['pass'],
         ]);
+        $redis->hmset('metavars', array('foo' => 'bar', 'hoge' => 'piyo', 'lol' => 'wut'));
     }
 
     if($redis_exist and $redis->hgetall('standart_levels')) {
