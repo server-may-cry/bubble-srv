@@ -148,6 +148,7 @@ $app->post('/ReqEnter', function() use ($app) {
     } else {
         $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from bubble.user
          group by reached_stage01 order by reached_stage01 desc;');
+        error_log( var_export($usersProgresStandartRaw, true) );
         $usersProgresStandart = [];
         $i = 0;
         $playersCount = 0;
