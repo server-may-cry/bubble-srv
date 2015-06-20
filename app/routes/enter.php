@@ -129,9 +129,11 @@ $app->post('/ReqEnter', function() use ($app) {
     $redis_exist = 0; //strlen(getenv('REDISCLOUD_URL'));
     if ($redis_exist) {
         $redis_p = parse_url(getenv('REDISCLOUD_URL'));
-        $redis = new Predis\Client(
-            "tcp://" . $redis_p['host'] . ":" . $redis_p['port']. "?auth=" . $redis_p['pass']
-        );
+        $redis = new Predis\Client([
+            'host' => $redis_p['host'],
+            'port' => $redis_p['port'],
+            'password' => $redis_p['pass'],
+        ]);
     }
 
     if($redis_exist and $redis->hgetall('standart_levels')) {

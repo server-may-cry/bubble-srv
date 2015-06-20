@@ -25,11 +25,11 @@ function request() {
 	else
 		return new stdClass;
 }
-function render($data) {
+function render($data, $status = 200) {
 	global $app;
 	$response = $app->response();
 	$response['Content-Type'] = 'application/json; encoding=utf-8';
-	$response->status(200);
+	$response->status($status);
 	$response->body(
 		json_encode(
 			(object)$data

@@ -23,13 +23,6 @@ $app->error(function(\Exception $e) use($app) {
         $client = new \Raygun4php\RaygunClient(getenv('RAYGUN_APIKEY'));
         $client->SendException($e);
 
-        $apiKey  = getenv('AIRBRAKE_API_KEY'); // This is required
-        $options = array(); // This is optional
-
-        $config = new Airbrake\Configuration($apiKey, $options);
-        $client = new Airbrake\Client($config);
-        $client->notifyOnException($e);
-
         Rollbar::init(array('access_token' => getenv('ROLLBAR_ACCESS_TOKEN')));
         //ROLLBAR_ENDPOINT
         Rollbar::report_exception($e);
@@ -43,7 +36,7 @@ $app->error(function(\Exception $e) use($app) {
     $log->dateTime = time();
     R::store($log);
 
-    render( $data );
+    render( $data, 400 );
 });
 
 // Custom 404 Error Page
