@@ -16,15 +16,11 @@ $app->error(function(\Exception $e) use($app) {
         'file' => $e->getFile(),
         'line' => $e->getLine(),
     ];
-    // Debugging info for development ENV
-    if(BULLET_ENV !== 'production') {
-        //$data['trace'] = $e->getTrace();
-    } else {
+    if(BULLET_ENV === 'production') {
         $client = new \Raygun4php\RaygunClient(getenv('RAYGUN_APIKEY'));
         $client->SendException($e);
 
         Rollbar::init(array('access_token' => getenv('ROLLBAR_ACCESS_TOKEN')));
-        //ROLLBAR_ENDPOINT
         Rollbar::report_exception($e);
     }
 
