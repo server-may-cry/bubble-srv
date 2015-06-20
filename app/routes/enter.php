@@ -137,7 +137,7 @@ $app->post('/ReqEnter', function() use ($app) {
     }
 
     if($redis_exist and $redis->hgetall('standart_levels')) {
-        $template['stagesProgressStat01'] = array_values( $redis->hgetall('standart_levels') );
+        $template['stagesProgressStat01'] = array_map('intval', array_values( $redis->hgetall('standart_levels') ) );
     } else {
         $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from bubble.user
          group by reached_stage01 order by reached_stage01 desc;');
@@ -154,7 +154,7 @@ $app->post('/ReqEnter', function() use ($app) {
         if($redis_exist) {
             $to_redis = [];
             foreach($usersProgresStandart as $k => $count) {
-                $to_redis[ (string)$k ] = $count;
+                $to_redis[ (string)$k ] = (string)$count;
             }
             $redis->hmset('standart_levels', $to_redis);
             $redis->expire('standart_levels', 3600); // 1 hour
@@ -162,7 +162,7 @@ $app->post('/ReqEnter', function() use ($app) {
     }
 
     if($redis_exist and $redis->hgetall('arcade_levels')) {
-        $template['stagesProgressStat02'] = array_values(  $redis->hgetall('arcade_levels') );
+        $template['stagesProgressStat02'] = array_map('intval', array_values(  $redis->hgetall('arcade_levels') ) );
     } else {
         $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from bubble.user
          group by reached_stage02 order by reached_stage02 desc;');
@@ -179,7 +179,7 @@ $app->post('/ReqEnter', function() use ($app) {
         if($redis_exist) {
             $to_redis = [];
             foreach($usersProgresArcade as $k => $count) {
-                $to_redis[ (string)$k ] = $count;
+                $to_redis[ (string)$k ] = (string)$count;
             }
             $redis->hmset('arcade_levels', $to_redis);
             $redis->expire('arcade_levels', 3600); // 1 hour
