@@ -24,14 +24,6 @@ $app->error(function(\Exception $e) use($app) {
         Rollbar::report_exception($e);
     }
 
-    $log = R::dispense('errorlog');
-    $log->class = get_class($e);
-    $log->message = $e->getMessage();
-    $log->file = $e->getFile();
-    $log->line = $e->getLine();
-    $log->dateTime = time();
-    R::store($log);
-
     render( $data, 400 );
 });
 
