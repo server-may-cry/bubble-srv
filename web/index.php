@@ -14,6 +14,7 @@ if(!defined('BULLET_ENV')) {
 $loader = require ROOT . 'vendor/autoload.php';
 
 $app = new \Slim\Slim([
+		'http.version' => '1.1',
 		'mode' => BULLET_ENV,
 		'debug' => false,
 	]);

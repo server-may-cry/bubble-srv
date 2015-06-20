@@ -126,7 +126,7 @@ $app->post('/ReqEnter', function() use ($app) {
         $template [ $key ] [ $star->currentStage ] [ $star->completeSubStage ] = $star->completeSubStageRecordStat;
     }
 
-    $redis_exist = 0; //strlen(getenv('REDISCLOUD_URL'));
+    $redis_exist = strlen(getenv('REDISCLOUD_URL'));
     if ($redis_exist) {
         $redis_p = parse_url(getenv('REDISCLOUD_URL'));
         $redis = new Predis\Client([
