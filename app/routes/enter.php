@@ -163,6 +163,7 @@ $app->post('/ReqEnter', function() use ($app) {
             foreach($usersProgresStandart as $k => $count) {
                 $toRedis[ (string)$k ] = (string)$count;
             }
+            var_dump($toRedis);
             $redis->hmset('standart_levels', $toRedis);
             $redis->expire('standart_levels', 3600); // 1 hour
         }
