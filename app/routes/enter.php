@@ -137,7 +137,13 @@ $app->post('/ReqEnter', function() use ($app) {
     }
 
     if($redis_exist and $redis->hgetall('standart_levels')) {
-        $template['stagesProgressStat01'] = array_map('intval', array_values( $redis->hgetall('standart_levels') ) );
+        $atRedis = $redis->hgetall('standart_levels')->asTuple();
+        $normalized = [];
+        foreach($atRedis as $kv) {
+            list($key, $value) = $kv;
+            $normalized[] = $value;
+        }
+        $template['stagesProgressStat01'] = $normalized;
     } else {
         $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from bubble.user
          group by reached_stage01 order by reached_stage01 desc;');
@@ -152,17 +158,23 @@ $app->post('/ReqEnter', function() use ($app) {
         }
         $template['stagesProgressStat01'] = $usersProgresStandart;
         if($redis_exist) {
-            $to_redis = [];
+            $toRedis = [];
             foreach($usersProgresStandart as $k => $count) {
-                $to_redis[ (string)$k ] = (string)$count;
+                $toRedis[ (string)$k ] = (string)$count;
             }
-            $redis->hmset('standart_levels', $to_redis);
+            $redis->hmset('standart_levels', $toRedis);
             $redis->expire('standart_levels', 3600); // 1 hour
         }
     }
 
     if($redis_exist and $redis->hgetall('arcade_levels')) {
-        $template['stagesProgressStat02'] = array_map('intval', array_values(  $redis->hgetall('arcade_levels') ) );
+        $atRedis = $redis->hgetall('arcade_levels')->asTuple();
+        $normalized = [];
+        foreach($atRedis as $kv) {
+            list($key, $value) = $kv;
+            $normalized[] = $value;
+        }
+        $template['stagesProgressStat02'] = $normalized;
     } else {
         $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from bubble.user
          group by reached_stage02 order by reached_stage02 desc;');
@@ -177,11 +189,11 @@ $app->post('/ReqEnter', function() use ($app) {
         }
         $template['stagesProgressStat02'] = $usersProgresArcade;
         if($redis_exist) {
-            $to_redis = [];
+            $toRedis = [];
             foreach($usersProgresArcade as $k => $count) {
-                $to_redis[ (string)$k ] = (string)$count;
+                $toRedis[ (string)$k ] = (string)$count;
             }
-            $redis->hmset('arcade_levels', $to_redis);
+            $redis->hmset('arcade_levels', $toRedis);
             $redis->expire('arcade_levels', 3600); // 1 hour
         }
     }
