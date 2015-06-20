@@ -148,7 +148,6 @@ $app->post('/ReqEnter', function() use ($app) {
     } else {
         $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from bubble.user
          group by reached_stage01 order by reached_stage01 desc;');
-        error_log( var_export($usersProgresStandartRaw, true) );
         $usersProgresStandart = [];
         $i = 0;
         $playersCount = 0;
@@ -159,12 +158,11 @@ $app->post('/ReqEnter', function() use ($app) {
             }
         }
         $template['stagesProgressStat01'] = $usersProgresStandart;
-        if($redis_exist) {
+        if($redis_exist and count($usersProgresStandart)) {
             $toRedis = [];
             foreach($usersProgresStandart as $k => $count) {
                 $toRedis[ (string)$k ] = (string)$count;
             }
-            error_log( var_export($toRedis, true) );
             $redis->hmset('standart_levels', $toRedis);
             $redis->expire('standart_levels', 3600); // 1 hour
         }
@@ -191,7 +189,7 @@ $app->post('/ReqEnter', function() use ($app) {
             }
         }
         $template['stagesProgressStat02'] = $usersProgresArcade;
-        if($redis_exist) {
+        if($redis_exist and count($usersProgresArcade)) {
             $toRedis = [];
             foreach($usersProgresArcade as $k => $count) {
                 $toRedis[ (string)$k ] = (string)$count;
