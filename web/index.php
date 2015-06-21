@@ -3,19 +3,17 @@ define('ROOT', dirname(__DIR__) . '/');
 define('APP_ROOT', ROOT . 'app/');
 define('ROUTE_ROOT', APP_ROOT . 'routes/');
 require_once(ROOT . 'web/config.php'); // Nazim constants
-if(file_exists(ROOT . 'web/secret.php')) {
-	require_once(ROOT . 'web/secret.php'); // srv env, keys
-}
+include_once(ROOT . 'web/secret.php'); // srv env, keys
 
-if(!defined('BULLET_ENV')) {
-	define('BULLET_ENV', getenv('BULLET_ENV'));
+if(!defined('ENV_NAME')) {
+	define('ENV_NAME', getenv('ENV_NAME'));
 }
 // Composer Autoloader
 $loader = require ROOT . 'vendor/autoload.php';
 
 $app = new \Slim\Slim([
 		'http.version' => '1.1',
-		'mode' => BULLET_ENV,
+		'mode' => ENV_NAME,
 		'debug' => false,
 	]);
 function request() {

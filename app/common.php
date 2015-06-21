@@ -16,12 +16,19 @@ $app->error(function(\Exception $e) use($app) {
         'file' => $e->getFile(),
         'line' => $e->getLine(),
     ];
-    if(BULLET_ENV === 'production') {
+    if(ENV_NAME === 'production') {
         $client = new \Raygun4php\RaygunClient(getenv('RAYGUN_APIKEY'));
         $client->SendException($e);
 
         Rollbar::init(array('access_token' => getenv('ROLLBAR_ACCESS_TOKEN')));
         Rollbar::report_exception($e);
+
+        $client = new Raven_Client(getenv('SENTRY_RAVEN_URL'), [
+            // pass along the version of your application
+            // 'release' => '1.0.0',
+        ]);
+        $client->captureException($e);
+        
     }
 
     render( $data, 400 );
