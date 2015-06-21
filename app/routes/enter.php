@@ -146,7 +146,7 @@ $app->post('/ReqEnter', function() use ($app) {
         }
         $template['stagesProgressStat01'] = $normalized;
     } else {
-        $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from bubble.user
+        $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from user
          group by reached_stage01 order by reached_stage01 desc;');
         $usersProgresStandart = [];
         $i = 0;
@@ -177,7 +177,7 @@ $app->post('/ReqEnter', function() use ($app) {
         }
         $template['stagesProgressStat02'] = $normalized;
     } else {
-        $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from bubble.user
+        $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from user
          group by reached_stage02 order by reached_stage02 desc;');
         $usersProgresArcade = [];
         $i = 0;
