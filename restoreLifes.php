@@ -10,7 +10,7 @@ $dbh = new PDO(
 //$dbh = new PDO('mysql:host=localhost;dbname=bubble', 'bubble');
 try{
     var_dump('db exec');
-    $count = $dbh->exec('update user set remaining_tries = 5 where remaining_tries < 5');
+    $count = $dbh->exec('update users set remaining_tries = 5 where remaining_tries < 5');
     error_log('db exec end');
     error_log('db exec count '.var_export($count, true) );
     var_dump($count);

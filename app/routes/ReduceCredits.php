@@ -14,7 +14,7 @@ $app->post('/ReqReduceCredits', function() use ($app) {
 */
 	if(!isset($request->userId))
 		throw new \Exception('user id not set');
-	$user = R::findOne('user', 'id = ?', [(int)$request->userId]);
+	$user = R::findOne('users', 'id = ?', [(int)$request->userId]);
 
 	if($user === NULL)
 		throw new Exception("UserID: ".$request->userId.' not found');

@@ -17,13 +17,13 @@ $app->post('/ReqUsersProgress', function() use ($app) {
 
 	if(!isset($request->userId))
 		throw new \Exception('user id not set');
-	$user = R::findOne('user', 'id = ?', [(int)$request->userId]);
+	$user = R::findOne('users', 'id = ?', [(int)$request->userId]);
 
 	if($user === NULL)
 		throw new Exception("UserID: ".$request->userId.' not found');
 
 	$friendsIds = explode(',',  str_replace(' ', '', $request->socIds[0]));
-	$friends = R::find('user', 
+	$friends = R::find('users', 
 		' ext_id IN ('.R::genSlots( $friendsIds ).')',
 		$friendsIds);
 	$template = [];

@@ -18,7 +18,7 @@ $app->post('/ReqEnter', function() use ($app) {
         throw new \Exception('Social platform not set. request: '.json_encode($request));
     if(!isset($request->extId))
         throw new \Exception('Social id not set');
-    $user = R::findOne('user', 'sys_id = ? AND ext_id = ?', [$request->sysId, (int)$request->extId ]);
+    $user = R::findOne('users', 'sys_id = ? AND ext_id = ?', [$request->sysId, (int)$request->extId ]);
 
     $bonusCredits = 0;
     $userFriendsBonusCredits = 0;
@@ -26,7 +26,7 @@ $app->post('/ReqEnter', function() use ($app) {
     $firstGame = 0;
     if($user === NULL) {
         $firstGame = 1;
-        $user = R::dispense('user');
+        $user = R::dispense('users');
         $user->sysId = $request->sysId;
         $user->extId = $request->extId;
         $user->authKey = $request->authKey;
@@ -146,7 +146,7 @@ $app->post('/ReqEnter', function() use ($app) {
         }
         $template['stagesProgressStat01'] = $normalized;
     } else {
-        $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from user
+        $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from users
          group by reached_stage01 order by reached_stage01 desc;');
         $usersProgresStandart = [];
         $i = 0;
@@ -177,7 +177,7 @@ $app->post('/ReqEnter', function() use ($app) {
         }
         $template['stagesProgressStat02'] = $normalized;
     } else {
-        $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from user
+        $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from users
          group by reached_stage02 order by reached_stage02 desc;');
         $usersProgresArcade = [];
         $i = 0;

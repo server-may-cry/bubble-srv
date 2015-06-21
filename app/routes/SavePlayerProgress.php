@@ -22,7 +22,7 @@ $app->post('/ReqSavePlayerProgress', function() use ($app) {
 */
 	if(!isset($request->userId))
 		throw new \Exception('user id not set');
-	$user = R::findOne('user', 'id = ?', [$request->userId]);
+	$user = R::findOne('users', 'id = ?', [$request->userId]);
 
 	if($user === NULL)
 		throw new Exception("UserID: ".$request->userId.' not found');

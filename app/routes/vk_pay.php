@@ -80,7 +80,7 @@ $app->post('/vk_pay', function() use ($app) {
                     switch($input['item_price']) {
                         case "15":
                             //"+420 монет и +10 жизней за 15 голосов"
-                            $user = R::findOne('user', 'sys_id = "VK" AND ext_id = ?', [$input['user_id']]);
+                            $user = R::findOne('users', 'sys_id = "VK" AND ext_id = ?', [$input['user_id']]);
                             $user->credits += 420;
                             $user->remainingTries += 10;
                             R::store($user);
