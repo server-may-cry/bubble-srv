@@ -138,7 +138,9 @@ $app->post('/ReqEnter', function() use ($app) {
     }
 
     if($redis_exist and $redis->hgetall('standart_levels')) {
-        $atRedis = $redis->hgetall('standart_levels')->asTuple();
+        $atRedis = $redis->hgetall('standart_levels');
+        var_dump($atRedis);
+        die();
         $normalized = [];
         foreach($atRedis as $kv) {
             list($key, $value) = $kv;
