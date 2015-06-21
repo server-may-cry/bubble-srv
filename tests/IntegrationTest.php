@@ -11,12 +11,8 @@ class IntegrationTest extends RoutesTest {
         
     }
 
-    public function t_estNewUser()
+    public function testNewUser()
     {
-        $data = $this->get('/');
-        var_dump($data);
-        die();
-
         $data = '{"isTest":true,"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"1234","msgId":"123","referer":null}';
         
         $answer = curl('ReqEnter', $data);
