@@ -3,7 +3,9 @@ define('ROOT', dirname(__DIR__) . '/');
 define('APP_ROOT', ROOT . 'app/');
 define('ROUTE_ROOT', APP_ROOT . 'routes/');
 require_once(ROOT . 'web/config.php'); // Nazim constants
-include_once(ROOT . 'web/secret.php'); // srv env, keys
+if(file_exists(ROOT . 'web/secret.php')) {
+	require_once(ROOT . 'web/secret.php'); // srv env, keys
+}
 
 if(!defined('ENV_NAME')) {
 	define('ENV_NAME', getenv('ENV_NAME'));
