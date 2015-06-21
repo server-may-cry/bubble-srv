@@ -138,15 +138,7 @@ $app->post('/ReqEnter', function() use ($app) {
     }
 
     if($redis_exist and $redis->hgetall('standart_levels')) {
-        $atRedis = $redis->hgetall('standart_levels');
-        var_dump($atRedis);
-        die();
-        $normalized = [];
-        foreach($atRedis as $kv) {
-            list($key, $value) = $kv;
-            $normalized[] = $value;
-        }
-        $template['stagesProgressStat01'] = $normalized;
+        $template['stagesProgressStat01'] = array_map('intval', $redis->hgetall('standart_levels') );
     } else {
         $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from users
          group by reached_stage01 order by reached_stage01 desc;');
@@ -171,13 +163,7 @@ $app->post('/ReqEnter', function() use ($app) {
     }
 
     if($redis_exist and $redis->hgetall('arcade_levels')) {
-        $atRedis = $redis->hgetall('arcade_levels')->asTuple();
-        $normalized = [];
-        foreach($atRedis as $kv) {
-            list($key, $value) = $kv;
-            $normalized[] = $value;
-        }
-        $template['stagesProgressStat02'] = $normalized;
+        $template['stagesProgressStat02'] = array_map('intval', $redis->hgetall('arcade_levels') );
     } else {
         $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from users
          group by reached_stage02 order by reached_stage02 desc;');
