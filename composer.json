@@ -7,6 +7,7 @@
         "rollbar/rollbar": "^0.13.0"
     },
     "require-dev": {
-		"phpunit/phpunit": "4.7.*"
+		"phpunit/phpunit": "4.7.*",
+        "ovr/phpsa": "^0.0.5"
 	}
 }
