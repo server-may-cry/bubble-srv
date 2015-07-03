@@ -28,7 +28,7 @@ function request(Psr\Http\Message\RequestInterface $request) {
         return new stdClass;
 }
 function render(Psr\Http\Message\ResponseInterface $response, $data, $status = 200) {
-    return $response
+    $response
         ->withStatus($status)
         ->withHeader('Content-Type', 'application/json; charset=utf-8')
 
@@ -40,6 +40,7 @@ function render(Psr\Http\Message\ResponseInterface $response, $data, $status = 2
             )
         )
     ;
+    return $response;
 }
 
 // RedBeanPHP 4
