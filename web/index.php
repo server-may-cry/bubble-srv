@@ -4,7 +4,7 @@ error_reporting(-1); // Display ALL errors
 ini_set('display_errors', '1');
 define('ROOT', dirname(__DIR__) . '/');
 define('ROUTE_ROOT', ROOT . 'routes/');
-require_once(ROOT . 'web/config.php'); // Nazim constants
+require_once(ROOT . 'gameConfig.php'); // Game constants
 if(file_exists(ROOT . 'web/secret.php')) {
     require_once(ROOT . 'web/secret.php'); // srv env, keys
 }
@@ -13,13 +13,13 @@ if(!defined('ENV_NAME')) {
     define('ENV_NAME', getenv('ENV_NAME'));
 }
 // Composer Autoloader
-$loader = require ROOT . 'vendor/autoload.php';
+require ROOT . 'vendor/autoload.php';
 
 $app = new \Slim\Slim([
         'mode' => ENV_NAME,
         'debug' => false,
     ]);
-function request($request) {
+function request(Psr\Http\Message\RequestInterface $request) {
     // ?? $data = $request->getParsedBody(); must be ok
     $data = json_decode( $request->getBody() );
     if(is_object($data))
@@ -27,7 +27,7 @@ function request($request) {
     else
         return new stdClass;
 }
-function render(Slim\Http\Response $response, $data, $status = 200) {
+function render(Psr\Http\Message\ResponseInterface $response, $data, $status = 200) {
     return $response
         ->withStatus($status)
         ->withHeader('Content-Type', 'application/json; charset=utf-8')
@@ -84,7 +84,7 @@ $app->notFound(function($request, $response) {
     $log = R::dispense('404log');
     $log->request = $request->getUri();
     $log->dateTime = time();
-    $log->raw = json_encode( request($request) );
+    $log->raw = json_encode( $request->getBody() );
     R::store($log);
     return render($response, 'Not Found' . $request->getUri());
 });
