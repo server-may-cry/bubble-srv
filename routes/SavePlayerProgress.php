@@ -1,7 +1,7 @@
 <?php
 
-$app->post('/ReqSavePlayerProgress', function() use ($app) {
-	$request = request();
+$app->post('/ReqSavePlayerProgress', function($request, $response) {
+	$request = request($request);
 /*
 {
 	"authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -57,13 +57,13 @@ $app->post('/ReqSavePlayerProgress', function() use ($app) {
 		$star->completeSubStage = (int)$request->completeSubStage;
 		$star->completeSubStageRecordStat = (int)$request->completeSubStageRecordStat;
 		$result = R::store($star);
-		render( 'added ('.var_export($result, true).')' );
+		return render($response, 'added ('.var_export($result, true).')');
 	} elseif($star->completeSubStageRecordStat < $request->completeSubStageRecordStat) {
 		$star->completeSubStageRecordStat = (int)$request->completeSubStageRecordStat;
 		$result = R::store($star);
-		render( 'updated ('.var_export($result, true).')' );
+		return render($response, 'updated ('.var_export($result, true).')');
 	} else {
-		render( 'less' );
+		return render($response, 'less');
 	}
 
 	// в этом запросе ответ не имеет значения

@@ -1,7 +1,7 @@
 <?php
 
-$app->post('/ReqBuyProduct', function() use ($app) {
-	$request = request();
+$app->post('/ReqBuyProduct', function($request, $response) {
+	$request = request($request);
 /*
 {
 	"userId":null.
@@ -19,5 +19,5 @@ $app->post('/ReqBuyProduct', function() use ($app) {
 		'ReqBuyProduct_NotRedyYet'
 	];
 
-	render( $template );
+	return render($response, $template);
 });

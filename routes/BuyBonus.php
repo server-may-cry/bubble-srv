@@ -1,7 +1,7 @@
 <?php
 
-$app->post('/ReqBuyBonus', function() use ($app) {
-	$request = request();
+$app->post('/ReqBuyBonus', function($request, $response) {
+	$request = request($request);
 /*
 {
 	"msgId":"123",
@@ -18,5 +18,5 @@ $app->post('/ReqBuyBonus', function() use ($app) {
 		'ReqBuyBonus_NotRedyYet'
 	];
 
-	render( $template );
+	return render($response, $template);
 });

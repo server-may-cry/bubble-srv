@@ -3,8 +3,7 @@ date_default_timezone_set('UTC');
 error_reporting(-1); // Display ALL errors
 ini_set('display_errors', '1');
 define('ROOT', dirname(__DIR__) . '/');
-define('APP_ROOT', ROOT . 'app/');
-define('ROUTE_ROOT', APP_ROOT . 'routes/');
+define('ROUTE_ROOT', ROOT . 'routes/');
 require_once(ROOT . 'web/config.php'); // Nazim constants
 if(file_exists(ROOT . 'web/secret.php')) {
     require_once(ROOT . 'web/secret.php'); // srv env, keys
@@ -20,29 +19,32 @@ $app = new \Slim\Slim([
         'mode' => ENV_NAME,
         'debug' => false,
     ]);
-function request() {
-    global $app;
-    $data = json_decode( $app->request->getBody() );
+function request($request) {
+    // ?? $data = $request->getParsedBody(); must be ok
+    $data = json_decode( $request->getBody() );
     if(is_object($data))
         return $data;
     else
         return new stdClass;
 }
-function render($data, $status = 200) {
-    global $app;
-    $response = $app->response();
-    $response['Content-Type'] = 'application/json; encoding=utf-8';
-    $response->status($status);
-    $response->body(
-        json_encode(
-            (object)$data
+function render(Slim\Http\Response $response, $data, $status = 200) {
+    return $response
+        ->withStatus($status)
+        ->withHeader('Content-Type', 'application/json; charset=utf-8')
+
+        ->getBody()
+        ->rewind()
+        ->write(
+            json_encode(
+                $data, JSON_FORCE_OBJECT
+            )
         )
-    );
+    ;
 }
 
 // RedBeanPHP 4
 // http://redbeanphp.com/
-require APP_ROOT . 'rb.php';
+require ROOT . 'rb.php';
 $dburl = getenv('DATABASE_URL');
 if(strlen($dburl)>0) {
     $dbopts = parse_url(getenv('DATABASE_URL'));
@@ -53,12 +55,12 @@ if(strlen($dburl)>0) {
 R::setAutoResolve( TRUE );
 
 // Throw Exceptions for everything so we can see the errors
-function exception_error_handler($errno, $errstr, $errfile, $errline ) {
+set_error_handler(function ($errno, $errstr, $errfile, $errline ) {
     throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
-}
-set_error_handler("exception_error_handler");
+});
 // Display exceptions with error and 500 status
-$app->error(function(\Exception $e) use($app) {
+$app->error(function(\Exception $e, $request, $response) {
+    // TODO
     $data = [
         'error' => get_class($e),
         'message' => $e->getMessage(),
@@ -73,17 +75,18 @@ $app->error(function(\Exception $e) use($app) {
         Rollbar::report_exception($e);
     }
 
-    render( $data, 500 );
+    return render($response, $data, 500);
 });
 
 // Custom 404 Error Page
-$app->notFound(function() use($app) {
+$app->notFound(function($request, $response) {
+    // TODO
     $log = R::dispense('404log');
-    $log->request = $app->request->getResourceUri();
+    $log->request = $request->getUri();
     $log->dateTime = time();
-    $log->raw = json_encode( request() );
+    $log->raw = json_encode( request($request) );
     R::store($log);
-    render( 'Not Found' . $app->request->getResourceUri() );
+    return render($response, 'Not Found' . $request->getUri());
 });
 
 // Require all paths/routes

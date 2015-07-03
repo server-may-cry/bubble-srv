@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b621ac6c1c755ff0cae689eaae0069db",
+    "hash": "7eb6b555647f3648b64f11aa90e6753d",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -322,16 +322,16 @@
         },
         {
             "name": "slim/slim",
-            "version": "dev-develop",
+            "version": "3.0-beta1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "4ae3ea1be3db6d433e0c5d60b3253baa25457e86"
+                "reference": "2c128a852d35f6022b78fa293a7624a221eccdbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/4ae3ea1be3db6d433e0c5d60b3253baa25457e86",
-                "reference": "4ae3ea1be3db6d433e0c5d60b3253baa25457e86",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/2c128a852d35f6022b78fa293a7624a221eccdbf",
+                "reference": "2c128a852d35f6022b78fa293a7624a221eccdbf",
                 "shasum": ""
             },
             "require": {
@@ -347,6 +347,11 @@
                 "satooshi/php-coveralls": "dev-master"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.x": "3.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Slim\\": "Slim"
@@ -386,7 +391,7 @@
                 "micro",
                 "router"
             ],
-            "time": "2015-06-28 19:38:47"
+            "time": "2015-07-02 17:52:57"
         }
     ],
     "packages-dev": [
@@ -1491,7 +1496,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "slim/slim": 20
+        "slim/slim": 10
     },
     "prefer-stable": false,
     "prefer-lowest": false,

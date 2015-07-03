@@ -1,7 +1,7 @@
 <?php
 
-$app->post('/ReqEnter', function() use ($app) {
-    $request = request();
+$app->post('/ReqEnter', function($request, $response) {
+    $request = request($request);
 /*
 {
     "userId":null, // Идентификатор пользователя, получается с сервера приложения при входе в систему
@@ -187,5 +187,5 @@ $app->post('/ReqEnter', function() use ($app) {
         }
     }
 
-    render( $template );
+    return render($response, $template);
 });

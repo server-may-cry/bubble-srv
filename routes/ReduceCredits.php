@@ -1,10 +1,11 @@
 <?php
 
-$app->post('/ReqReduceTries', function() use ($app) {
-	$request = request();
+$app->post('/ReqReduceCredits', function($request, $response) {
+	$request = request($request);
 /*
 {
 	"authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
+	"amount":"10",
 	"sysId":"VK",
 	"msgId":"123",
 	"extId":"123439103",
@@ -18,13 +19,15 @@ $app->post('/ReqReduceTries', function() use ($app) {
 	if($user === NULL)
 		throw new Exception("UserID: ".$request->userId.' not found');
 
-	$user->remainingTries = max($user->remainingTries-1, 0);
+	$user->credits -= $request->amount;
 
 	R::store($user);
 
 	$template = [
-		$user->remainingTries
+		'reqMsgId' => $request->msgId,
+		'userId' => $user->id,
+		'credits' => $user->credits,
 	];
 
-	render( $template );
+	return render($response, $template);
 });

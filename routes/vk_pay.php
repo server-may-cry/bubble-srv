@@ -28,7 +28,7 @@
     "sig":"bd59934272e8xxxx"
 }
 */
-$app->post('/vk_pay', function() use ($app) {
+$app->post('/vk_pay', function($request, $response) {
     $secret_key = getenv('VK_SECRET');
     if(strlen($secret_key) < 1) {
         $secret_key = VK_SECRET; // Защищенный ключ приложения
@@ -108,5 +108,5 @@ $app->post('/vk_pay', function() use ($app) {
         } 
     } 
 
-    render($response);
+    return render($response, $response);
 });
