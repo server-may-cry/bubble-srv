@@ -5,9 +5,6 @@ ini_set('display_errors', '1');
 define('ROOT', dirname(__DIR__) . '/');
 define('ROUTE_ROOT', ROOT . 'routes/');
 require_once(ROOT . 'gameConfig.php'); // Game constants
-if(file_exists(ROOT . 'web/secret.php')) {
-    require_once(ROOT . 'web/secret.php'); // srv env, keys
-}
 
 if(!defined('ENV_NAME')) {
     define('ENV_NAME', getenv('ENV_NAME'));
@@ -15,10 +12,42 @@ if(!defined('ENV_NAME')) {
 // Composer Autoloader
 require ROOT . 'vendor/autoload.php';
 
-$app = new \Slim\Slim([
-        'mode' => ENV_NAME,
-        'debug' => false,
-    ]);
+$c = new \Slim\Container();
+
+// Custom 404 Error Page
+$c['notFoundHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+        $log = R::dispense('404log');
+        $log->request = $request->getUri();
+        $log->dateTime = time();
+        $log->raw = $request->getBody();
+        R::store($log);
+        return render($response, 'Not Found' . $request->getUri(), 404);
+    };
+};
+
+// Display exceptions with error and 500 status
+$c['errorHandler'] = function ($c) {
+    return function ($request, $response, $exception) use ($c) {
+        $data = [
+            'error' => get_class($e),
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+        ];
+        if(ENV_NAME === 'production') {
+            $client = new \Raygun4php\RaygunClient(getenv('RAYGUN_APIKEY'));
+            $client->SendException($e);
+
+            Rollbar::init(array('access_token' => getenv('ROLLBAR_ACCESS_TOKEN')));
+            Rollbar::report_exception($e);
+        }
+        return render($response, $data, 500);
+    };
+};
+
+$app = new \Slim\App($c);
+
 function request(Psr\Http\Message\RequestInterface $request) {
     // ?? $data = $request->getParsedBody(); must be ok
     $data = json_decode( $request->getBody() );
@@ -58,36 +87,6 @@ R::setAutoResolve( TRUE );
 // Throw Exceptions for everything so we can see the errors
 set_error_handler(function ($errno, $errstr, $errfile, $errline ) {
     throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
-});
-// Display exceptions with error and 500 status
-$app->error(function(\Exception $e, $request, $response) {
-    // TODO
-    $data = [
-        'error' => get_class($e),
-        'message' => $e->getMessage(),
-        'file' => $e->getFile(),
-        'line' => $e->getLine(),
-    ];
-    if(ENV_NAME === 'production') {
-        $client = new \Raygun4php\RaygunClient(getenv('RAYGUN_APIKEY'));
-        $client->SendException($e);
-
-        Rollbar::init(array('access_token' => getenv('ROLLBAR_ACCESS_TOKEN')));
-        Rollbar::report_exception($e);
-    }
-
-    return render($response, $data, 500);
-});
-
-// Custom 404 Error Page
-$app->notFound(function($request, $response) {
-    // TODO
-    $log = R::dispense('404log');
-    $log->request = $request->getUri();
-    $log->dateTime = time();
-    $log->raw = json_encode( $request->getBody() );
-    R::store($log);
-    return render($response, 'Not Found' . $request->getUri());
 });
 
 // Require all paths/routes

@@ -67,5 +67,5 @@ $app->post('/ReqSavePlayerProgress', function($request, $response) {
 	}
 
 	// в этом запросе ответ не имеет значения
-	//render( 'ok' );
+	//return render($response, 'ok');
 });
