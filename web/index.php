@@ -50,7 +50,8 @@ $app = new \Slim\App($c);
 
 function request(Psr\Http\Message\RequestInterface $request) {
     // ?? $data = $request->getParsedBody(); must be ok
-    var_dump( $request->getBody()->getContents() );
+    var_dump( (string)$request->getBody() );
+    die();
     $data = json_decode( (string)$request->getBody() );
     if(is_object($data))
         return $data;
