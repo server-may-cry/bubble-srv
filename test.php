@@ -19,6 +19,7 @@ function curl($url, $data) {
 	$ch = curl_init(HOST.'/'.$url);
 	curl_setopt($ch, CURLOPT_POST, true);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-type: application/json', 'Content-length: '.strlen($data)])
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 	$rawAnswer = curl_exec($ch);
 	curl_close($ch);

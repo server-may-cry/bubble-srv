@@ -49,15 +49,12 @@ $c['errorHandler'] = function ($c) {
 $app = new \Slim\App($c);
 
 function request(Psr\Http\Message\RequestInterface $request) {
-    // ?? $data = $request->getParsedBody(); must be ok
-    var_dump( (string)$request->getBody() ); 
-    var_dump( $request->getParsedBody() );
-    die();
-    $data = json_decode( (string)$request->getBody() );
-    if(is_object($data))
-        return $data;
-    else
-        return new stdClass;
+    return $request->getParsedBody();
+    // $data = json_decode( (string)$request->getBody() );
+    // if(is_object($data))
+    //     return $data;
+    // else
+    //     return new stdClass;
 }
 function render(Psr\Http\Message\ResponseInterface $response, $data, $status = 200) {
     $response
