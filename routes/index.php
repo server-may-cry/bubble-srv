@@ -9,6 +9,11 @@ $app->get('/test', function($request, $response) {
 });
 
 $app->post('/test', function($request, $response) {
+	// var_dump( $request->getBody() );
+	var_dump( $request->getContents() );
+	$request->rewind();
+	var_dump( $request->getSize() );
+	$request->rewind();
 	var_dump( $request->getBody() );
 	die();
     return render($response, request($request));
