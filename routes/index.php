@@ -9,5 +9,5 @@ $app->get('/test', function($request, $response) {
 });
 
 $app->post('/test', function($request, $response) {
-    return render($response, $request->getParsedBody());
+    return render($response, request($request);
 });
