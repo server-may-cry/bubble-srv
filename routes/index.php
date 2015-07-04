@@ -9,5 +9,7 @@ $app->get('/test', function($request, $response) {
 });
 
 $app->post('/test', function($request, $response) {
+	var_dump( $request->getBody() );
+	die();
     return render($response, request($request));
 });
