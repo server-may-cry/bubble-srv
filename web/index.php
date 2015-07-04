@@ -30,17 +30,17 @@ $c['notFoundHandler'] = function ($c) {
 $c['errorHandler'] = function ($c) {
     return function ($request, $response, $exception) use ($c) {
         $data = [
-            'error' => get_class($e),
-            'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
+            'error' => get_class($exception),
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
         ];
         if(ENV_NAME === 'production') {
             $client = new \Raygun4php\RaygunClient(getenv('RAYGUN_APIKEY'));
-            $client->SendException($e);
+            $client->SendException($exception);
 
             Rollbar::init(array('access_token' => getenv('ROLLBAR_ACCESS_TOKEN')));
-            Rollbar::report_exception($e);
+            Rollbar::report_exception($exception);
         }
         return render($response, $data, 500);
     };
@@ -61,8 +61,8 @@ function render(Psr\Http\Message\ResponseInterface $response, $data, $status = 2
         ->withStatus($status)
         ->withHeader('Content-Type', 'application/json; charset=utf-8')
 
-        ->getBody()
-        ->rewind()
+        //->getBody()
+        //->rewind()
         ->write(
             json_encode(
                 $data, JSON_FORCE_OBJECT
