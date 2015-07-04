@@ -52,7 +52,7 @@ function request(Psr\Http\Message\RequestInterface $request) {
     // ?? $data = $request->getParsedBody(); must be ok
     var_dump( (string)$request->getBody() ); 
     var_dump( $request->getParsedBody() );
-    var_dump( $request->read($request->getBody()->getSize()) );
+    var_dump( $request->getBody()->read($request->getBody()->getSize()) );
     die();
     $data = json_decode( (string)$request->getBody() );
     if(is_object($data))
