@@ -84,6 +84,7 @@ $app->post('/vk_pay', function($request, $response) {
                             $user->credits += 420;
                             $user->remainingTries += 10;
                             R::store($user);
+                            Market::buy($user, $input['item']);
                         break;
                     }
                     

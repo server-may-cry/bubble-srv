@@ -18,7 +18,12 @@ abstract class IslandLevels {
     public static $count6 = 14;
 }
 
-abstract class MarketParams {
+abstract class Market {
+    public static $functions = [
+        'set' => function(&$param, $value){$param = $value},
+        'increase' => function(&$param, $value){$param += $value},
+    ];
+
     public static $bonus04 = [
         'price' => [
             'vk' => 1500,
@@ -38,55 +43,111 @@ abstract class MarketParams {
         'price' => [
             'vk' => 5,
         ],
+        'reward' => [
+            'set' => [
+                'inifinityExtra00' => 1,
+            ],
+        ],
     ];
     public static $infExt01Lvl2 = [
         'price' => [
             'vk' => 10,
+        ],
+        'reward' => [
+            'set' => [
+                'inifinityExtra01' => 1,
+            ],
         ],
     ];
     public static $infExt02Lvl1 = [
         'price' => [
             'vk' => 20,
         ],
+        'reward' => [
+            'set' => [
+                'inifinityExtra02' => 1,
+            ],
+        ],
     ];
     public static $infExt03Lvl2 = [
         'price' => [
             'vk' => 15,
+        ],
+        'reward' => [
+            'set' => [
+                'inifinityExtra03' => 1,
+            ],
         ],
     ];
     public static $infExt04Lvl1 = [
         'price' => [
             'vk' => 40,
         ],
+        'reward' => [
+            'set' => [
+                'inifinityExtra04' => 1,
+            ],
+        ],
     ];
     public static $infExt05Lvl2 = [
         'price' => [
             'vk' => 25,
+        ],
+        'reward' => [
+            'set' => [
+                'inifinityExtra05' => 1,
+            ],
         ],
     ];
     public static $infExt06Lvl1 = [
         'price' => [
             'vk' => 60,
         ],
+        'reward' => [
+            'set' => [
+                'inifinityExtra06' => 1,
+            ],
+        ],
     ];
     public static $infExt07Lvl1 = [
         'price' => [
             'vk' => 70,
+        ],
+        'reward' => [
+            'set' => [
+                'inifinityExtra07' => 1,
+            ],
         ],
     ];
     public static $infExt08Lvl1 = [
         'price' => [
             'vk' => 70,
         ],
+        'reward' => [
+            'set' => [
+                'inifinityExtra08' => 1,
+            ],
+        ],
     ];
     public static $infExt09Lvl1 = [
         'price' => [
             'vk' => 70,
         ],
+        'reward' => [
+            'set' => [
+                'inifinityExtra09' => 1,
+            ],
+        ],
     ];
     public static $helpPack01 = [
         'price' => [
             'vk' => 15,
+        ],
+        'reward' => [
+            'increase' => [
+                'remainingTries' => 10,
+                'credits' => 420,
+            ],
         ],
     ];
     public static $additionalShots = [
@@ -124,4 +185,19 @@ abstract class MarketParams {
             'vk' => 10,
         ],
     ];
+
+    public static function buy($user, $itemName)
+    {
+        $item = self::{$itemName};
+        if(isset($item['reward'])) {
+            foreach($item['reward'] as $action => $reward) {
+                foreach($reward as $name => $value) {
+                    call_user_func( self::$functions[$action], $user->$name, $value ); 
+                }
+            }
+            R::store($user);
+        } else {
+            // HARDCODE
+        }
+    }
 }
