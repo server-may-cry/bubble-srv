@@ -24,8 +24,8 @@ abstract class Market {
     public static function init()
     {
         self::$functions = [
-            'set' => function(&$param, $value){$param = $value},
-            'increase' => function(&$param, $value){$param += $value},
+            'set' => function(&$param, $value){$param = $value;},
+            'increase' => function(&$param, $value){$param += $value;},
         ];    
     }
     
