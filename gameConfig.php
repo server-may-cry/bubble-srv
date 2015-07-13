@@ -19,10 +19,16 @@ abstract class IslandLevels {
 }
 
 abstract class Market {
-    private static $functions = [
-        'set' => function(&$param, $value){$param = $value},
-        'increase' => function(&$param, $value){$param += $value},
-    ];
+    private static $functions = [];
+
+    public static function init()
+    {
+        self::$functions = [
+            'set' => function(&$param, $value){$param = $value},
+            'increase' => function(&$param, $value){$param += $value},
+        ];    
+    }
+    
 
     private static $bonus04 = [
         'price' => [
@@ -254,3 +260,4 @@ abstract class Market {
         return $item;
     }
 }
+Market::init();
