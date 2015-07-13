@@ -31,83 +31,74 @@
 $app->post('/vk_pay', function($request, $response) {
     $secret_key = getenv('VK_SECRET');
     if(strlen($secret_key) < 1) {
-        $secret_key = VK_SECRET; // Защищенный ключ приложения
-    }
-    if(strlen($secret_key) < 1) {
-        error_log('VK_SECRET not set');
+        throw new Exception('VK_SECRET not set');
     }
 
     $input = $_POST;
 
-    // Проверка подписи 
-    $sig = $input['sig']; 
-    unset($input['sig']); 
-    ksort($input); 
-    $str = ''; 
-    foreach ($input as $k => $v) { 
-        $str .= $k.'='.$v; 
-    } 
+    // Проверка подписи
+    $sig = $input['sig'];
+    unset($input['sig']);
+    ksort($input);
+    $str = '';
+    foreach ($input as $k => $v) {
+        $str .= $k.'='.$v;
+    }
 
-    if ($sig != md5($str.$secret_key)) { 
-        $response['error'] = array( 
-        'error_code' => 10, 
-        'error_msg' => 'Несовпадение вычисленной и переданной подписи запроса.', 
-        'critical' => true 
-        ); 
-    } else { 
-        // Подпись правильная 
-        switch ($input['notification_type']) { 
-            case 'get_item': 
-            case 'get_item_test': 
-                // Получение информации о товаре в тестовом режиме 
-                $item = $input['item']; 
-                if ($item == 'helpPack01' or $item = 'creditsPack01') { 
-                    $response['response'] = array( 
+    $vk_response = [];
+    if ($sig != md5($str.$secret_key)) {
+        $vk_response['error'] = array(
+        'error_code' => 10,
+        'error_msg' => 'Несовпадение вычисленной и переданной подписи запроса.',
+        'critical' => true
+        );
+    } else {
+        // Подпись правильная
+        switch ($input['notification_type']) {
+            case 'get_item':
+            case 'get_item_test':
+                // Получение информации о товаре в тестовом режиме
+                $item = $input['item'];
+                $item_info = Market::info($item, 'vk');
+                $vk_response['response'] = [
                     'item_id' => 1, 
-                    'title' => 'Extra help pack', 
-                    'photo_url' => 'http://example.com/img.jpg',
-                    'price' => 15
-                    ); 
-                } else {
-                    error_log('unknown item '.$item);
-                }
-                break; 
-            case 'order_status_change': 
+                    'title' => $item_info['title'], //'Extra help pack',
+                    'photo_url' => $item_info['photo'], //'http://example.com/img.jpg',
+                    'price' => $item_info['price'], //15
+                ];
+                break;
+            case 'order_status_change':
             case 'order_status_change_test':
-                // Изменение статуса заказа 
-                if ($input['status'] == 'chargeable') { 
-                    $order_id = intval($input['order_id']); 
-                    switch($input['item_price']) {
-                        case "15":
-                            //"+420 монет и +10 жизней за 15 голосов"
-                            $user = R::findOne('users', 'sys_id = "VK" AND ext_id = ?', [$input['user_id']]);
-                            $user->credits += 420;
-                            $user->remainingTries += 10;
-                            R::store($user);
-                            Market::buy($user, $input['item']);
-                        break;
-                    }
+                // Изменение статуса заказа
+                if ($input['status'] == 'chargeable') {
+                    $order_id = intval($input['order_id']);
+                    $user = R::findOne('users', 'sys_id = "VK" AND ext_id = ?', [$input['user_id']]);
+                    Market::buy($user, $input['item'], 'vk');
                     
-                    // Код проверки товара, включая его стоимость 
+                    // Код проверки товара, включая его стоимость
                     // fake id
-                    $app_order_id = microtime(true) * 10000; // Получающийся у вас идентификатор заказа. 
+                    $app_order_id = microtime(true) * 10000; // Получающийся у вас идентификатор заказа.
 
-                    $response['response'] = array( 
-                        'order_id' => $order_id, 
-                        'app_order_id' => $app_order_id, 
-                    ); 
-                } else { 
-                    $response['error'] = array( 
-                        'error_code' => 100, 
-                        'error_msg' => 'Передано непонятно что вместо chargeable.', 
-                        'critical' => true 
-                    ); 
-                } 
+                    $vk_response['response'] = [
+                        'order_id' => $order_id,
+                        'app_order_id' => $app_order_id,
+                    ];
+                } else {
+                    $vk_response['error'] = [
+                        'error_code' => 100,
+                        'error_msg' => 'Передано непонятно что вместо chargeable.',
+                        'critical' => true
+                    ];
+                }
                 break;
             default:
-                $response = ['wtf'=>$input];
-        } 
-    } 
+                $vk_response['error'] = [
+                    'error_code' => 100,
+                    'error_msg' => 'Передано непонятно что в notification_type.',
+                    'critical' => true
+                ];
+        }
+    }
 
-    return render($response, $response);
+    return render($response, $vk_response);
 });

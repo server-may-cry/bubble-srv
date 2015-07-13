@@ -6,9 +6,6 @@ define('ROOT', dirname(__DIR__) . '/');
 define('ROUTE_ROOT', ROOT . 'routes/');
 require_once(ROOT . 'gameConfig.php'); // Game constants
 
-if(!defined('ENV_NAME')) {
-    define('ENV_NAME', getenv('ENV_NAME'));
-}
 // Composer Autoloader
 require ROOT . 'vendor/autoload.php';
 
@@ -20,7 +17,7 @@ $c['notFoundHandler'] = function ($c) {
         $log = R::dispense('404log');
         $log->request = $request->getUri();
         $log->dateTime = time();
-        $log->raw = $request->getBody();
+        $log->raw = (string) $request->getBody();
         R::store($log);
         return render($response, 'Not Found' . $request->getUri(), 404);
     };
@@ -35,7 +32,7 @@ $c['errorHandler'] = function ($c) {
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
         ];
-        if(ENV_NAME === 'production') {
+        if(getenv('ENV_NAME') === 'production') {
             $client = new \Raygun4php\RaygunClient(getenv('RAYGUN_APIKEY'));
             $client->SendException($exception);
 

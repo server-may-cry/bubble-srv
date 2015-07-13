@@ -19,27 +19,32 @@ abstract class IslandLevels {
 }
 
 abstract class Market {
-    public static $functions = [
+    private static $functions = [
         'set' => function(&$param, $value){$param = $value},
         'increase' => function(&$param, $value){$param += $value},
     ];
 
-    public static $bonus04 = [
+    private static $bonus04 = [
         'price' => [
             'vk' => 1500,
         ],
     ];
-    public static $bonus05 = [
+    private static $bonus05 = [
         'price' => [
             'vk' => 750,
         ],
+        'reward' => [
+            'set' => [
+                'ignoreSavePointBlock' => 1,
+            ]
+        ]
     ];
-    public static $bonus06 = [
+    private static $bonus06 = [
         'price' => [
             'vk' => 200,
         ],
     ];
-    public static $infExt00Lvl3 = [
+    private static $infExt00Lvl3 = [
         'price' => [
             'vk' => 5,
         ],
@@ -49,7 +54,7 @@ abstract class Market {
             ],
         ],
     ];
-    public static $infExt01Lvl2 = [
+    private static $infExt01Lvl2 = [
         'price' => [
             'vk' => 10,
         ],
@@ -59,7 +64,7 @@ abstract class Market {
             ],
         ],
     ];
-    public static $infExt02Lvl1 = [
+    private static $infExt02Lvl1 = [
         'price' => [
             'vk' => 20,
         ],
@@ -69,7 +74,7 @@ abstract class Market {
             ],
         ],
     ];
-    public static $infExt03Lvl2 = [
+    private static $infExt03Lvl2 = [
         'price' => [
             'vk' => 15,
         ],
@@ -79,7 +84,7 @@ abstract class Market {
             ],
         ],
     ];
-    public static $infExt04Lvl1 = [
+    private static $infExt04Lvl1 = [
         'price' => [
             'vk' => 40,
         ],
@@ -89,7 +94,7 @@ abstract class Market {
             ],
         ],
     ];
-    public static $infExt05Lvl2 = [
+    private static $infExt05Lvl2 = [
         'price' => [
             'vk' => 25,
         ],
@@ -99,7 +104,7 @@ abstract class Market {
             ],
         ],
     ];
-    public static $infExt06Lvl1 = [
+    private static $infExt06Lvl1 = [
         'price' => [
             'vk' => 60,
         ],
@@ -109,7 +114,7 @@ abstract class Market {
             ],
         ],
     ];
-    public static $infExt07Lvl1 = [
+    private static $infExt07Lvl1 = [
         'price' => [
             'vk' => 70,
         ],
@@ -119,7 +124,7 @@ abstract class Market {
             ],
         ],
     ];
-    public static $infExt08Lvl1 = [
+    private static $infExt08Lvl1 = [
         'price' => [
             'vk' => 70,
         ],
@@ -129,7 +134,7 @@ abstract class Market {
             ],
         ],
     ];
-    public static $infExt09Lvl1 = [
+    private static $infExt09Lvl1 = [
         'price' => [
             'vk' => 70,
         ],
@@ -139,7 +144,8 @@ abstract class Market {
             ],
         ],
     ];
-    public static $helpPack01 = [
+    private static $helpPack01 = [
+        'title' => 'Extra help pack',
         'price' => [
             'vk' => 15,
         ],
@@ -150,45 +156,78 @@ abstract class Market {
             ],
         ],
     ];
-    public static $additionalShots = [
+    private static $additionalShots = [
         'price' => [
             'vk' => 1,
         ],
+        'reward' => [],
     ];
-    public static $additionalTime = [
+    private static $additionalTime = [
         'price' => [
             'vk' => 1,
         ],
+        'reward' => [],
     ];
-    public static $creditsPack01 = [
+    private static $creditsPack01 = [
         'price' => [
             'vk' => 2,
         ],
+        'reward' => [
+            'increase' => [
+                'credits' => 30,
+            ],
+        ],
     ];
-    public static $creditsPack02 = [
+    private static $creditsPack02 = [
         'price' => [
             'vk' => 4,
         ],
+        'reward' => [
+            'increase' => [
+                'credits' => 70,
+            ],
+        ],
     ];
-    public static $creditsPack03 = [
+    private static $creditsPack03 = [
         'price' => [
             'vk' => 6,
         ],
+        'reward' => [
+            'increase' => [
+                'credits' => 140,
+            ],
+        ],
     ];
-    public static $creditsPack04 = [
+    private static $creditsPack04 = [
         'price' => [
             'vk' => 8,
         ],
+        'reward' => [
+            'increase' => [
+                'credits' => 280,
+            ],
+        ],
     ];
-    public static $creditsPack05 = [
+    private static $creditsPack05 = [
         'price' => [
             'vk' => 10,
         ],
+        'reward' => [
+            'increase' => [
+                'credits' => 420,
+            ],
+        ],
     ];
 
-    public static function buy($user, $itemName)
+    public static function buy($user, $itemName, $platform, $paid = null)
     {
-        $item = self::{$itemName};
+        if(!isset(self::$$itemName)) {
+            throw new Exception("Unknown item ".$itemName);
+        }
+        $item = self::$$itemName;
+        if($paid and $paid != $item['price'][$platform]) {
+            throw new Exception("Incorrect price ".$paid." expect ".$item['price'][$platform]);
+        }
         if(isset($item['reward'])) {
             foreach($item['reward'] as $action => $reward) {
                 foreach($reward as $name => $value) {
@@ -198,6 +237,20 @@ abstract class Market {
             R::store($user);
         } else {
             // HARDCODE
+            throw new Exception('This item ('.$itemName.') not configured');
         }
+    }
+
+    public static function info($itemName, $platform)
+    {
+        if(!isset(self::$$itemName)) {
+            throw new Exception("Unknown item ".$itemName);
+        }
+        $item = self::$$itemName;
+        if(!isset($item['price'][$platform])) {
+            throw new Exception("Unknown platform ".$platform." on item ".$itemName);
+        }
+        $item['price'] = $item['price'][$platform];
+        return $item;
     }
 }

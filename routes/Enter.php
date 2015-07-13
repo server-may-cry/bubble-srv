@@ -37,6 +37,7 @@ $app->post('/ReqEnter', function($request, $response) {
         $user->reachedSubStage01 = 0;
         $user->reachedStage02 = 0;
         $user->reachedSubStage02 = 0;
+        $user->ignoreSavePointBlock = 0;
         $user->inifinityExtra00 = 0;
         $user->inifinityExtra01 = 0;
         $user->inifinityExtra02 = 0;
@@ -86,7 +87,7 @@ $app->post('/ReqEnter', function($request, $response) {
         'reachedStage02'=>$user->reachedStage02, // Идентификатор подуровня, до которого пользователь доиграл за все время игры в стандартном моде
         'reachedSubStage01'=>$user->reachedSubStage01, // Идентификатор уровня, до которого пользователь доиграл за все время игры в аркадном моде
         'reachedSubStage02'=>$user->reachedSubStage02, // Идентификатор подуровня, до которого пользователь доиграл за все время игры в аркадном моде
-        'ignoreSavePointBlock'=>1, //  Может принимать значения 0 и 1
+        'ignoreSavePointBlock'=>$user->ignoreSavePointBlock, //  Может принимать значения 0 и 1
         'remainingTries'=>$user->remainingTries,
         'credits'=>$user->credits,
         'inifinityExtra00'=>$user->inifinityExtra00, // Целое положительное число
@@ -134,7 +135,8 @@ $app->post('/ReqEnter', function($request, $response) {
             'port' => $redis_p['port'],
             'password' => $redis_p['pass'],
         ]);
-        $redis->hmset('metavars', array('foo' => 'bar', 'hoge' => 'piyo', 'lol' => 'wut'));
+        $redis->hmset('metavars', array('foo' => 'bar'));
+        $redis->expire('metavars', 10);
     }
 
     if($redis_exist and $redis->hgetall('standart_levels')) {
