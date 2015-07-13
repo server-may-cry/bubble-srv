@@ -10,7 +10,7 @@ $c = new \Slim\Container();
 $c['notFoundHandler'] = function ($c) {
     return function ($request, $response) use ($c) {
         $log = R::dispense('404log');
-        $log->request = $request->getUri();
+        $log->request = (string) $request->getUri();
         $log->dateTime = time();
         $log->raw = (string) $request->getBody();
         R::store($log);
