@@ -1,7 +1,7 @@
 <?php
 
 $app->post('/ReqBuyBonus', function($request, $response) {
-	$request = request($request);
+	$req = $request->getParsedBody();
 /*
 {
 	"msgId":"123",

@@ -34,7 +34,8 @@ $app->post('/vk_pay', function($request, $response) {
         throw new Exception('VK_SECRET not set');
     }
 
-    $input = $_POST;
+    //$input = $_POST;
+    $input = $request->getParsedBody();
 
     // Проверка подписи
     $sig = $input['sig'];

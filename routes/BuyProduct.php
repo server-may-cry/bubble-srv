@@ -1,7 +1,7 @@
 <?php
 
 $app->post('/ReqBuyProduct', function($request, $response) {
-	$request = request($request);
+	$req = $request->getParsedBody();
 /*
 {
 	"userId":null.

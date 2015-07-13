@@ -1,5 +1,5 @@
 <?php
-class IntegrationTest extends RoutesTest {
+class IntegrationTest extends stdClass {
 
     public function setUp()
     {

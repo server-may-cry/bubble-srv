@@ -1,7 +1,7 @@
 <?php
 
 $app->post('/ReqSavePlayerProgress', function($request, $response) {
-	$request = request($request);
+	$req = $request->getParsedBody();
 /*
 {
 	"authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -20,21 +20,21 @@ $app->post('/ReqSavePlayerProgress', function($request, $response) {
 	которые приходят в ReqEnter`e, если же "arcade" то reachedStage02 и reachedSubStage02
 }
 */
-	if(!isset($request->userId))
+	if(!isset($req->userId))
 		throw new \Exception('user id not set');
-	$user = R::findOne('users', 'id = ?', [$request->userId]);
+	$user = R::findOne('users', 'id = ?', [$req->userId]);
 
 	if($user === NULL)
-		throw new Exception("UserID: ".$request->userId.' not found');
+		throw new Exception("UserID: ".$req->userId.' not found');
 
-	switch($request->levelMode) {
+	switch($req->levelMode) {
 		case 'standart':
-			$user->reachedStage01 = max((int)$request->reachedStage, $user->reachedStage01);
-			$user->reachedSubStage01 = max((int)$request->reachedSubStage, $user->reachedSubStage01);
+			$user->reachedStage01 = max((int)$req->reachedStage, $user->reachedStage01);
+			$user->reachedSubStage01 = max((int)$req->reachedSubStage, $user->reachedSubStage01);
 			break;
 		case 'arcade':
-			$user->reachedStage02 = max((int)$request->reachedStage, $user->reachedStage02);
-			$user->reachedSubStage02 = max((int)$request->reachedSubStage, $user->reachedSubStage02);
+			$user->reachedStage02 = max((int)$req->reachedStage, $user->reachedStage02);
+			$user->reachedSubStage02 = max((int)$req->reachedSubStage, $user->reachedSubStage02);
 			break;
 	}
 
@@ -43,23 +43,23 @@ $app->post('/ReqSavePlayerProgress', function($request, $response) {
 	$star = R::findOne('star', 'user_id = ? AND level_mode = ? AND current_stage = ? AND complete_sub_stage = ?',
 		[
 			$user->id,
-			$request->levelMode,
-			(int)$request->currentStage,
-			(int)$request->completeSubStage,
+			$req->levelMode,
+			(int)$req->currentStage,
+			(int)$req->completeSubStage,
 		]
 	);
 
 	if($star === NULL) {
 		$star = R::dispense('star');
 		$star->user = $user;
-		$star->levelMode = $request->levelMode;
-		$star->currentStage = (int)$request->currentStage;
-		$star->completeSubStage = (int)$request->completeSubStage;
-		$star->completeSubStageRecordStat = (int)$request->completeSubStageRecordStat;
+		$star->levelMode = $req->levelMode;
+		$star->currentStage = (int)$req->currentStage;
+		$star->completeSubStage = (int)$req->completeSubStage;
+		$star->completeSubStageRecordStat = (int)$req->completeSubStageRecordStat;
 		$result = R::store($star);
 		return render($response, 'added ('.var_export($result, true).')');
-	} elseif($star->completeSubStageRecordStat < $request->completeSubStageRecordStat) {
-		$star->completeSubStageRecordStat = (int)$request->completeSubStageRecordStat;
+	} elseif($star->completeSubStageRecordStat < $req->completeSubStageRecordStat) {
+		$star->completeSubStageRecordStat = (int)$req->completeSubStageRecordStat;
 		$result = R::store($star);
 		return render($response, 'updated ('.var_export($result, true).')');
 	} else {

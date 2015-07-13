@@ -1,13 +1,8 @@
 <?php
-date_default_timezone_set('UTC');
-error_reporting(-1); // Display ALL errors
-ini_set('display_errors', '1');
 define('ROOT', dirname(__DIR__) . '/');
 define('ROUTE_ROOT', ROOT . 'routes/');
-require_once(ROOT . 'gameConfig.php'); // Game constants
-
-// Composer Autoloader
-require ROOT . 'vendor/autoload.php';
+require ROOT . 'gameConfig.php'; // Game constants
+require ROOT . 'vendor/autoload.php'; // Composer Autoloader
 
 $c = new \Slim\Container();
 

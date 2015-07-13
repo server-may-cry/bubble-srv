@@ -1,7 +1,7 @@
 <?php
 
 $app->post('/ReqEnter', function($request, $response) {
-    $request = request($request);
+    $req = $request->getParsedBody();
 /*
 {
     "userId":null, // Идентификатор пользователя, получается с сервера приложения при входе в систему
@@ -14,11 +14,11 @@ $app->post('/ReqEnter', function($request, $response) {
     "referer":null
 }
 */
-    if(!isset($request->sysId))
-        throw new \Exception('Social platform not set. request: '.json_encode($request));
-    if(!isset($request->extId))
+    if(!isset($req->sysId))
+        throw new \Exception('Social platform not set. request: '.json_encode($req));
+    if(!isset($req->extId))
         throw new \Exception('Social id not set');
-    $user = R::findOne('users', 'sys_id = ? AND ext_id = ?', [$request->sysId, (int)$request->extId ]);
+    $user = R::findOne('users', 'sys_id = ? AND ext_id = ?', [$req->sysId, (int)$req->extId ]);
 
     $bonusCredits = 0;
     $userFriendsBonusCredits = 0;
@@ -27,12 +27,12 @@ $app->post('/ReqEnter', function($request, $response) {
     if($user === NULL) {
         $firstGame = 1;
         $user = R::dispense('users');
-        $user->sysId = $request->sysId;
-        $user->extId = $request->extId;
-        $user->authKey = $request->authKey;
-        $user->referer = $request->referer;
-        $user->srcExtId = $request->srcExtId;
-        $user->appFriends = $request->appFriends;
+        $user->sysId = $req->sysId;
+        $user->extId = $req->extId;
+        $user->authKey = $req->authKey;
+        $user->referer = $req->referer;
+        $user->srcExtId = $req->srcExtId;
+        $user->appFriends = $req->appFriends;
         $user->reachedStage01 = 0;
         $user->reachedSubStage01 = 0;
         $user->reachedStage02 = 0;
@@ -63,7 +63,7 @@ $app->post('/ReqEnter', function($request, $response) {
     }
     if( $timestamp - $user->friendsBonusCreditsTime > UserParams::$intervalFriendsBonusCreditsReceiveTime) {
         $user->friendsBonusCreditsTime = $timestamp;
-        $userFriendsBonusCredits = $request->appFriends * UserParams::$userFriendsBonusCreditsMultiplier;
+        $userFriendsBonusCredits = $req->appFriends * UserParams::$userFriendsBonusCreditsMultiplier;
         $user->credits += $userFriendsBonusCredits;
         $needUpdateTimer = true;
     }
@@ -81,7 +81,7 @@ $app->post('/ReqEnter', function($request, $response) {
     ];
 
     $template = [
-        'reqMsgId'=>$request->msgId,
+        'reqMsgId'=>$req->msgId,
         'userId'=>$user->id,
         'reachedStage01'=>$user->reachedStage01, // Идентификатор уровня, до которого пользователь доиграл за все время игры в стандартном моде
         'reachedStage02'=>$user->reachedStage02, // Идентификатор подуровня, до которого пользователь доиграл за все время игры в стандартном моде

@@ -1,7 +1,7 @@
 <?php
 
 $app->post('/ReqUsersProgress', function($request, $response) {
-	$request = request($request);
+	$req = $request->getParsedBody();
 /*
 {
 	"authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -15,14 +15,14 @@ $app->post('/ReqUsersProgress', function($request, $response) {
 }
 */
 
-	if(!isset($request->userId))
+	if(!isset($req->userId))
 		throw new \Exception('user id not set');
-	$user = R::findOne('users', 'id = ?', [(int)$request->userId]);
+	$user = R::findOne('users', 'id = ?', [(int)$req->userId]);
 
 	if($user === NULL)
-		throw new Exception("UserID: ".$request->userId.' not found');
+		throw new Exception("UserID: ".$req->userId.' not found');
 
-	$friendsIds = explode(',',  str_replace(' ', '', $request->socIds[0]));
+	$friendsIds = explode(',',  str_replace(' ', '', $req->socIds[0]));
 	$friends = R::find('users', 
 		' ext_id IN ('.R::genSlots( $friendsIds ).')',
 		$friendsIds);

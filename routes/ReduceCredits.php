@@ -1,7 +1,7 @@
 <?php
 
 $app->post('/ReqReduceCredits', function($request, $response) {
-	$request = request($request);
+	$req = $request->getParsedBody();
 /*
 {
 	"authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -12,19 +12,19 @@ $app->post('/ReqReduceCredits', function($request, $response) {
 	"userId":null
 }
 */
-	if(!isset($request->userId))
+	if(!isset($req->userId))
 		throw new \Exception('user id not set');
-	$user = R::findOne('users', 'id = ?', [(int)$request->userId]);
+	$user = R::findOne('users', 'id = ?', [(int)$req->userId]);
 
 	if($user === NULL)
-		throw new Exception("UserID: ".$request->userId.' not found');
+		throw new Exception("UserID: ".$req->userId.' not found');
 
-	$user->credits -= $request->amount;
+	$user->credits -= $req->amount;
 
 	R::store($user);
 
 	$template = [
-		'reqMsgId' => $request->msgId,
+		'reqMsgId' => $req->msgId,
 		'userId' => $user->id,
 		'credits' => $user->credits,
 	];
