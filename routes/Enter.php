@@ -147,9 +147,12 @@ $app->post('/ReqEnter', function($request, $response) {
     }
 
     $redisStandartLevels = $redis->hgetall('standart_levels');
-    if($redis_exist and $redisStandartLevels) {
+    if($redis_exist and count($redisStandartLevels) ) {
+        error_log('from redis');
         $template['stagesProgressStat01'] = array_map('intval', array_values($redisStandartLevels) );
+        error_log( json_encode($template['stagesProgressStat01']) );
     } else {
+        error_log('from db');
         $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from users
          group by reached_stage01 order by reached_stage01 desc;');
         $usersProgresStandart = [];
@@ -173,7 +176,7 @@ $app->post('/ReqEnter', function($request, $response) {
     }
 
     $redisArcadeLevels = $redis->hgetall('arcade_levels');
-    if($redis_exist and $redisArcadeLevels) {
+    if($redis_exist and count($redisArcadeLevels) ) {
         $template['stagesProgressStat02'] = array_map('intval', array_values($redisArcadeLevels) );
     } else {
         $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from users
