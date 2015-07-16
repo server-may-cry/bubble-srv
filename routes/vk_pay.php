@@ -76,6 +76,9 @@ $app->post('/vk_pay', function($request, $response) {
                 if ($input['status'] == 'chargeable') {
                     $order_id = intval($input['order_id']);
                     $user = R::findOne('users', 'sys_id = "VK" AND ext_id = ?', [$input['user_id']]);
+                    if(!is_object($user)) {
+                        throw new Exception('User not found '.json_encode($input));
+                    }
                     Market::buy($user, $input['item'], 'vk');
                     
                     // Код проверки товара, включая его стоимость

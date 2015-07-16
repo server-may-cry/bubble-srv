@@ -259,10 +259,17 @@ abstract class Market {
             throw new Exception("Unknown platform ".$platform." on item ".$itemName);
         }
         $item['price'] = $item['price'][$platform];
+
         if(isset($item['titile'][$lang])) {
             $item['titile'] = $item['titile'][$lang];
         } else {
             //enable on production $item['titile'] = $item['titile']['en'];
+        }
+
+        if(isset($item['photo_url'][$platform])) {
+            $item['photo_url'] = $item['photo_url'][$platform];
+        } else {
+            //enable on production $item['photo_url'] = $item['photo_url']['vk'];
         }
         return $item;
     }
