@@ -28,7 +28,7 @@ abstract class Market {
             'increase' => function(&$param, $value){$param += $value;},
         ];    
     }
-    
+
 
     private static $bonus04 = [
         'price' => [

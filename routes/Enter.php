@@ -18,6 +18,15 @@ $app->post('/ReqEnter', function($request, $response) {
         throw new \Exception('Social platform not set. request: '.json_encode($req));
     if(!isset($req->extId))
         throw new \Exception('Social id not set');
+
+    switch($req->extId) {
+        case 'VK':
+            // user validation in future
+            break;
+        default:
+            break;
+    }
+
     $user = R::findOne('users', 'sys_id = ? AND ext_id = ?', [$req->sysId, (int)$req->extId ]);
 
     $bonusCredits = 0;
@@ -135,12 +144,11 @@ $app->post('/ReqEnter', function($request, $response) {
             'port' => $redis_p['port'],
             'password' => $redis_p['pass'],
         ]);
-        $redis->hmset('metavars', array('foo' => 'bar'));
-        $redis->expire('metavars', 10);
     }
 
-    if($redis_exist and $redis->hgetall('standart_levels')) {
-        $template['stagesProgressStat01'] = array_map('intval', $redis->hgetall('standart_levels') );
+    $redisStandartLevels = $redis->hgetall('standart_levels');
+    if($redis_exist and $redisStandartLevels) {
+        $template['stagesProgressStat01'] = array_map('intval', array_values($redisStandartLevels) );
     } else {
         $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from users
          group by reached_stage01 order by reached_stage01 desc;');
@@ -164,8 +172,9 @@ $app->post('/ReqEnter', function($request, $response) {
         }
     }
 
-    if($redis_exist and $redis->hgetall('arcade_levels')) {
-        $template['stagesProgressStat02'] = array_map('intval', $redis->hgetall('arcade_levels') );
+    $redisArcadeLevels = $redis->hgetall('arcade_levels');
+    if($redis_exist and $redisArcadeLevels) {
+        $template['stagesProgressStat02'] = array_map('intval', array_values($redisArcadeLevels) );
     } else {
         $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from users
          group by reached_stage02 order by reached_stage02 desc;');
