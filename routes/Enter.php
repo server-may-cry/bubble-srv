@@ -148,11 +148,8 @@ $app->post('/ReqEnter', function($request, $response) {
 
     $redisStandartLevels = $redis->hgetall('standart_levels');
     if($redis_exist and count($redisStandartLevels) ) {
-        error_log('from redis');
         $template['stagesProgressStat01'] = array_map('intval', array_values($redisStandartLevels) );
-        error_log( json_encode($template['stagesProgressStat01']) );
     } else {
-        error_log('from db');
         $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from users
          group by reached_stage01 order by reached_stage01 desc;');
         $usersProgresStandart = [];

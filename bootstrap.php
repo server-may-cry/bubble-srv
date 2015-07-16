@@ -57,7 +57,7 @@ function render(Psr\Http\Message\ResponseInterface $response, $data, $status = 2
         //->rewind()
         ->write(
             json_encode(
-                $data, JSON_FORCE_OBJECT
+                $data
             )
         )
     ;
