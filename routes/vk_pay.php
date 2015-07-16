@@ -101,6 +101,6 @@ $app->post('/vk_pay', function($request, $response) {
         }
     }
 
-    error_log( print_r($vk_response, true) )
+    error_log( print_r($vk_response, true) );
     return render($response, $vk_response);
 });
