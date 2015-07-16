@@ -151,7 +151,9 @@ abstract class Market {
         ],
     ];
     private static $helpPack01 = [
-        'title' => 'Extra help pack',
+        'title' => [
+            'en' => 'Extra help pack',
+        ],
         'price' => [
             'vk' => 15,
         ],
@@ -247,7 +249,7 @@ abstract class Market {
         }
     }
 
-    public static function info($itemName, $platform)
+    public static function info($itemName, $platform, $lang)
     {
         if(!isset(self::$$itemName)) {
             throw new Exception("Unknown item ".$itemName);
@@ -257,6 +259,11 @@ abstract class Market {
             throw new Exception("Unknown platform ".$platform." on item ".$itemName);
         }
         $item['price'] = $item['price'][$platform];
+        if(isset($item['titile'][$lang])) {
+            $item['titile'] = $item['titile'][$lang];
+        } else {
+            //enable on production $item['titile'] = $item['titile']['en'];
+        }
         return $item;
     }
 }
