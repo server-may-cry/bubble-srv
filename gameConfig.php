@@ -242,9 +242,16 @@ abstract class Market {
                     call_user_func_array( self::$functions[$action], [&$user->$name, $value] );
                 }
             }
+            R::debug( TRUE );
+            ob_start();
             error_log('before '.var_export($user->credits, true));
-            R::store($user);
+            error_log('before user '.var_export($user, true));
+            $rst = R::store($user);
             error_log('after '.var_export($user->credits, true));
+            error_log('after user '.var_export($user, true));
+            error_log('rst '.var_export($rst, true));
+            $c = ob_get_clean();
+            error_log($c);
         } else {
             // HARDCODE
             throw new Exception('This item ('.$itemName.') not configured');
