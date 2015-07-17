@@ -237,7 +237,7 @@ abstract class Market {
             throw new Exception("Incorrect price ".$paid." expect ".$item['price'][$platform]);
         }
         if(isset($item['reward'])) {
-            error_log('start '.json_encode($user));
+            error_log('start '.var_export($user, true));
             foreach($item['reward'] as $action => $reward) {
                 foreach($reward as $name => $value) {
                     error_log($user->$name);
@@ -245,9 +245,9 @@ abstract class Market {
                     error_log($user->$name);
                 }
             }
-            error_log('before '.json_encode($user));
+            error_log('before '.var_export($user, true));
             R::store($user);
-            error_log('after '.json_encode($user));
+            error_log('after '.var_export($user,true));
         } else {
             // HARDCODE
             throw new Exception('This item ('.$itemName.') not configured');
