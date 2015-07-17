@@ -252,6 +252,8 @@ abstract class Market {
             error_log('rst '.var_export($rst, true));
             $c = ob_get_clean();
             error_log($c);
+            $user->credits += 1;
+            R::store($user);
         } else {
             // HARDCODE
             throw new Exception('This item ('.$itemName.') not configured');
