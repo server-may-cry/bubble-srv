@@ -34,6 +34,9 @@ abstract class Market {
         'price' => [
             'vk' => 1500,
         ],
+        'titile' => [
+            'ru' => 'Открыть все острова',
+        ],
     ];
     private static $bonus05 = [
         'price' => [
@@ -43,11 +46,18 @@ abstract class Market {
             'set' => [
                 'ignoreSavePointBlock' => 1,
             ]
-        ]
+        ],
+        'photo' => 'bonus05',
+        'titile' => [
+            'ru' => 'Навсегда разблокировать все флаги',
+        ],
     ];
     private static $bonus06 = [
         'price' => [
             'vk' => 200,
+        ],
+        'titile' => [
+            'ru' => 'Открыть следующий остров',
         ],
     ];
     private static $infExt00Lvl3 = [
@@ -59,6 +69,10 @@ abstract class Market {
                 'inifinityExtra00' => 1,
             ],
         ],
+        'photo' => 'infExt00Lvl3',
+        'titile' => [
+            'ru' => 'Радужный шар',
+        ],
     ];
     private static $infExt01Lvl2 = [
         'price' => [
@@ -68,6 +82,10 @@ abstract class Market {
             'set' => [
                 'inifinityExtra01' => 1,
             ],
+        ],
+        'photo' => 'infExt01Lvl2',
+        'titile' => [
+            'ru' => 'Шар-бомба',
         ],
     ];
     private static $infExt02Lvl1 = [
@@ -79,6 +97,10 @@ abstract class Market {
                 'inifinityExtra02' => 1,
             ],
         ],
+        'photo' => 'infExt02Lvl1',
+        'titile' => [
+            'ru' => 'Огненный шар',
+        ],
     ];
     private static $infExt03Lvl2 = [
         'price' => [
@@ -88,6 +110,10 @@ abstract class Market {
             'set' => [
                 'inifinityExtra03' => 1,
             ],
+        ],
+        'photo' => 'infExt03Lvl2',
+        'titile' => [
+            'ru' => 'Горизонтальную молния',
         ],
     ];
     private static $infExt04Lvl1 = [
@@ -99,6 +125,10 @@ abstract class Market {
                 'inifinityExtra04' => 1,
             ],
         ],
+        'photo' => 'infExt04Lvl1',
+        'titile' => [
+            'ru' => 'Супер бомба',
+        ],
     ];
     private static $infExt05Lvl2 = [
         'price' => [
@@ -108,6 +138,10 @@ abstract class Market {
             'set' => [
                 'inifinityExtra05' => 1,
             ],
+        ],
+        'photo' => 'infExt05Lvl2',
+        'titile' => [
+            'ru' => 'Вертикальную молния',
         ],
     ];
     private static $infExt06Lvl1 = [
@@ -119,6 +153,10 @@ abstract class Market {
                 'inifinityExtra06' => 1,
             ],
         ],
+        'photo' => 'infExt06Lvl1',
+        'titile' => [
+            'ru' => 'Шар-черная дыра',
+        ],
     ];
     private static $infExt07Lvl1 = [
         'price' => [
@@ -128,6 +166,10 @@ abstract class Market {
             'set' => [
                 'inifinityExtra07' => 1,
             ],
+        ],
+        'photo' => 'infExt07Lvl1',
+        'titile' => [
+            'ru' => 'Дополнитальные 5 выстрелов',
         ],
     ];
     private static $infExt08Lvl1 = [
@@ -139,6 +181,10 @@ abstract class Market {
                 'inifinityExtra08' => 1,
             ],
         ],
+        'photo' => 'infExt08Lvl1',
+        'titile' => [
+            'ru' => 'Дополнительные 30 секунд',
+        ],
     ];
     private static $infExt09Lvl1 = [
         'price' => [
@@ -149,11 +195,12 @@ abstract class Market {
                 'inifinityExtra09' => 1,
             ],
         ],
+        'photo' => 'infExt09Lvl1',
+        'titile' => [
+            'ru' => 'Иммунитет к ядовитым шарам',
+        ],
     ];
     private static $helpPack01 = [
-        'title' => [
-            'en' => 'Extra help pack',
-        ],
         'price' => [
             'vk' => 15,
         ],
@@ -163,18 +210,30 @@ abstract class Market {
                 'credits' => 420,
             ],
         ],
+        'photo' => 'helpPack01',
+        'titile' => [
+            'ru' => 'Экстра помощь',
+        ],
     ];
     private static $additionalShots = [
         'price' => [
             'vk' => 1,
         ],
         'reward' => [],
+        'photo' => 'additionalShots',
+        'titile' => [
+            'ru' => 'Дополнительные выстрелы',
+        ],
     ];
     private static $additionalTime = [
         'price' => [
             'vk' => 1,
         ],
         'reward' => [],
+        'photo' => 'additionalTime',
+        'titile' => [
+            'ru' => 'Дополнительное время',
+        ],
     ];
     private static $creditsPack01 = [
         'price' => [
@@ -184,6 +243,10 @@ abstract class Market {
             'increase' => [
                 'credits' => 30,
             ],
+        ],
+        'photo' => 'creditsPack01',
+        'titile' => [
+            'ru' => '30 золотых монет',
         ],
     ];
     private static $creditsPack02 = [
@@ -195,6 +258,10 @@ abstract class Market {
                 'credits' => 70,
             ],
         ],
+        'photo' => 'creditsPack02',
+        'titile' => [
+            'ru' => '70 золотых монет',
+        ],
     ];
     private static $creditsPack03 = [
         'price' => [
@@ -204,6 +271,10 @@ abstract class Market {
             'increase' => [
                 'credits' => 140,
             ],
+        ],
+        'photo' => 'creditsPack03',
+        'titile' => [
+            'ru' => '140 золотых монет',
         ],
     ];
     private static $creditsPack04 = [
@@ -215,6 +286,10 @@ abstract class Market {
                 'credits' => 280,
             ],
         ],
+        'photo' => 'creditsPack04',
+        'titile' => [
+            'ru' => '280 золотых монет',
+        ],
     ];
     private static $creditsPack05 = [
         'price' => [
@@ -224,6 +299,10 @@ abstract class Market {
             'increase' => [
                 'credits' => 420,
             ],
+        ],
+        'photo' => 'creditsPack05',
+        'titile' => [
+            'ru' => '420 золотых монет',
         ],
     ];
 
@@ -242,7 +321,7 @@ abstract class Market {
                     call_user_func_array( self::$functions[$action], [&$user->$name, $value] );
                 }
             }
-            R::debug( TRUE );
+            $debuger = R::debug();
             ob_start();
             error_log('before '.var_export($user->credits, true));
             error_log('before user '.var_export($user, true));
@@ -250,6 +329,7 @@ abstract class Market {
             error_log('after '.var_export($user->credits, true));
             error_log('after user '.var_export($user, true));
             error_log('rst '.var_export($rst, true));
+            print_r($debuger->getLogs());
             $c = ob_get_clean();
             error_log($c);
             $user->credits += 1;
@@ -277,10 +357,8 @@ abstract class Market {
             //enable on production $item['titile'] = $item['titile']['en'];
         }
 
-        if(isset($item['photo_url'][$platform])) {
-            $item['photo_url'] = $item['photo_url'][$platform];
-        } else {
-            //enable on production $item['photo_url'] = $item['photo_url']['vk'];
+        if(strlen($item['photo'])) {
+            $item['photo'] = 'http://119226.selcdn.com/bubble/productIcons/' . $item['photo'] . '.png';
         }
         return $item;
     }
