@@ -321,15 +321,11 @@ abstract class Market {
                     call_user_func_array( self::$functions[$action], [&$user->$name, $value] );
                 }
             }
-            $debuger = R::debug();
+            R::fancyDebug(true);
             ob_start();
             error_log('before '.var_export($user->credits, true));
-            error_log('before user '.var_export($user, true));
             $rst = R::store($user);
             error_log('after '.var_export($user->credits, true));
-            error_log('after user '.var_export($user, true));
-            error_log('rst '.var_export($rst, true));
-            print_r($debuger->getLogs());
             $c = ob_get_clean();
             error_log($c);
             $user->credits += 1;
