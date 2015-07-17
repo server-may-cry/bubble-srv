@@ -75,9 +75,9 @@ $app->post('/vk_pay', function($request, $response) {
                 // Изменение статуса заказа
                 if ($input['status'] == 'chargeable') {
                     $order_id = intval($input['order_id']);
-                    $user = R::findOne('users', 'sys_id = "VK" AND ext_id = ?', [$input['user_id']]);
+                    $user = R::findOne('users', 'sys_id = ? AND ext_id = ?', ["VK", $input['user_id']]);
                     if(!is_object($user)) {
-                        throw new Exception('User not found '.json_encode($input));
+                        throw new Exception('Vk pay user not found');
                     }
                     Market::buy($user, $input['item'], 'vk');
                     
