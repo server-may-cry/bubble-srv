@@ -25,7 +25,7 @@ abstract class Market {
     {
         self::$functions = [
             'set' => function(&$param, $value){$param = $value;},
-            'increase' => function(&$param, $value){$param = $param + $value;},
+            'increase' => function(&$param, $value){$param += $value;},
         ];
     }
 
@@ -242,8 +242,9 @@ abstract class Market {
                     call_user_func_array( self::$functions[$action], [&$user->$name, $value] );
                 }
             }
-            $storeResult = R::store($user);
-            error_log('result '.var_export($storeResult, true));
+            error_log('before '.var_export($user->credits, true));
+            R::store($user);
+            error_log('after '.var_export($user->credits, true));
         } else {
             // HARDCODE
             throw new Exception('This item ('.$itemName.') not configured');
