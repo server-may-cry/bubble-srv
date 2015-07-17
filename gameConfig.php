@@ -237,17 +237,14 @@ abstract class Market {
             throw new Exception("Incorrect price ".$paid." expect ".$item['price'][$platform]);
         }
         if(isset($item['reward'])) {
-            error_log('start '.var_export($user, true));
             foreach($item['reward'] as $action => $reward) {
                 foreach($reward as $name => $value) {
-                    error_log($user->$name);
                     call_user_func_array( self::$functions[$action], [&$user->$name, $value] );
-                    error_log($user->$name);
                 }
             }
-            error_log('before '.var_export($user, true));
-            R::store($user);
-            error_log('after '.var_export($user,true));
+            $storeResult = R::store($user);
+            error_log('result '.var_export($storeResult, true));
+            error_log('user '.var_export($user,true));
         } else {
             // HARDCODE
             throw new Exception('This item ('.$itemName.') not configured');
