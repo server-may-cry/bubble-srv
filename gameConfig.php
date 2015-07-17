@@ -239,7 +239,7 @@ abstract class Market {
         if(isset($item['reward'])) {
             foreach($item['reward'] as $action => $reward) {
                 foreach($reward as $name => $value) {
-                    call_user_func( self::$functions[$action], $user->$name, $value ); 
+                    call_user_func_array( self::$functions[$action], [&$user->$name, $value] ); 
                 }
             }
             R::store($user);
