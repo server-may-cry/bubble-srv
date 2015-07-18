@@ -63,10 +63,8 @@ $app->post('/vk_pay', function($request, $response) {
                 $item_info = Market::info($item, 'vk', 'ru');
                 $vk_response['response'] = [
                     'item_id' => 1, 
-                    'title' => $item_info['title'], //'Extra help pack',
-                    //'title' => 'Example title',
-                    //'photo_url' => $item_info['photo'], //'http://example.com/img.jpg',
-                    //'photo_url' => 'http://example.com/img.jpg',
+                    'title' => $item_info['title'],
+                    //'photo_url' => $item_info['photo'],
                     'price' => $item_info['price'], //15
                 ];
                 if(isset($item_info['photo'])) {

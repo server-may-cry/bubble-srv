@@ -321,15 +321,7 @@ abstract class Market {
                     call_user_func_array( self::$functions[$action], [&$user->$name, $value] );
                 }
             }
-            R::fancyDebug(true);
-            ob_start();
-            error_log('before '.var_export($user->credits, true));
-            R::store($user);
-            error_log('after '.var_export($user->credits, true));
-            $c = ob_get_clean();
-            error_log($c);
-            $user->credits += 1;
-            $user->credits -= 1;
+            $user->extId = $user->extId;
             R::store($user);
         } else {
             // HARDCODE
