@@ -354,7 +354,7 @@ abstract class Market {
             //enable on production $item['titile'] = $item['titile']['en'];
         }
 
-        if(strlen($item['photo'])) {
+        if(isset($item['photo'])) {
             $item['photo'] = 'http://119226.selcdn.com/bubble/productIcons/' . $item['photo'] . '.png';
         }
         return $item;
