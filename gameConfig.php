@@ -324,11 +324,12 @@ abstract class Market {
             R::fancyDebug(true);
             ob_start();
             error_log('before '.var_export($user->credits, true));
-            $rst = R::store($user);
+            R::store($user);
             error_log('after '.var_export($user->credits, true));
             $c = ob_get_clean();
             error_log($c);
             $user->credits += 1;
+            $user->credits -= 1;
             R::store($user);
         } else {
             // HARDCODE

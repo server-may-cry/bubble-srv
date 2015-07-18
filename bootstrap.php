@@ -61,6 +61,7 @@ function render(Psr\Http\Message\ResponseInterface $response, $data, $status = 2
             )
         )
     ;
+    error_log(json_encode($data));
     return $response;
 }
 
