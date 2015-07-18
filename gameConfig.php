@@ -34,7 +34,7 @@ abstract class Market {
         'price' => [
             'vk' => 1500,
         ],
-        'titile' => [
+        'title' => [
             'ru' => 'Открыть все острова',
         ],
     ];
@@ -48,7 +48,7 @@ abstract class Market {
             ]
         ],
         'photo' => 'bonus05',
-        'titile' => [
+        'title' => [
             'ru' => 'Навсегда разблокировать все флаги',
         ],
     ];
@@ -56,7 +56,7 @@ abstract class Market {
         'price' => [
             'vk' => 200,
         ],
-        'titile' => [
+        'title' => [
             'ru' => 'Открыть следующий остров',
         ],
     ];
@@ -70,7 +70,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'infExt00Lvl3',
-        'titile' => [
+        'title' => [
             'ru' => 'Радужный шар',
         ],
     ];
@@ -84,7 +84,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'infExt01Lvl2',
-        'titile' => [
+        'title' => [
             'ru' => 'Шар-бомба',
         ],
     ];
@@ -98,7 +98,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'infExt02Lvl1',
-        'titile' => [
+        'title' => [
             'ru' => 'Огненный шар',
         ],
     ];
@@ -112,7 +112,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'infExt03Lvl2',
-        'titile' => [
+        'title' => [
             'ru' => 'Горизонтальную молния',
         ],
     ];
@@ -126,7 +126,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'infExt04Lvl1',
-        'titile' => [
+        'title' => [
             'ru' => 'Супер бомба',
         ],
     ];
@@ -140,7 +140,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'infExt05Lvl2',
-        'titile' => [
+        'title' => [
             'ru' => 'Вертикальную молния',
         ],
     ];
@@ -154,7 +154,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'infExt06Lvl1',
-        'titile' => [
+        'title' => [
             'ru' => 'Шар-черная дыра',
         ],
     ];
@@ -168,7 +168,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'infExt07Lvl1',
-        'titile' => [
+        'title' => [
             'ru' => 'Дополнитальные 5 выстрелов',
         ],
     ];
@@ -182,7 +182,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'infExt08Lvl1',
-        'titile' => [
+        'title' => [
             'ru' => 'Дополнительные 30 секунд',
         ],
     ];
@@ -196,7 +196,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'infExt09Lvl1',
-        'titile' => [
+        'title' => [
             'ru' => 'Иммунитет к ядовитым шарам',
         ],
     ];
@@ -211,7 +211,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'helpPack01',
-        'titile' => [
+        'title' => [
             'ru' => 'Экстра помощь',
         ],
     ];
@@ -221,7 +221,7 @@ abstract class Market {
         ],
         'reward' => [],
         'photo' => 'additionalShots',
-        'titile' => [
+        'title' => [
             'ru' => 'Дополнительные выстрелы',
         ],
     ];
@@ -231,7 +231,7 @@ abstract class Market {
         ],
         'reward' => [],
         'photo' => 'additionalTime',
-        'titile' => [
+        'title' => [
             'ru' => 'Дополнительное время',
         ],
     ];
@@ -245,7 +245,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'creditsPack01',
-        'titile' => [
+        'title' => [
             'ru' => '30 золотых монет',
         ],
     ];
@@ -259,7 +259,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'creditsPack02',
-        'titile' => [
+        'title' => [
             'ru' => '70 золотых монет',
         ],
     ];
@@ -273,7 +273,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'creditsPack03',
-        'titile' => [
+        'title' => [
             'ru' => '140 золотых монет',
         ],
     ];
@@ -287,7 +287,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'creditsPack04',
-        'titile' => [
+        'title' => [
             'ru' => '280 золотых монет',
         ],
     ];
@@ -301,7 +301,7 @@ abstract class Market {
             ],
         ],
         'photo' => 'creditsPack05',
-        'titile' => [
+        'title' => [
             'ru' => '420 золотых монет',
         ],
     ];
@@ -348,10 +348,10 @@ abstract class Market {
         }
         $item['price'] = $item['price'][$platform];
 
-        if(isset($item['titile'][$lang])) {
-            $item['titile'] = $item['titile'][$lang];
+        if(isset($item['title'][$lang])) {
+            $item['title'] = $item['title'][$lang];
         } else {
-            //enable on production $item['titile'] = $item['titile']['en'];
+            //enable on production $item['title'] = $item['title']['en'];
         }
 
         if(isset($item['photo'])) {
