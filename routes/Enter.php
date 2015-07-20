@@ -27,7 +27,7 @@ $app->post('/ReqEnter', function($request, $response) {
             break;
     }
 
-    $user = R::findOne('users', 'sys_id = ? AND ext_id = ?', [$req->sysId, (int)$req->extId ]);
+    $user = R::findOne('users', 'sys_id = ? AND ext_id = ?', [$req->sysId, $req->extId]);
 
     $bonusCredits = 0;
     $userFriendsBonusCredits = 0;

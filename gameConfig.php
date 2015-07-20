@@ -37,6 +37,7 @@ abstract class Market {
         'title' => [
             'ru' => 'Открыть все острова',
         ],
+        // TODO
     ];
     private static $bonus05 = [
         'price' => [
@@ -59,6 +60,7 @@ abstract class Market {
         'title' => [
             'ru' => 'Открыть следующий остров',
         ],
+        // TODO
     ];
     private static $infExt00Lvl3 = [
         'price' => [
