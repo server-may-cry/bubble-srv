@@ -29,15 +29,33 @@ abstract class Market {
         ];
     }
 
-
-    private static $bonus04 = [
+    private static $bonus04_1 = [
         'price' => [
             'vk' => 1500,
         ],
         'title' => [
             'ru' => 'Открыть все острова',
         ],
-        // TODO
+        'reward' => [
+            'set' => [
+                'reachedStage01' => 5,
+                'reachedSubStage01' => 14,
+            ],
+        ],
+    ];
+    private static $bonus04_2 = [
+        'price' => [
+            'vk' => 1500,
+        ],
+        'title' => [
+            'ru' => 'Открыть все острова',
+        ],
+        'reward' => [
+            'set' => [
+                'reachedStage02' => 5,
+                'reachedSubStage02' => 14,
+            ],
+        ],
     ];
     private static $bonus05 = [
         'price' => [
@@ -53,14 +71,37 @@ abstract class Market {
             'ru' => 'Навсегда разблокировать все флаги',
         ],
     ];
-    private static $bonus06 = [
+    private static $bonus06_1 = [
         'price' => [
             'vk' => 200,
         ],
         'title' => [
             'ru' => 'Открыть следующий остров',
         ],
-        // TODO
+        'reward' => [
+            'set' => [
+                'reachedSubStage01' => 0,
+            ],
+            'increase' => [
+                'reachedStage01' => 1,
+            ]
+        ],
+    ];
+    private static $bonus06_2 = [
+        'price' => [
+            'vk' => 200,
+        ],
+        'title' => [
+            'ru' => 'Открыть следующий остров',
+        ],
+        'reward' => [
+            'set' => [
+                'reachedSubStage02' => 0,
+            ],
+            'increase' => [
+                'reachedStage02' => 1,
+            ]
+        ],
     ];
     private static $infExt00Lvl3 = [
         'price' => [

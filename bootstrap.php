@@ -65,6 +65,14 @@ function render(Psr\Http\Message\ResponseInterface $response, $data, $status = 2
     return $response;
 }
 
+function findUser($uid) {
+    $user = R::findOne('users', 'id = ?', [(int)$uid]);
+
+    if($user === NULL)
+        throw new Exception("UserID: ".$uid.' not found');
+    return $user;
+}
+
 // RedBeanPHP 4
 // http://redbeanphp.com/
 require ROOT . 'rb.php';
