@@ -124,10 +124,10 @@ $app->post('/ReqEnter', function($request, $response) {
     $collectionStars = R::findCollection('star', 'user_id = ?', [$user->id]);
     while( $star = $collectionStars->next() ) {
         switch( $star->levelMode ) {
-            case 'standart':
+            case 'classic':
                 $key = 'subStagesRecordStats01';
                 break;
-            case 'standart':
+            case 'arcade':
                 $key = 'subStagesRecordStats02';
                 break;
             default:
