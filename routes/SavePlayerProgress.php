@@ -27,14 +27,23 @@ $app->post('/ReqSavePlayerProgress', function($request, $response) {
     if($user === NULL)
         throw new Exception("UserID: ".$req->userId.' not found');
 
+
     switch($req->levelMode) {
         case 'standart':
             $user->reachedStage01 = max((int)$req->reachedStage, $user->reachedStage01);
-            $user->reachedSubStage01 = max((int)$req->reachedSubStage, $user->reachedSubStage01);
+            if($req->reachedStage > $user->reachedStage01) {
+                $user->reachedSubStage01 = (int)$req->reachedSubStage;
+            } elseif ($req->reachedStage == $user->reachedStage01) {
+                $user->reachedSubStage01 = max((int)$req->reachedSubStage, $user->reachedSubStage01);
+            }
             break;
         case 'arcade':
             $user->reachedStage02 = max((int)$req->reachedStage, $user->reachedStage02);
-            $user->reachedSubStage02 = max((int)$req->reachedSubStage, $user->reachedSubStage02);
+            if($req->reachedStage > $user->reachedStage02) {
+                $user->reachedSubStage02 = (int)$req->reachedSubStage;
+            } elseif ($req->reachedStage == $user->reachedStage02) {
+                $user->reachedSubStage02 = max((int)$req->reachedSubStage, $user->reachedSubStage02);
+            }
             break;
     }
 
