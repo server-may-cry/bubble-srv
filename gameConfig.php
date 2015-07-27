@@ -361,16 +361,16 @@ abstract class Market {
     public static $bonus02 = [
         'reward' => [
             'increase' => [
-                'credits' => -2000,
-                'remainingTries' => 10,
+                'credits' => -1000,
+                'remainingTries' => 5,
             ],
         ]
     ];
-    public static $bonus02 = [
+    public static $bonus03 = [
         'reward' => [
             'increase' => [
-                'credits' => -1000,
-                'remainingTries' => 5,
+                'credits' => -2000,
+                'remainingTries' => 10,
             ],
         ]
     ];
