@@ -124,14 +124,16 @@ $app->post('/ReqEnter', function($request, $response) {
     $collectionStars = R::findCollection('star', 'user_id = ?', [$user->id]);
     while( $star = $collectionStars->next() ) {
         switch( $star->levelMode ) {
-            case 'classic':
+            case 'standart':
                 $key = 'subStagesRecordStats01';
                 break;
             case 'arcade':
                 $key = 'subStagesRecordStats02';
                 break;
             default:
-                throw new Exception('Unknown game type in DB: ' . $star->levelMode);
+                error_log('Unknown game type in DB: ' . $star->levelMode);
+                continue;
+                //throw new Exception('Unknown game type in DB: ' . $star->levelMode);
         }
         $template [ $key ] [ $star->currentStage ] [ $star->completeSubStage ] = $star->completeSubStageRecordStat;
     }

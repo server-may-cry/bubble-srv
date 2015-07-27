@@ -349,6 +349,32 @@ abstract class Market {
         ],
     ];
 
+    // in game
+    public static $bonus01 = [
+        'reward' => [
+            'increase' => [
+                'credits' => -250,
+                'remainingTries' => 1,
+            ],
+        ]
+    ];
+    public static $bonus02 = [
+        'reward' => [
+            'increase' => [
+                'credits' => -2000,
+                'remainingTries' => 10,
+            ],
+        ]
+    ];
+    public static $bonus02 = [
+        'reward' => [
+            'increase' => [
+                'credits' => -1000,
+                'remainingTries' => 5,
+            ],
+        ]
+    ];
+
     public static function buy($user, $itemName, $platform, $paid = null)
     {
         if(!isset(self::$$itemName)) {
