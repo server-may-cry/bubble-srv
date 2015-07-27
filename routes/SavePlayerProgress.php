@@ -45,6 +45,8 @@ $app->post('/ReqSavePlayerProgress', function($request, $response) {
                 $user->reachedSubStage02 = max((int)$req->reachedSubStage, $user->reachedSubStage02);
             }
             break;
+        default:
+            throw new Exception("Unknown level mode");
     }
 
     R::store($user);

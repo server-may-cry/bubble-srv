@@ -9,14 +9,21 @@ $app->post('/ReqBuyProduct', function($request, $response) {
     "sysId":"VK",
     "msgId":"123",
     "extId":"123439103",
-
     "productId":"creditsPack01",
+
     "levelMode":"arcade"
 }
 */
 
+    if(!isset($req->userId))
+        throw new \Exception('user id not set');
+    $user = findUser($req->userId);
+
+    Market::buy($user, $req->productId);
+
     $template = [
-        'ReqBuyProduct_NotRedyYet'
+        'productId' => $req->productId,
+        'credits' => $user->credits,
     ];
 
     return render($response, $template);

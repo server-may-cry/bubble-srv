@@ -38,7 +38,7 @@ abstract class Market {
         ],
         'reward' => [
             'set' => [
-                'reachedStage01' => 5,
+                'reachedStage01' => 6,
                 'reachedSubStage01' => 14,
             ],
         ],
@@ -52,7 +52,7 @@ abstract class Market {
         ],
         'reward' => [
             'set' => [
-                'reachedStage02' => 5,
+                'reachedStage02' => 6,
                 'reachedSubStage02' => 14,
             ],
         ],
@@ -375,7 +375,7 @@ abstract class Market {
         ]
     ];
 
-    public static function buy($user, $itemName, $platform, $paid = null)
+    public static function buy($user, $itemName, $platform = null, $paid = null)
     {
         if(!isset(self::$$itemName)) {
             throw new Exception("Unknown item ".$itemName);
@@ -412,7 +412,7 @@ abstract class Market {
         if(isset($item['title'][$lang])) {
             $item['title'] = $item['title'][$lang];
         } else {
-            //enable on production $item['title'] = $item['title']['en'];
+            $item['title'] = $item['title']['en'];
         }
 
         if(isset($item['photo'])) {
