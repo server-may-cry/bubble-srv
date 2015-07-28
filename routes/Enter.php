@@ -132,7 +132,7 @@ $app->post('/ReqEnter', function($request, $response) {
                 break;
             default:
                 error_log('Unknown game type in DB: ' . $star->levelMode);
-                continue;
+                continue 2;
                 //throw new Exception('Unknown game type in DB: ' . $star->levelMode);
         }
         $template [ $key ] [ $star->currentStage ] [ $star->completeSubStage ] = $star->completeSubStageRecordStat;
