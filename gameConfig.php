@@ -38,7 +38,7 @@ abstract class Market {
         ],
         'reward' => [
             'set' => [
-                'reachedStage01' => 6,
+                'reachedStage01' => 7,
                 'reachedSubStage01' => 14,
             ],
         ],
@@ -52,7 +52,7 @@ abstract class Market {
         ],
         'reward' => [
             'set' => [
-                'reachedStage02' => 6,
+                'reachedStage02' => 7,
                 'reachedSubStage02' => 14,
             ],
         ],

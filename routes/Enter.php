@@ -72,7 +72,7 @@ $app->post('/ReqEnter', function($request, $response) {
     }
     if( $timestamp - $user->friendsBonusCreditsTime > UserParams::$intervalFriendsBonusCreditsReceiveTime) {
         $user->friendsBonusCreditsTime = $timestamp;
-        $userFriendsBonusCredits = $req->appFriends * UserParams::$userFriendsBonusCreditsMultiplier;
+        $userFriendsBonusCredits = ( $req->appFriends + 1 ) * UserParams::$userFriendsBonusCreditsMultiplier;
         $user->credits += $userFriendsBonusCredits;
         $needUpdateTimer = true;
     }

@@ -26,12 +26,12 @@ $app->post('/ReqUsersProgress', function($request, $response) {
     $friends = R::find('users', 
         ' ext_id IN ('.R::genSlots( $friendsIds ).')',
         $friendsIds);
-    $template = [];
+    $template = ['usersProgress'=>[]];
 
     foreach($friends as $friend) {
         if( $user->sys_id != $friend['sys_id'] )
             continue;
-        $template[] = [
+        $template['usersProgress'][] = [
             'userId' => $friend['id'],
             'socId' =>  $friend['extId'],
             'reachedStage01' => $friend['reachedStage01'],
