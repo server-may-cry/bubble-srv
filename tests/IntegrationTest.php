@@ -1,17 +1,24 @@
 <?php
-class IntegrationTest extends stdClass {
+class IntegrationTest extends PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
-    
+
     }
 
     public function tearDown()
     {
-        
+
     }
 
-    public function testNewUser()
+    public function testIndex()
+    {
+        //$index = SlimTest::get('/', ['foo'=>'barz']);
+
+        //$this->assertArraySubset(['foo'=>'bar'], $index);
+    }
+
+    public function futureTestNewUser()
     {
         $data = '{"isTest":true,"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"1234","msgId":"123","referer":null}';
         

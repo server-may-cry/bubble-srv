@@ -1,4 +1,5 @@
 <?php
+die();
 require dirname(__DIR__) . '/bootstrap.php';
 
 use Slim\App;
@@ -15,10 +16,20 @@ class SlimTest
 
     public static function post($route, array $data)
     {
+        return $this->request('POST', $route, $data);
+    }
+
+    public function get($route)
+    {
+        return $this->request('GET', $route);
+    }
+
+    private function request($method, $route, $data = null)
+    {
         $mock = Environment::mock([
             "SCRIPT_NAME" => "/index.php",
             "REQUEST_URI" => $route,
-            'REQUEST_METHOD' => 'POST',
+            'REQUEST_METHOD' => $method,
             "HTTP_CONTENT_TYPE" => 'application/json',
         ]);
         self::$container['environment'] = $mock;
@@ -26,7 +37,7 @@ class SlimTest
         $body = json_encode($data);
         $stream = fopen('data://text/plain,' . $body,'r');
         $request = new Request(
-            'POST',
+            $method,
             new Uri('http', 'localhost', 80, $route),
             Headers::createFromEnvironment($mock),
             [], // cookies
