@@ -13,9 +13,9 @@ class IntegrationTest extends PHPUnit_Framework_TestCase {
 
     public function testIndex()
     {
-        //$index = SlimTest::get('/', ['foo'=>'barz']);
+        $index = SlimTest::get('/');
 
-        //$this->assertArraySubset(['foo'=>'bar'], $index);
+        $this->assertArraySubset(['foo'=>'bar'], $index);
     }
 
     public function futureTestNewUser()

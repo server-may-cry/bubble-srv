@@ -2,11 +2,11 @@
 
 abstract class UserParams {
     public static $defaultUserRemainingTries = 5;
-    public static $defaultUserCredits = 700;
-    public static $intervalBonusCreditsReceiveTime = 43200;
-    public static $bonusCreditsReceive = 1000;
-    public static $intervalFriendsBonusCreditsReceiveTime = 86400;
-    public static $userFriendsBonusCreditsMultiplier = 30;
+    public static $defaultUserCredits = 1000;
+    public static $intervalBonusCreditsReceiveTime = 41400;
+    public static $bonusCreditsReceive = 10;
+    public static $intervalFriendsBonusCreditsReceiveTime = 84600;
+    public static $userFriendsBonusCreditsMultiplier = 2;
 }
 
 abstract class IslandLevels {
@@ -31,7 +31,7 @@ abstract class Market {
 
     private static $bonus04_1 = [
         'price' => [
-            'vk' => 1500,
+            'vk' => 100,
         ],
         'title' => [
             'ru' => 'Открыть все острова',
@@ -45,7 +45,7 @@ abstract class Market {
     ];
     private static $bonus04_2 = [
         'price' => [
-            'vk' => 1500,
+            'vk' => 100,
         ],
         'title' => [
             'ru' => 'Открыть все острова',
@@ -59,7 +59,7 @@ abstract class Market {
     ];
     private static $bonus05 = [
         'price' => [
-            'vk' => 750,
+            'vk' => 20,
         ],
         'reward' => [
             'set' => [
@@ -73,7 +73,7 @@ abstract class Market {
     ];
     private static $bonus06_1 = [
         'price' => [
-            'vk' => 200,
+            'vk' => 20,
         ],
         'title' => [
             'ru' => 'Открыть следующий остров',
@@ -89,7 +89,7 @@ abstract class Market {
     ];
     private static $bonus06_2 = [
         'price' => [
-            'vk' => 200,
+            'vk' => 20,
         ],
         'title' => [
             'ru' => 'Открыть следующий остров',
@@ -119,7 +119,7 @@ abstract class Market {
     ];
     private static $infExt01Lvl2 = [
         'price' => [
-            'vk' => 10,
+            'vk' => 5,
         ],
         'reward' => [
             'set' => [
@@ -133,7 +133,7 @@ abstract class Market {
     ];
     private static $infExt02Lvl1 = [
         'price' => [
-            'vk' => 20,
+            'vk' => 15,
         ],
         'reward' => [
             'set' => [
@@ -147,7 +147,7 @@ abstract class Market {
     ];
     private static $infExt03Lvl2 = [
         'price' => [
-            'vk' => 15,
+            'vk' => 10,
         ],
         'reward' => [
             'set' => [
@@ -161,7 +161,7 @@ abstract class Market {
     ];
     private static $infExt04Lvl1 = [
         'price' => [
-            'vk' => 40,
+            'vk' => 15,
         ],
         'reward' => [
             'set' => [
@@ -175,7 +175,7 @@ abstract class Market {
     ];
     private static $infExt05Lvl2 = [
         'price' => [
-            'vk' => 25,
+            'vk' => 10,
         ],
         'reward' => [
             'set' => [
@@ -189,7 +189,7 @@ abstract class Market {
     ];
     private static $infExt06Lvl1 = [
         'price' => [
-            'vk' => 60,
+            'vk' => 15,
         ],
         'reward' => [
             'set' => [
@@ -203,7 +203,7 @@ abstract class Market {
     ];
     private static $infExt07Lvl1 = [
         'price' => [
-            'vk' => 70,
+            'vk' => 20,
         ],
         'reward' => [
             'set' => [
@@ -217,7 +217,7 @@ abstract class Market {
     ];
     private static $infExt08Lvl1 = [
         'price' => [
-            'vk' => 70,
+            'vk' => 20,
         ],
         'reward' => [
             'set' => [
@@ -231,7 +231,7 @@ abstract class Market {
     ];
     private static $infExt09Lvl1 = [
         'price' => [
-            'vk' => 70,
+            'vk' => 15,
         ],
         'reward' => [
             'set' => [
@@ -245,12 +245,12 @@ abstract class Market {
     ];
     private static $helpPack01 = [
         'price' => [
-            'vk' => 15,
+            'vk' => 5,
         ],
         'reward' => [
             'increase' => [
-                'remainingTries' => 10,
-                'credits' => 420,
+                'remainingTries' => 5,
+                'credits' => 300,
             ],
         ],
         'photo' => 'helpPack01',
@@ -280,11 +280,11 @@ abstract class Market {
     ];
     private static $creditsPack01 = [
         'price' => [
-            'vk' => 2,
+            'vk' => 1,
         ],
         'reward' => [
             'increase' => [
-                'credits' => 30,
+                'credits' => 70,
             ],
         ],
         'photo' => 'creditsPack01',
@@ -298,7 +298,7 @@ abstract class Market {
         ],
         'reward' => [
             'increase' => [
-                'credits' => 70,
+                'credits' => 300,
             ],
         ],
         'photo' => 'creditsPack02',
@@ -308,11 +308,11 @@ abstract class Market {
     ];
     private static $creditsPack03 = [
         'price' => [
-            'vk' => 6,
+            'vk' => 18,
         ],
         'reward' => [
             'increase' => [
-                'credits' => 140,
+                'credits' => 1500,
             ],
         ],
         'photo' => 'creditsPack03',
@@ -322,11 +322,11 @@ abstract class Market {
     ];
     private static $creditsPack04 = [
         'price' => [
-            'vk' => 8,
+            'vk' => 34,
         ],
         'reward' => [
             'increase' => [
-                'credits' => 280,
+                'credits' => 3000,
             ],
         ],
         'photo' => 'creditsPack04',
@@ -336,11 +336,11 @@ abstract class Market {
     ];
     private static $creditsPack05 = [
         'price' => [
-            'vk' => 10,
+            'vk' => 79,
         ],
         'reward' => [
             'increase' => [
-                'credits' => 420,
+                'credits' => 8000,
             ],
         ],
         'photo' => 'creditsPack05',
@@ -353,7 +353,7 @@ abstract class Market {
     public static $bonus01 = [
         'reward' => [
             'increase' => [
-                'credits' => -250,
+                'credits' => -750,
                 'remainingTries' => 1,
             ],
         ]
@@ -361,7 +361,7 @@ abstract class Market {
     public static $bonus02 = [
         'reward' => [
             'increase' => [
-                'credits' => -1000,
+                'credits' => -300,
                 'remainingTries' => 5,
             ],
         ]
@@ -369,7 +369,7 @@ abstract class Market {
     public static $bonus03 = [
         'reward' => [
             'increase' => [
-                'credits' => -2000,
+                'credits' => -500,
                 'remainingTries' => 10,
             ],
         ]
