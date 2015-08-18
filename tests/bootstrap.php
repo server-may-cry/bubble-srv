@@ -33,6 +33,7 @@ class SlimTest
             "HTTP_CONTENT_TYPE" => 'application/json',
         ]);
         self::$container['environment'] = $mock;
+        self::$container['errorHandler'] = function(){}; // no error handler
 
         $body = json_encode($data);
         $stream = fopen('data://text/plain,' . $body,'r');

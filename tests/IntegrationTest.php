@@ -13,6 +13,7 @@ class IntegrationTest extends PHPUnit_Framework_TestCase {
 
     public function testIndex()
     {
+        $this->assertEqual(true, true);
         $index = SlimTest::get('/');
 
         $this->assertArraySubset(['foo'=>'bar'], $index);

@@ -28,9 +28,6 @@ $c['errorHandler'] = function ($c) {
             'line' => $exception->getLine(),
         ];
         if(getenv('ENV_NAME') === 'production') {
-            $client = new \Raygun4php\RaygunClient(getenv('RAYGUN_APIKEY'));
-            $client->SendException($exception);
-
             Rollbar::init(array('access_token' => getenv('ROLLBAR_ACCESS_TOKEN')));
             Rollbar::report_exception($exception);
         }
