@@ -1,7 +1,9 @@
 <?php
 
-$app->post('/ReqReduceTries', function($request, $response) {
-    $req = $request->getParsedBody();
+use Symfony\Component\HttpFoundation\Request;
+
+$app->post('/ReqReduceTries', function(Request $request) use ($app) {
+    $req = (object) $request->request->all();
 /*
 {
     "authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -26,5 +28,5 @@ $app->post('/ReqReduceTries', function($request, $response) {
         $user->remainingTries
     ];
 
-    return render($response, $template);
+    return $app->json($template);
 });

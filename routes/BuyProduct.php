@@ -1,7 +1,7 @@
 <?php
 
-$app->post('/ReqBuyProduct', function($request, $response) {
-    $req = $request->getParsedBody();
+use Symfony\Component\HttpFoundation\Request;
+
 /*
 {
     "userId":null.
@@ -14,17 +14,18 @@ $app->post('/ReqBuyProduct', function($request, $response) {
     "levelMode":"arcade"
 }
 */
+$app->post('/ReqBuyProduct', function(Request $request) use ($app) {
 
-    if(!isset($req->userId))
+    if( $request->request->has('userId') )
         throw new \Exception('user id not set');
-    $user = findUser($req->userId);
+    $user = findUser($request->request->get('userId') );
 
-    Market::buy($user, $req->productId);
+    Market::buy($user, $request->request->get('productId'));
 
     $template = [
-        'productId' => $req->productId,
+        'productId' => $request->request->productId,
         'credits' => $user->credits,
     ];
 
-    return render($response, $template);
+    return $app->json($template);
 });

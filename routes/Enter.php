@@ -1,7 +1,9 @@
 <?php
 
-$app->post('/ReqEnter', function($request, $response) {
-    $req = $request->getParsedBody();
+use Symfony\Component\HttpFoundation\Request;
+
+$app->post('/ReqEnter', function(Request $request) use ($app) {
+    $req = (object) $request->request->all();
 /*
 {
     "userId":null, // Идентификатор пользователя, получается с сервера приложения при входе в систему
@@ -38,7 +40,6 @@ $app->post('/ReqEnter', function($request, $response) {
         $user = R::dispense('users');
         $user->sysId = $req->sysId;
         $user->extId = $req->extId;
-        $user->authKey = $req->authKey;
         $user->referer = $req->referer;
         $user->srcExtId = $req->srcExtId;
         $user->appFriends = $req->appFriends;
@@ -62,23 +63,21 @@ $app->post('/ReqEnter', function($request, $response) {
         $user->bonusCreditsReceiveTime = $timestamp;
         $user->friendsBonusCreditsTime = $timestamp;
         $user->id = R::store($user);
+    } else {
+        $user->appFriends = $req->appFriends;
+        $user->lastLogin = $timestamp;
     }
-    $needUpdateTimer = false;
     if( $timestamp - $user->bonusCreditsReceiveTime > UserParams::$intervalBonusCreditsReceiveTime ) {
         $user->bonusCreditsReceiveTime = $timestamp;
         $user->credits += UserParams::$bonusCreditsReceive;
         $bonusCredits = UserParams::$bonusCreditsReceive;
-        $needUpdateTimer = true;
     }
     if( $timestamp - $user->friendsBonusCreditsTime > UserParams::$intervalFriendsBonusCreditsReceiveTime) {
         $user->friendsBonusCreditsTime = $timestamp;
         $userFriendsBonusCredits = ( $req->appFriends + 1 ) * UserParams::$userFriendsBonusCreditsMultiplier;
         $user->credits += $userFriendsBonusCredits;
-        $needUpdateTimer = true;
     }
-    if($needUpdateTimer) {
-        R::store($user);
-    }
+    R::store($user);
 
     $islandsLevelCount = [
         array_fill(0,IslandLevels::$count1,-1),
@@ -124,10 +123,14 @@ $app->post('/ReqEnter', function($request, $response) {
     $collectionStars = R::findCollection('star', 'user_id = ?', [$user->id]);
     while( $star = $collectionStars->next() ) {
         switch( $star->levelMode ) {
-            case 'standart':
+            case 'standart': // back capability
+            case '0':
+            case 0: // standart
                 $key = 'subStagesRecordStats01';
                 break;
             case 'arcade':
+            case '1':
+            case 1: // arcade
                 $key = 'subStagesRecordStats02';
                 break;
             default:
@@ -200,5 +203,5 @@ $app->post('/ReqEnter', function($request, $response) {
         }
     }
 
-    return render($response, $template);
+    return $app->json($template);
 });

@@ -1,68 +1,43 @@
 <?php
-die();
-require dirname(__DIR__) . '/bootstrap.php';
+require dirname(__DIR__) . '/src/global.php';
 
-use Slim\App;
-use Slim\Http\Environment;
-use Slim\Http\Request;
-use Slim\Http\Uri;
-use Slim\Http\Headers;
-use Slim\Http\Body;
+$dburl = getenv('DATABASE_URL');
+if(strlen($dburl)>0) {
+    die('never run unit test on production couse data los');
+}
 
-class SlimTest
+use Silex\WebTestCase;
+
+class TestBootstrap extends WebTestCase
 {
-    private static $app;
-    private static $container;
 
-    public static function post($route, array $data)
+    public function setUp()
     {
-        return $this->request('POST', $route, $data);
+        // create db scheme
+        parent::setUp();
     }
 
-    public function get($route)
+    public function tearDown()
     {
-        return $this->request('GET', $route);
+        // drop db
+        R::nuke();
+        parent::tearDown();
     }
 
-    private function request($method, $route, $data = null)
+    protected function post($url, array $parameters)
     {
-        $mock = Environment::mock([
-            "SCRIPT_NAME" => "/index.php",
-            "REQUEST_URI" => $route,
-            'REQUEST_METHOD' => $method,
-            "HTTP_CONTENT_TYPE" => 'application/json',
-        ]);
-        self::$container['environment'] = $mock;
-        self::$container['errorHandler'] = function(){}; // no error handler
+        $client = $this->createClient();
+        $client->request('POST', $url, [], [], [], json_encode($parameters) );
 
-        $body = json_encode($data);
-        $stream = fopen('data://text/plain,' . $body,'r');
-        $request = new Request(
-            $method,
-            new Uri('http', 'localhost', 80, $route),
-            Headers::createFromEnvironment($mock),
-            [], // cookies
-            [], // serverParams
-            new Body($stream)
-        );
-        self::$container['request'] = $request;
-
-        ob_start();
-        self::$app->run();
-        $content = ob_get_clean();
-        return $content;
-        return json_decode($content);
+        $this->assertTrue($client->getResponse()->isOk());
+        return json_decode( $client->getResponse()->getContent(), true );
     }
 
-    public static function init(App $app)
+    public function createApplication()
     {
-        self::$app = $app;
-        self::$container = $app->getContainer();
+        $app = require ROOT . '/src/app.php';
+        $app['debug'] = true;
+
+        return $app;
     }
 }
-SlimTest::init($app);
-
-$c = SlimTest::post('/ReqEnter', ['foo'=>'barz']);
-var_dump($c);
-$c = SlimTest::post('/ReqEnter', ['foo'=>'barz']);
-var_dump($c);

@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Request;
+
 /*
 {
     "app_id":"4890xxx",
@@ -28,14 +30,14 @@
     "sig":"bd59934272e8xxxx"
 }
 */
-$app->post('/vk_pay', function($request, $response) {
+$app->post('/vk_pay', function(Request $request) use ($app) {
     $secret_key = getenv('VK_SECRET');
     if(strlen($secret_key) < 1) {
         throw new Exception('VK_SECRET not set');
     }
 
     //$input = $_POST;
-    $input = $request->getParsedBody();
+    $input = $request->request->all();
 
     // Проверка подписи
     $sig = $input['sig'];
@@ -107,5 +109,5 @@ $app->post('/vk_pay', function($request, $response) {
         }
     }
 
-    return render($response, $vk_response);
+    return $app->json($vk_response);
 });

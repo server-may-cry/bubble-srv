@@ -1,7 +1,9 @@
 <?php
 
-$app->post('/ReqSavePlayerProgress', function($request, $response) {
-    $req = $request->getParsedBody();
+use Symfony\Component\HttpFoundation\Request;
+
+$app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
+    $req = (object) $request->request->all();
 /*
 {
     "authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -28,8 +30,10 @@ $app->post('/ReqSavePlayerProgress', function($request, $response) {
         throw new Exception("UserID: ".$req->userId.' not found');
 
 
+    $levelMode = 0;
     switch($req->levelMode) {
         case 'standart':
+            $levelMode = 0;
             $user->reachedStage01 = max((int)$req->reachedStage, $user->reachedStage01);
             if($req->reachedStage > $user->reachedStage01) {
                 $user->reachedSubStage01 = (int)$req->reachedSubStage;
@@ -38,6 +42,7 @@ $app->post('/ReqSavePlayerProgress', function($request, $response) {
             }
             break;
         case 'arcade':
+            $levelMode = 1;
             $user->reachedStage02 = max((int)$req->reachedStage, $user->reachedStage02);
             if($req->reachedStage > $user->reachedStage02) {
                 $user->reachedSubStage02 = (int)$req->reachedSubStage;
@@ -54,7 +59,7 @@ $app->post('/ReqSavePlayerProgress', function($request, $response) {
     $star = R::findOne('star', 'user_id = ? AND level_mode = ? AND current_stage = ? AND complete_sub_stage = ?',
         [
             $user->id,
-            $req->levelMode,
+            $levelMode,
             (int)$req->currentStage,
             (int)$req->completeSubStage,
         ]
@@ -63,20 +68,20 @@ $app->post('/ReqSavePlayerProgress', function($request, $response) {
     if($star === NULL) {
         $star = R::dispense('star');
         $star->user = $user;
-        $star->levelMode = $req->levelMode;
+        $star->levelMode = $levelMode;
         $star->currentStage = (int)$req->currentStage;
         $star->completeSubStage = (int)$req->completeSubStage;
         $star->completeSubStageRecordStat = (int)$req->completeSubStageRecordStat;
         $result = R::store($star);
-        return render($response, 'added ('.var_export($result, true).')');
+        return $app->json('added ('.var_export($result, true).')');
     } elseif($star->completeSubStageRecordStat < $req->completeSubStageRecordStat) {
         $star->completeSubStageRecordStat = (int)$req->completeSubStageRecordStat;
         $result = R::store($star);
-        return render($response, 'updated ('.var_export($result, true).')');
+        return $app->json('updated ('.var_export($result, true).')');
     } else {
-        return render($response, 'less');
+        return $app->json('less');
     }
 
     // в этом запросе ответ не имеет значения
-    return render($response, 'ok');
+    return $app->json('ok');
 });

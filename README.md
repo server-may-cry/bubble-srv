@@ -1,3 +1,3 @@
-bubble server
+Bubble server
 =================
-rest srv 4 existing api
+Back end for flash game.
