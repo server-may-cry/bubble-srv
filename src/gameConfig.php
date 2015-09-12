@@ -353,7 +353,7 @@ abstract class Market {
     public static $bonus01 = [
         'reward' => [
             'increase' => [
-                'credits' => -750,
+                'credits' => -75,
                 'remainingTries' => 1,
             ],
         ]
@@ -391,6 +391,7 @@ abstract class Market {
                 }
             }
             $user->extId = $user->extId;
+            $user->credits = max($user->credits, 0);
             R::store($user);
         } else {
             // HARDCODE
