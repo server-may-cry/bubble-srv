@@ -15,7 +15,7 @@ class TestBootstrap extends WebTestCase
     public function tearDown()
     {
         // drop db
-        unlink(ROOT . '/tests/test.sqlite.db');
+        R::nuke();
         parent::tearDown();
     }
 

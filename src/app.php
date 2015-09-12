@@ -6,21 +6,20 @@ require_once ROOT . 'rb.php'; // RedBeanPHP 4
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Cache\ApcCache;
-use Doctrine\Common\Cache\ArrayCache;
-use Dflydev\Silex\Provider\DoctrineOrm\DoctrineORMServiceProvider;
-use Silex\Provider\DoctrineServiceProvider;
 
 $app = new Application();
 
 // http://redbeanphp.com/
-require ROOT . 'rb.php';
-$dburl = getenv('DATABASE_URL');
-if(strlen($dburl)>0) {
+if(!$app['debug']) {
+    $dburl = getenv('DATABASE_URL');
     $dbopts = parse_url($dburl);
     R::setup('pgsql:dbname='.ltrim($dbopts["path"],'/').';host='.$dbopts["host"].';port='.$dbopts["port"], $dbopts["user"], $dbopts["pass"]);
 } else {
-    R::setup(); // SQLite in memory
+    static $inited = false;
+    if(!$inited) {
+        R::setup(); // SQLite in memory
+        $inited = true;
+    }
 }
 R::setAutoResolve( TRUE );
 
