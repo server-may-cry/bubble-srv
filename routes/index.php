@@ -8,4 +8,5 @@ $app->get('/', function() use ($app) {
 
 $app->post('/', function(Request $request) use ($app) {
     return $app->json($request->request->all());
+    // $request->request->get('key', 'default');
 });

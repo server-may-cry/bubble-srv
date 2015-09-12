@@ -1,7 +1,9 @@
 <?php
 
-$app->post('/ReqEnter', function($request, $response) {
-    $req = $request->getParsedBody();
+use Symfony\Component\HttpFoundation\Request;
+
+$app->post('/ReqEnter', function(Request $request) use ($app) {
+    $req = $request->request->all();
 /*
 {
     "userId":null, // Идентификатор пользователя, получается с сервера приложения при входе в систему
@@ -200,5 +202,5 @@ $app->post('/ReqEnter', function($request, $response) {
         }
     }
 
-    return render($response, $template);
+    return $app->json($template);
 });

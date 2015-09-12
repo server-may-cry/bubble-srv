@@ -1,7 +1,9 @@
 <?php
 
-$app->post('/ReqSavePlayerProgress', function($request, $response) {
-    $req = $request->getParsedBody();
+use Symfony\Component\HttpFoundation\Request;
+
+$app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
+    $req = $request->request->all();
 /*
 {
     "authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -68,15 +70,15 @@ $app->post('/ReqSavePlayerProgress', function($request, $response) {
         $star->completeSubStage = (int)$req->completeSubStage;
         $star->completeSubStageRecordStat = (int)$req->completeSubStageRecordStat;
         $result = R::store($star);
-        return render($response, 'added ('.var_export($result, true).')');
+        return $app->json('added ('.var_export($result, true).')');
     } elseif($star->completeSubStageRecordStat < $req->completeSubStageRecordStat) {
         $star->completeSubStageRecordStat = (int)$req->completeSubStageRecordStat;
         $result = R::store($star);
-        return render($response, 'updated ('.var_export($result, true).')');
+        return $app->json('updated ('.var_export($result, true).')');
     } else {
-        return render($response, 'less');
+        return $app->json('less');
     }
 
     // в этом запросе ответ не имеет значения
-    return render($response, 'ok');
+    return $app->json('ok');
 });
