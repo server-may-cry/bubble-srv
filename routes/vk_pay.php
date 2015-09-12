@@ -38,8 +38,8 @@ $app->post('/vk_pay', function(Request $request) use ($app) {
 
     //$input = $_POST;
     $input = $request->request->all();
-    error_log( json_encode( $input ) );
-    error_log( var_export( $input, true ) );
+    error_log( 'request: ' . json_encode( $input ) );
+    error_log( 'post: ' . json_encode( $_POST ) );
 
     // Проверка подписи
     $sig = $input['sig'];
