@@ -44,6 +44,7 @@ $app->before(function (Request $request) {
     $data = json_decode($request->getContent(), true);
     $request->request->replace( is_array($data) ? $data : [] );
     error_log( json_encode( $request->request->all() ) );
+    error_log( var_export( (object) $request->request->all(), true ) );
 });
 
 // Throw Exceptions for everything so we can see the errors
