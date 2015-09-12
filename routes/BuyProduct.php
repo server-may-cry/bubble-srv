@@ -15,15 +15,16 @@ use Symfony\Component\HttpFoundation\Request;
 }
 */
 $app->post('/ReqBuyProduct', function(Request $request) use ($app) {
+    $req = (object) $request->request->all();
 
-    if( $request->request->has('userId') )
+    if(!isset($req->userId))
         throw new \Exception('user id not set');
-    $user = findUser($request->request->get('userId') );
+    $user = findUser( $req->userId );
 
-    Market::buy($user, $request->request->get('productId'));
+    Market::buy($user, $req->productId);
 
     $template = [
-        'productId' => $request->request->productId,
+        'productId' => $req->productId,
         'credits' => $user->credits,
     ];
 
