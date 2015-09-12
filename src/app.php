@@ -43,6 +43,7 @@ $app->error( function (Exception $exception, $code) use ($app) {
 $app->before(function (Request $request) {
     $data = json_decode($request->getContent(), true);
     $request->request->replace( is_array($data) ? $data : [] );
+    error_log( json_encode( $request->request->all() ) );
 });
 
 // Throw Exceptions for everything so we can see the errors
