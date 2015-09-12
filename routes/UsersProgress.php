@@ -3,7 +3,7 @@
 use Symfony\Component\HttpFoundation\Request;
 
 $app->post('/ReqUsersProgress', function(Request $request) use ($app) {
-    $req = $request->request->all();
+    $req = (object) $request->request->all();
 /*
 {
     "authKey":"83db68e3e1524c2e62e6dc67b38bc38c",

@@ -10,18 +10,17 @@ use Symfony\Component\HttpFoundation\Request;
 $app = new Application();
 
 // http://redbeanphp.com/
-if(!$app['debug']) {
-    $dburl = getenv('DATABASE_URL');
+$dburl = getenv('DATABASE_URL');
+if(strlen($dburl)>0) {
     $dbopts = parse_url($dburl);
     R::setup('pgsql:dbname='.ltrim($dbopts["path"],'/').';host='.$dbopts["host"].';port='.$dbopts["port"], $dbopts["user"], $dbopts["pass"]);
 } else {
-    static $inited = false;
-    if(!$inited) {
+    $opened = R::testConnection();
+    if(!$opened) { // for unittest prevent multiple connection
         R::setup(); // SQLite in memory
-        $inited = true;
     }
 }
-R::setAutoResolve( TRUE );
+R::setAutoResolve( true );
 
 $app->error( function (Exception $exception, $code) use ($app) {
     if($app['debug']) {
@@ -46,12 +45,15 @@ $app->before(function (Request $request) {
     $request->request->replace( is_array($data) ? $data : [] );
 });
 
+// Throw Exceptions for everything so we can see the errors
+set_error_handler(function ($errno, $errstr, $errfile, $errline ) {
+    throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
+});
+
 // Require all paths/routes
 $routes = scandir(ROUTE_ROOT);
 foreach ($routes as $route) {
     if ( is_file(ROUTE_ROOT . $route) ) {
-        if($route != 'index.php')
-            continue;
         require ROUTE_ROOT . $route;
     }
 }

@@ -1,6 +1,11 @@
 <?php
 require dirname(__DIR__) . '/src/global.php';
 
+$dburl = getenv('DATABASE_URL');
+if(strlen($dburl)>0) {
+    die('never run unit test on production couse data los');
+}
+
 use Silex\WebTestCase;
 
 class TestBootstrap extends WebTestCase
