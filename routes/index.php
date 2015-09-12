@@ -1,9 +1,11 @@
 <?php
 
-$app->get('/', function($request, $response) {
-    return render($response, ['foo'=>'bar']);
+use Symfony\Component\HttpFoundation\Request;
+
+$app->get('/', function() use ($app) {
+    return $app->json(['foo'=>'bar']);
 });
 
-$app->get('/test', function($request, $response) {
-    return render($response, ['foo'=>'bar']);
+$app->post('/', function(Request $request) use ($app) {
+    return $app->json($request->request->all());
 });

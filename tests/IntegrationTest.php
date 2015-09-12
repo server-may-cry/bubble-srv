@@ -1,29 +1,37 @@
 <?php
-class IntegrationTest extends PHPUnit_Framework_TestCase {
 
-    public function setUp()
+class IntegrationTest extends TestBootstrap
+{
+
+    public function testInitialPage()
     {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/');
 
+        $this->assertTrue($client->getResponse()->isOk());
+        $this->assertJsonStringEqualsJsonString('{"foo":"bar"}', $client->getResponse()->getContent());
     }
 
-    public function tearDown()
+    public function testTestInitialPage()
     {
+        $response = $this->post('/', ['asd'=>'zxc']);
 
+        $this->assertArraySubset(['asd'=>'zxc'], $response);
     }
 
-    public function testIndex()
+    public function testTest2InitialPage()
     {
-        $this->assertEqual(true, true);
-        $index = SlimTest::get('/');
+        $response = $this->post('/', ['asd'=>'zxc']);
 
-        $this->assertArraySubset(['foo'=>'bar'], $index);
+        $this->assertArraySubset(['asd'=>'zxc'], $response);
     }
-
-    public function futureTestNewUser()
+/*
+    public function testNewUser()
     {
         $data = '{"isTest":true,"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"1234","msgId":"123","referer":null}';
-        
-        $answer = curl('ReqEnter', $data);
+        $data = json_decode($data, true);
+
+        $answer = $this->post('ReqEnter', $data);
         if(is_object($answer)){
             $userID = $answer->userId; // next tests
             $answer2 = curl('ReqEnter', $data);
@@ -48,17 +56,17 @@ class IntegrationTest extends PHPUnit_Framework_TestCase {
     public function testReduseCredits()
     {
         $reschedLevel = 40;
-        $data = '{
-            "authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
-            "sysId":"test",
-            "extId":"1234",
-            "amount":"2",
-            "msgId":"123",
-            "userId":'.$userID.',
-            "appFriends":"0"
-        }';
+        $data = [
+            "authKey" => "83db68e3e1524c2e62e6dc67b38bc38c",
+            "sysId" =>"test",
+            "extId" =>"1234",
+            "amount" =>"2",
+            "msgId" =>"123",
+            "userId" =>'.$userID.',
+            "appFriends" =>"0",
+        ];
 
-        $answer0 = curl('ReqEnter', $data);
+        $answer0 = $this->post('/ReqEnter', $data);
         $answer = curl('ReqReduceCredits', $data);
         if($answer !== NULL){
             $answer2 = curl('ReqEnter', $data);
