@@ -155,11 +155,14 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
             where reached_stage01 > 0
          group by reached_stage01 order by reached_stage01 desc;');
         $usersProgresStandart = [];
-        $i = 0;
+        $i = null;
         $playersCount = 0;
         foreach($usersProgresStandartRaw as $row) {
+            if($i === null) {
+                $i = $row['reached_stage01'];
+            }
             $playersCount += $row['count'];
-            while($i++ < $row['reached_stage01']) {
+            while($i-- >= $row['reached_stage01']) {
                 $usersProgresStandart[] = $playersCount;
             }
         }
@@ -183,11 +186,14 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
             where reached_stage02 > 0
          group by reached_stage02 order by reached_stage02 desc;');
         $usersProgresArcade = [];
-        $i = 0;
+        $i = null;
         $playersCount = 0;
         foreach($usersProgresArcadeRaw as $row) {
+            if($i === null) {
+                $i = $row['reached_stage01'];
+            }
             $playersCount += $row['count'];
-            while($i++ < $row['reached_stage02']) {
+            while($i-- >= $row['reached_stage02']) {
                 $usersProgresArcade[] = $playersCount;
             }
         }
