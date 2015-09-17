@@ -153,7 +153,7 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
     } else {
         $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from users
             where reached_stage01 > 0
-         group by reached_stage01 order by reached_stage01 asc;');
+         group by reached_stage01 order by reached_stage01 desc;');
         $usersProgresStandart = [];
         $i = 0;
         $playersCount = 0;
@@ -163,6 +163,7 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
                 $usersProgresStandart[] = $playersCount;
             }
         }
+        $usersProgresStandart = array_reverse($usersProgresStandart);
         $template['stagesProgressStat01'] = $usersProgresStandart;
         if($redis_exist and count($usersProgresStandart)) {
             $toRedis = [];
@@ -180,7 +181,7 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
     } else {
         $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from users
             where reached_stage02 > 0
-         group by reached_stage02 order by reached_stage02 asc;');
+         group by reached_stage02 order by reached_stage02 desc;');
         $usersProgresArcade = [];
         $i = 0;
         $playersCount = 0;
@@ -190,6 +191,7 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
                 $usersProgresArcade[] = $playersCount;
             }
         }
+        $usersProgresArcade = array_reverse($usersProgresArcade);
         $template['stagesProgressStat02'] = $usersProgresArcade;
         if($redis_exist and count($usersProgresArcade)) {
             $toRedis = [];
