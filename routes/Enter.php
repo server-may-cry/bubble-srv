@@ -152,7 +152,8 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $template['stagesProgressStat01'] = array_map('intval', array_values($redisStandartLevels) );
     } else {
         $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from users
-         group by reached_stage01 order by reached_stage01 desc;');
+            where reached_stage01 > 0
+         group by reached_stage01 order by reached_stage01 asc;');
         $usersProgresStandart = [];
         $i = 0;
         $playersCount = 0;
@@ -178,7 +179,8 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $template['stagesProgressStat02'] = array_map('intval', array_values($redisArcadeLevels) );
     } else {
         $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from users
-         group by reached_stage02 order by reached_stage02 desc;');
+            where reached_stage02 > 0
+         group by reached_stage02 order by reached_stage02 asc;');
         $usersProgresArcade = [];
         $i = 0;
         $playersCount = 0;
