@@ -190,7 +190,7 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $playersCount = 0;
         foreach($usersProgresArcadeRaw as $row) {
             if($i === null) {
-                $i = $row['reached_stage01'];
+                $i = $row['reached_stage02'];
             }
             $playersCount += $row['count'];
             while($i-- >= $row['reached_stage02']) {
