@@ -196,8 +196,8 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $i = null;
         $playersCount = 0;
         foreach($usersProgresArcadeRaw as $row) {
-            if(count($usersProgresStandart) == 0) {
-                $usersProgresStandart[] = $row['count'];
+            if(count($usersProgresArcade) == 0) {
+                $usersProgresArcade[] = $row['count'];
 
                 $prevC = $row['count'];
                 $prevI = $row['reached_stage02'];
@@ -205,12 +205,12 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
 
             while($prevI >= ($row['reached_stage02'] + 1) ) {
                 --$prevI;
-                $usersProgresStandart[] = $prevC;
+                $usersProgresArcade[] = $prevC;
             }
 
             $prevC += $row['count'];
         }
-        $usersProgresStandart[] = $prevC;
+        $usersProgresArcade[] = $prevC;
         $usersProgresArcade = array_reverse($usersProgresArcade);
         $template['stagesProgressStat02'] = $usersProgresArcade;
         if($redis_exist and count($usersProgresArcade)) {
