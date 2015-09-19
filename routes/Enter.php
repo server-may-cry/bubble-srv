@@ -156,16 +156,23 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
          group by reached_stage01 order by reached_stage01 desc;');
         $usersProgresStandart = [];
         $i = null;
-        $playersCount = 0;
+        $playersCount = null;
         foreach($usersProgresStandartRaw as $row) {
-            if($i === null) {
-                $i = $row['reached_stage01'];
+            if(count($usersProgresStandart) == 0) {
+                $usersProgresStandart[] = $row['count'];
+
+                $prevC = $row['count'];
+                $prevI = $row['reached_stage01'];
             }
-            $playersCount += $row['count'];
-            while($i-- >= $row['reached_stage01']) {
-                $usersProgresStandart[] = $playersCount;
+
+            while($prevI >= ($row['reached_stage01'] + 1) ) {
+                --$prevI;
+                $usersProgresStandart[] = $prevC;
             }
+
+            $prevC += $row['count'];
         }
+        $usersProgresStandart[] = $prevC;
         $usersProgresStandart = array_reverse($usersProgresStandart);
         $template['stagesProgressStat01'] = $usersProgresStandart;
         if($redis_exist and count($usersProgresStandart)) {
@@ -189,14 +196,21 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $i = null;
         $playersCount = 0;
         foreach($usersProgresArcadeRaw as $row) {
-            if($i === null) {
-                $i = $row['reached_stage02'];
+            if(count($usersProgresStandart) == 0) {
+                $usersProgresStandart[] = $row['count'];
+
+                $prevC = $row['count'];
+                $prevI = $row['reached_stage02'];
             }
-            $playersCount += $row['count'];
-            while($i-- >= $row['reached_stage02']) {
-                $usersProgresArcade[] = $playersCount;
+
+            while($prevI >= ($row['reached_stage02'] + 1) ) {
+                --$prevI;
+                $usersProgresStandart[] = $prevC;
             }
+
+            $prevC += $row['count'];
         }
+        $usersProgresStandart[] = $prevC;
         $usersProgresArcade = array_reverse($usersProgresArcade);
         $template['stagesProgressStat02'] = $usersProgresArcade;
         if($redis_exist and count($usersProgresArcade)) {
