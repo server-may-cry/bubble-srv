@@ -289,7 +289,7 @@ abstract class Market {
         ],
         'photo' => 'creditsPack01',
         'title' => [
-            'ru' => '30 золотых монет',
+            'ru' => '70 золотых монет',
         ],
     ];
     private static $creditsPack02 = [
@@ -303,7 +303,7 @@ abstract class Market {
         ],
         'photo' => 'creditsPack02',
         'title' => [
-            'ru' => '70 золотых монет',
+            'ru' => '300 золотых монет',
         ],
     ];
     private static $creditsPack03 = [
@@ -317,7 +317,7 @@ abstract class Market {
         ],
         'photo' => 'creditsPack03',
         'title' => [
-            'ru' => '140 золотых монет',
+            'ru' => '1500 золотых монет',
         ],
     ];
     private static $creditsPack04 = [
@@ -331,7 +331,7 @@ abstract class Market {
         ],
         'photo' => 'creditsPack04',
         'title' => [
-            'ru' => '280 золотых монет',
+            'ru' => '3000 золотых монет',
         ],
     ];
     private static $creditsPack05 = [
@@ -345,7 +345,7 @@ abstract class Market {
         ],
         'photo' => 'creditsPack05',
         'title' => [
-            'ru' => '420 золотых монет',
+            'ru' => '8000 золотых монет',
         ],
     ];
 
