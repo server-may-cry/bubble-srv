@@ -4,7 +4,7 @@ abstract class UserParams {
     public static $defaultUserRemainingTries = 5;
     public static $defaultUserCredits = 1000;
     public static $intervalBonusCreditsReceiveTime = 41400;
-    public static $bonusCreditsReceive = 10;
+    public static $bonusCreditsReceive = 25;
     public static $intervalFriendsBonusCreditsReceiveTime = 84600;
     public static $userFriendsBonusCreditsMultiplier = 2;
 }
@@ -245,12 +245,12 @@ abstract class Market {
     ];
     private static $helpPack01 = [
         'price' => [
-            'vk' => 5,
+            'vk' => 1,
         ],
         'reward' => [
             'increase' => [
                 'remainingTries' => 5,
-                'credits' => 300,
+                'credits' => 600,
             ],
         ],
         'photo' => 'helpPack01',
@@ -284,68 +284,68 @@ abstract class Market {
         ],
         'reward' => [
             'increase' => [
-                'credits' => 70,
+                'credits' => 140,
             ],
         ],
         'photo' => 'creditsPack01',
         'title' => [
-            'ru' => '70 золотых монет',
+            'ru' => '130 золотых монет',
         ],
     ];
     private static $creditsPack02 = [
         'price' => [
-            'vk' => 4,
+            'vk' => 2,
         ],
         'reward' => [
             'increase' => [
-                'credits' => 300,
+                'credits' => 650,
             ],
         ],
         'photo' => 'creditsPack02',
         'title' => [
-            'ru' => '300 золотых монет',
+            'ru' => '650 золотых монет',
         ],
     ];
     private static $creditsPack03 = [
         'price' => [
-            'vk' => 18,
-        ],
-        'reward' => [
-            'increase' => [
-                'credits' => 1500,
-            ],
-        ],
-        'photo' => 'creditsPack03',
-        'title' => [
-            'ru' => '1500 золотых монет',
-        ],
-    ];
-    private static $creditsPack04 = [
-        'price' => [
-            'vk' => 34,
+            'vk' => 9,
         ],
         'reward' => [
             'increase' => [
                 'credits' => 3000,
             ],
         ],
-        'photo' => 'creditsPack04',
+        'photo' => 'creditsPack03',
         'title' => [
             'ru' => '3000 золотых монет',
         ],
     ];
-    private static $creditsPack05 = [
+    private static $creditsPack04 = [
         'price' => [
-            'vk' => 79,
+            'vk' => 16,
         ],
         'reward' => [
             'increase' => [
-                'credits' => 8000,
+                'credits' => 6000,
+            ],
+        ],
+        'photo' => 'creditsPack04',
+        'title' => [
+            'ru' => '6000 золотых монет',
+        ],
+    ];
+    private static $creditsPack05 = [
+        'price' => [
+            'vk' => 34,
+        ],
+        'reward' => [
+            'increase' => [
+                'credits' => 16000,
             ],
         ],
         'photo' => 'creditsPack05',
         'title' => [
-            'ru' => '8000 золотых монет',
+            'ru' => '16000 золотых монет',
         ],
     ];
 

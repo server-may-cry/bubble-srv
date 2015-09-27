@@ -74,7 +74,7 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
     }
     if( $timestamp - $user->friendsBonusCreditsTime > UserParams::$intervalFriendsBonusCreditsReceiveTime) {
         $user->friendsBonusCreditsTime = $timestamp;
-        $userFriendsBonusCredits = ( $req->appFriends + 1 ) * UserParams::$userFriendsBonusCreditsMultiplier;
+        $userFriendsBonusCredits = 5 + $req->appFriends * UserParams::$userFriendsBonusCreditsMultiplier;
         $user->credits += $userFriendsBonusCredits;
     }
     R::store($user);
