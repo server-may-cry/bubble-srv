@@ -250,7 +250,7 @@ abstract class Market {
         'reward' => [
             'increase' => [
                 'remainingTries' => 5,
-                'credits' => 600,
+                'credits' => 650,
             ],
         ],
         'photo' => 'helpPack01',
