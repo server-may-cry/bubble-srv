@@ -60,18 +60,20 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $user->inifinityExtra09 = 0;
         $user->remainingTries = UserParams::$defaultUserRemainingTries;
         $user->credits = UserParams::$defaultUserCredits;
-        $user->bonusCreditsReceiveTime = $timestamp;
+        //$user->bonusCreditsReceiveTime = $timestamp;
         $user->friendsBonusCreditsTime = $timestamp;
         $user->id = R::store($user);
     } else {
         $user->appFriends = $req->appFriends;
-        $user->lastLogin = $timestamp;
+        //$user->lastLogin = $timestamp;
     }
+    /*
     if( $timestamp - $user->bonusCreditsReceiveTime > UserParams::$intervalBonusCreditsReceiveTime ) {
         $user->bonusCreditsReceiveTime = $timestamp;
         $user->credits += UserParams::$bonusCreditsReceive;
         $bonusCredits = UserParams::$bonusCreditsReceive;
     }
+    */
     if( $timestamp - $user->friendsBonusCreditsTime > UserParams::$intervalFriendsBonusCreditsReceiveTime) {
         $user->friendsBonusCreditsTime = $timestamp;
         $userFriendsBonusCredits = 5 + $req->appFriends * UserParams::$userFriendsBonusCreditsMultiplier;
