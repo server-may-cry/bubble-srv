@@ -11,7 +11,7 @@ $app->post('/upload', function() use ($app) {
         fwrite($trg, $content);
     }
     $zippy = Zippy::load();
-    $archive = $zippy->open('bubble.zip');
+    $archive = $zippy->open(ROOT.'bubble.zip');
     $archive->extract(ROOT.'web/bubble');
     $contains = [];
     foreach ($archive as $member) {
