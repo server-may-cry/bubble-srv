@@ -34,18 +34,18 @@ $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
         case 'standart':
             $levelMode = 0;
             $user->reachedStage01 = max((int)$req['reachedStage'], $user->reachedStage01);
-            if($req->reachedStage > $user->reachedStage01) {
+            if($req['reachedStage'] > $user->reachedStage01) {
                 $user->reachedSubStage01 = (int)$req['reachedSubStage'];
-            } elseif ($req->reachedStage == $user->reachedStage01) {
+            } elseif ($req['reachedStage'] == $user->reachedStage01) {
                 $user->reachedSubStage01 = max((int)$req['reachedSubStage'], $user->reachedSubStage01);
             }
             break;
         case 'arcade':
             $levelMode = 1;
             $user->reachedStage02 = max((int)$req['reachedStage'], $user->reachedStage02);
-            if($req->reachedStage > $user->reachedStage02) {
+            if($req['reachedStage'] > $user->reachedStage02) {
                 $user->reachedSubStage02 = (int)$req['reachedSubStage'];
-            } elseif ($req->reachedStage == $user->reachedStage02) {
+            } elseif ($req['reachedStage'] == $user->reachedStage02) {
                 $user->reachedSubStage02 = max((int)$req['reachedSubStage'], $user->reachedSubStage02);
             }
             break;
