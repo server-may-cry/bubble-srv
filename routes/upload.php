@@ -5,7 +5,7 @@ use Alchemy\Zippy\Zippy;
 
 $app->post('/upload', function() use ($app) {
     $start = microtime(true);
-    $src = fopen(CDN_ROOT.'bubble.zip', 'r');
+    $src = fopen(CDN_ROOT.'bubble.zip?'.time(), 'r');
     $trg = fopen(ROOT.'bubble.zip', 'w');
     while($content = fread($src, 10240)) {
         fwrite($trg, $content);
