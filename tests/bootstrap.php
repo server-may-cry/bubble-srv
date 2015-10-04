@@ -29,7 +29,7 @@ class TestBootstrap extends WebTestCase
         $client = $this->createClient();
         $client->request('POST', $url, [], [], [], json_encode($parameters) );
 
-        $this->assertTrue($client->getResponse()->isOk());
+        $this->assertTrue($client->getResponse()->isOk(), "{$url} failed with data: ".var_export($parameters, true) );
         return json_decode( $client->getResponse()->getContent(), true );
     }
 
