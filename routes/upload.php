@@ -7,9 +7,12 @@ $app->post('/upload', function() use ($app) {
     $start = microtime(true);
     $src = fopen(CDN_ROOT.'bubble.zip?'.time(), 'r');
     $trg = fopen(ROOT.'bubble.zip', 'w');
-    while($content = fread($src, 10240)) {
-        fwrite($trg, $content);
-    }
+    //while($content = fread($src, 102400)) {
+    //    fwrite($trg, $content);
+    //}
+    stream_copy_to_stream($src, $trg);
+    fclose($src);
+    fclose($trg);
     $zippy = Zippy::load();
     $archive = $zippy->open(ROOT.'bubble.zip');
     $archive->extract(ROOT.'web/bubble');
