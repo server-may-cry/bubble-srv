@@ -3,7 +3,7 @@
 use Symfony\Component\HttpFoundation\Request;
 
 $app->post('/ReqUsersProgress', function(Request $request) use ($app) {
-    $req = (object) $request->request->all();
+    $req = $request->request->all();
 /*
 {
     "authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -11,22 +11,25 @@ $app->post('/ReqUsersProgress', function(Request $request) use ($app) {
     "msgId":"123",
     "extId":"123439103",
     "socIds":[
-        "soc0, soc1, soc2, soc3"
+        soc0, soc1, soc2, soc3
     ],
     "userId":null
 }
 */
 
-    if(!isset($req->userId))
+    if(!isset($req['userId']))
         throw new \Exception('user id not set');
-    $user = R::findOne('users', 'id = ?', [(int)$req->userId]);
+    $user = R::findOne('users', 'id = ?', [ (int)$req['userId'] ]);
 
     if($user === NULL)
-        throw new Exception("UserID: ".$req->userId.' not found');
+        throw new Exception("UserID: ".$req['userId'].' not found');
 
-    $friendsIds = explode(',',  str_replace(' ', '', $req->socIds[0]));
+    $friendsIds = $req['socIds'];
+    if(count($friendsIds) === 0) {
+        return $app->json(['usersProgress'=>array()]);
+    }
     $friends = R::find('users', 
-        ' ext_id IN ('.R::genSlots( $friendsIds ).')',
+        ' ext_id IN ('.R::genSlots( $friendsIds ).')', // TODO add sys_id filter
         $friendsIds);
     $template = ['usersProgress'=>[]];
 

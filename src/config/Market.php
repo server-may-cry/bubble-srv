@@ -1,24 +1,12 @@
 <?php
 
-abstract class UserParams {
-    public static $defaultUserRemainingTries = 5;
-    public static $defaultUserCredits = 1000;
-    public static $intervalBonusCreditsReceiveTime = 41400;
-    public static $bonusCreditsReceive = 25;
-    public static $intervalFriendsBonusCreditsReceiveTime = 84600;
-    public static $userFriendsBonusCreditsMultiplier = 2;
-}
+namespace config;
 
-abstract class IslandLevels {
-    public static $count1 = 8;
-    public static $count2 = 14;
-    public static $count3 = 14;
-    public static $count4 = 14;
-    public static $count5 = 14;
-    public static $count6 = 14;
-}
+use Silex\Application;
 
-abstract class Market {
+abstract class Market
+{
+
     private static $functions = [];
 
     public static function init()
@@ -73,7 +61,7 @@ abstract class Market {
     ];
     private static $bonus06_1 = [
         'price' => [
-            'vk' => 10,
+            'vk' => 20,
         ],
         'title' => [
             'ru' => 'Открыть следующий остров',
@@ -89,7 +77,7 @@ abstract class Market {
     ];
     private static $bonus06_2 = [
         'price' => [
-            'vk' => 10,
+            'vk' => 20,
         ],
         'title' => [
             'ru' => 'Открыть следующий остров',
@@ -245,12 +233,12 @@ abstract class Market {
     ];
     private static $helpPack01 = [
         'price' => [
-            'vk' => 1,
+            'vk' => 5,
         ],
         'reward' => [
             'increase' => [
                 'remainingTries' => 5,
-                'credits' => 650,
+                'credits' => 600,
             ],
         ],
         'photo' => 'helpPack01',
@@ -289,7 +277,7 @@ abstract class Market {
         ],
         'photo' => 'creditsPack01',
         'title' => [
-            'ru' => '130 золотых монет',
+            'ru' => '140 золотых монет',
         ],
     ];
     private static $creditsPack02 = [
@@ -375,7 +363,7 @@ abstract class Market {
         ]
     ];
 
-    public static function buy($user, $itemName, $platform = null, $paid = null)
+    public static function buy(Application $app, $user, $itemName, $platform = null, $paid = null)
     {
         if(!isset(self::$$itemName)) {
             throw new Exception("Unknown item ".$itemName);
@@ -390,9 +378,9 @@ abstract class Market {
                     call_user_func_array( self::$functions[$action], [&$user->$name, $value] );
                 }
             }
-            $user->extId = $user->extId;
+            $user->extId = $user->extId; // red bean fix
             $user->credits = max($user->credits, 0);
-            R::store($user);
+            \R::store($user);
         } else {
             // HARDCODE
             throw new Exception('This item ('.$itemName.') not configured');
@@ -417,9 +405,10 @@ abstract class Market {
         }
 
         if(isset($item['photo'])) {
-            $item['photo'] = 'http://119226.selcdn.com/bubble/productIcons/' . $item['photo'] . '.png';
+            $item['photo'] = CDN_ROOT.'productIcons/' . $item['photo'] . '.png';
         }
         return $item;
     }
+
 }
 Market::init();

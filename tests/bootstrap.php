@@ -24,7 +24,7 @@ class TestBootstrap extends WebTestCase
         parent::tearDown();
     }
 
-    protected function post($url, array $parameters)
+    protected function post($url, array $parameters = [])
     {
         $client = $this->createClient();
         $client->request('POST', $url, [], [], [], json_encode($parameters) );

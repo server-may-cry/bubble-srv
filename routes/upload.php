@@ -10,8 +10,8 @@ $app->post('/upload', function() use ($app) {
     while($content = fread($src, 10240)) {
         fwrite($trg, $content);
     }
-    $zipyy = new Zippy();
-    $archive = $zippy->open('bubble.tar');
+    $zippy = Zippy::load();
+    $archive = $zippy->open('bubble.zip');
     $archive->extract(ROOT.'web/bubble');
     $contains = [];
     foreach ($archive as $member) {
