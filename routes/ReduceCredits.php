@@ -26,7 +26,7 @@ $app->post('/ReqReduceCredits', function(Request $request) use ($app) {
     R::store($user);
 
     $template = [
-        'reqMsgId' => $req->msgId,
+        'reqMsgId' => $req['msgId'],
         'userId' => $user->id,
         'credits' => $user->credits,
     ];
