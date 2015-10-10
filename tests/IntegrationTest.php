@@ -40,8 +40,9 @@ class IntegrationTest extends TestBootstrap
 
     public function testContentUpload()
     {
-        $answer = $this->post('/upload');
-        $this->assertGreaterThan(1, count($answer), 'Empty archive?');
+        $this->post('/upload');
+        $dirElements = scandir(ROOT.'web/bubble');
+        $this->assertGreaterThan(1, count($dirElements), 'Empty archive?');
     }
 /*
     public function testReduseCredits()
