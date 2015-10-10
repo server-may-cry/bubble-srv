@@ -16,6 +16,6 @@ $app->post('/upload', function() use ($app) {
     $contains = [];
     unlink(ROOT.'bubble.zip');
     $time = microtime(true) - $start;
-    $contains[] = sprintf('Скрипт выполнялся %.4F сек.', $time);
+    $contains[] = sprintf('Скрипт выполнялся %.2F сек.', $time);
     return $app->json($contains);
 });
