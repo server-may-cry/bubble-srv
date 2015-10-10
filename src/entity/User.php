@@ -8,6 +8,8 @@ use config\UserParams;
 final class User
 {
 
+    const REDIS_KEY = 'u:%s:%d';
+
     const STRUCT = [
         'id' => '0',
         'tries' => (string) UserParams::$defaultUserRemainingTries,
@@ -15,28 +17,34 @@ final class User
         'friendsBonusCreditsTime' => (string) time(),
         'flags' => '0',
     ];
-    private $pk = ''; // save string, user primary key
+    private $firstEnter = 0;
+    private $pk = 'u::'; // save string, user primary key
     private $data = [];
 
     public function __construct(Application $app, $platform, $id)
     {
         $platform = 'VK';
         $id = (int)$id;
-        $this->pk = "{$platform}:{$id}";
+        $this->pk = sprintf(self::REDIS_KEY, $platform, $id);
         $this->data = $this->find();
     }
 
-    public function addLifes()
+    public function getIsFirstEnter()
+    {
+        return $this->firstEnter;
+    }
+
+    public function addLifes($count)
     {
 
     }
 
-    public function addCoins()
+    public function addCoins($count)
     {
 
     }
 
-    public function buyGood()
+    public function buyGood($name)
     {
 
     }
@@ -65,7 +73,8 @@ final class User
             return json_decode($user);
         }
 
-        // mew user
+        // new user
+        $this->firstEnter = 1;
         return self::STRUCT;
     }
 
@@ -82,7 +91,7 @@ final class User
 
     private function findInPG()
     {
-
+        return \R::find('users');
     }
 
 }
