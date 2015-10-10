@@ -113,6 +113,16 @@ class IntegrationTest extends TestBootstrap
         $this->assertSame($reachedLevel, $updatedUser['reachedStage01'], 'Set incorrect max level');
     }
 
+    public function testBuyProduct()
+    {
+
+    }
+
+    public function testAutoRestoreLifes()
+    {
+        
+    }
+
     private function getFirstUser()
     {
         $data = '{"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"1","msgId":"123","referer":null}';
