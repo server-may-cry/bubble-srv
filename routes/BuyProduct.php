@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use config\Market;
 
 /*
 {
@@ -25,7 +26,7 @@ $app->post('/ReqBuyProduct', function(Request $request) use ($app) {
 
     $template = [
         'productId' => $req['productId'],
-        'credits' => $user['credits'],
+        'credits' => $user->credits,
     ];
 
     return $app->json($template);
