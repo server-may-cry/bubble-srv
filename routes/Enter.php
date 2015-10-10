@@ -1,9 +1,11 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use config\IslandLevels;
+use config\UserParams;
 
 $app->post('/ReqEnter', function(Request $request) use ($app) {
-    $req = (object) $request->request->all();
+    $req = $request->request->all();
 /*
 {
     "userId":null, // Идентификатор пользователя, получается с сервера приложения при входе в систему
@@ -16,20 +18,25 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
     "referer":null
 }
 */
-    if(!isset($req->sysId))
+    if(!isset($req['sysId']))
         throw new \Exception('Social platform not set. request: '.json_encode($req));
-    if(!isset($req->extId))
+    if(!isset($req['extId']))
         throw new \Exception('Social id not set');
 
-    switch($req->extId) {
+    switch($req['sysId']) {
+        case 'test':
+            $sysId = 0;
+            break;
         case 'VK':
+            $sysId = 'VK';
+            //$sysId = 1;
             // user validation in future
             break;
         default:
-            break;
+            throw new \Exception('Unknown platform '.$req['sysId']);
     }
 
-    $user = R::findOne('users', 'sys_id = ? AND ext_id = ?', [$req->sysId, $req->extId]);
+    $user = R::findOne('users', 'sys_id = ? AND ext_id = ?', [ $sysId, $req['extId'] ]);
 
     $bonusCredits = 0;
     $userFriendsBonusCredits = 0;
@@ -38,11 +45,11 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
     if($user === NULL) {
         $firstGame = 1;
         $user = R::dispense('users');
-        $user->sysId = $req->sysId;
-        $user->extId = $req->extId;
-        $user->referer = $req->referer;
-        $user->srcExtId = $req->srcExtId;
-        $user->appFriends = $req->appFriends;
+        $user->sysId = $sysId;
+        $user->extId = $req['extId'];
+        $user->referer = $req['referer'];
+        $user->srcExtId = $req['srcExtId'];
+        $user->appFriends = $req['appFriends'];
         $user->reachedStage01 = 0;
         $user->reachedSubStage01 = 0;
         $user->reachedStage02 = 0;
@@ -60,23 +67,14 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $user->inifinityExtra09 = 0;
         $user->remainingTries = UserParams::$defaultUserRemainingTries;
         $user->credits = UserParams::$defaultUserCredits;
-        //$user->bonusCreditsReceiveTime = $timestamp;
         $user->friendsBonusCreditsTime = $timestamp;
         $user->id = R::store($user);
     } else {
-        $user->appFriends = $req->appFriends;
-        //$user->lastLogin = $timestamp;
+        $user->appFriends = $req['appFriends'];
     }
-    /*
-    if( $timestamp - $user->bonusCreditsReceiveTime > UserParams::$intervalBonusCreditsReceiveTime ) {
-        $user->bonusCreditsReceiveTime = $timestamp;
-        $user->credits += UserParams::$bonusCreditsReceive;
-        $bonusCredits = UserParams::$bonusCreditsReceive;
-    }
-    */
     if( $timestamp - $user->friendsBonusCreditsTime > UserParams::$intervalFriendsBonusCreditsReceiveTime) {
         $user->friendsBonusCreditsTime = $timestamp;
-        $userFriendsBonusCredits = 5 + $req->appFriends * UserParams::$userFriendsBonusCreditsMultiplier;
+        $userFriendsBonusCredits = 5 + $req['appFriends'] * UserParams::$userFriendsBonusCreditsMultiplier;
         $user->credits += $userFriendsBonusCredits;
     }
     R::store($user);
@@ -91,14 +89,14 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
     ];
 
     $template = [
-        'reqMsgId'=>$req->msgId,
+        'reqMsgId'=>$req['msgId'],
         'userId'=>$user->id,
         'reachedStage01'=>$user->reachedStage01, // Идентификатор уровня, до которого пользователь доиграл за все время игры в стандартном моде
         'reachedStage02'=>$user->reachedStage02, // Идентификатор подуровня, до которого пользователь доиграл за все время игры в стандартном моде
         'reachedSubStage01'=>$user->reachedSubStage01, // Идентификатор уровня, до которого пользователь доиграл за все время игры в аркадном моде
         'reachedSubStage02'=>$user->reachedSubStage02, // Идентификатор подуровня, до которого пользователь доиграл за все время игры в аркадном моде
         'ignoreSavePointBlock'=>$user->ignoreSavePointBlock, //  Может принимать значения 0 и 1
-        'remainingTries'=>$user->remainingTries,
+        'remainingTries'=>max($user->remainingTries, 0),
         'credits'=>max($user->credits,0),
         'inifinityExtra00'=>$user->inifinityExtra00, // Целое положительное число
         'inifinityExtra01'=>$user->inifinityExtra01, // Целое положительное число
@@ -132,33 +130,25 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
                 $key = 'subStagesRecordStats02';
                 break;
             default:
-                error_log('Unknown game type in DB: ' . $star->levelMode);
+                error_log('error: Unknown game type in DB: '.$star->levelMode);
                 continue 2;
-                //throw new Exception('Unknown game type in DB: ' . $star->levelMode);
         }
         $template [ $key ] [ $star->currentStage ] [ $star->completeSubStage ] = $star->completeSubStageRecordStat;
     }
 
-    $redis_exist = strlen(getenv('REDISCLOUD_URL'));
-    if ($redis_exist) {
-        $redis_p = parse_url(getenv('REDISCLOUD_URL'));
-        $redis = new Predis\Client([
-            'host' => $redis_p['host'],
-            'port' => $redis_p['port'],
-            'password' => $redis_p['pass'],
-        ]);
-    }
 
-    $redisStandartLevels = $redis->hgetall('standart_levels');
-    if($redis_exist and count($redisStandartLevels) ) {
+    $redisStandartLevels = [];
+    if(isset($app['predis'])) {
+        $redisStandartLevels = $app['predis']->hgetall('standart_levels');
+    }
+    if(count($redisStandartLevels) ) {
         $template['stagesProgressStat01'] = array_map('intval', array_values($redisStandartLevels) );
     } else {
         $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from users
             where reached_stage01 > 0
          group by reached_stage01 order by reached_stage01 desc;');
         $usersProgresStandart = [];
-        $i = null;
-        $playersCount = null;
+        $prevC = 0;
         foreach($usersProgresStandartRaw as $row) {
             if(count($usersProgresStandart) == 0) {
                 $usersProgresStandart[] = $row['count'];
@@ -177,26 +167,28 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $usersProgresStandart[] = $prevC;
         $usersProgresStandart = array_reverse($usersProgresStandart);
         $template['stagesProgressStat01'] = $usersProgresStandart;
-        if($redis_exist and count($usersProgresStandart)) {
+        if(isset($app['predis']) and count($usersProgresStandart)) {
             $toRedis = [];
             foreach($usersProgresStandart as $k => $count) {
                 $toRedis[ (string)$k ] = (string)$count;
             }
-            $redis->hmset('standart_levels', $toRedis);
-            $redis->expire('standart_levels', 3600); // 1 hour
+            $app['predis']->hmset('standart_levels', $toRedis);
+            $app['predis']->expire('standart_levels', REDIS_CACHE_TIME_ISLANDS);
         }
     }
 
-    $redisArcadeLevels = $redis->hgetall('arcade_levels');
-    if($redis_exist and count($redisArcadeLevels) ) {
+    $redisArcadeLevels = [];
+    if(isset($app['predis'])) {
+        $redisArcadeLevels = $app['predis']->hgetall('arcade_levels');
+    }
+    if(count($redisArcadeLevels) ) {
         $template['stagesProgressStat02'] = array_map('intval', array_values($redisArcadeLevels) );
     } else {
         $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from users
             where reached_stage02 > 0
          group by reached_stage02 order by reached_stage02 desc;');
         $usersProgresArcade = [];
-        $i = null;
-        $playersCount = 0;
+        $prevC = 0;
         foreach($usersProgresArcadeRaw as $row) {
             if(count($usersProgresArcade) == 0) {
                 $usersProgresArcade[] = $row['count'];
@@ -215,13 +207,13 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $usersProgresArcade[] = $prevC;
         $usersProgresArcade = array_reverse($usersProgresArcade);
         $template['stagesProgressStat02'] = $usersProgresArcade;
-        if($redis_exist and count($usersProgresArcade)) {
+        if(isset($app['predis']) and count($usersProgresArcade)) {
             $toRedis = [];
             foreach($usersProgresArcade as $k => $count) {
                 $toRedis[ (string)$k ] = (string)$count;
             }
-            $redis->hmset('arcade_levels', $toRedis);
-            $redis->expire('arcade_levels', 3600); // 1 hour
+            $app['predis']->hmset('arcade_levels', $toRedis);
+            $app['predis']->expire('arcade_levels', REDIS_CACHE_TIME_ISLANDS);
         }
     }
 

@@ -1,27 +1,12 @@
 <?php
-require_once __DIR__ . '/global.php';
-require_once ROOT . 'src/gameConfig.php'; // Game constants
-require_once ROOT . 'vendor/autoload.php'; // Composer Autoloader
-require_once ROOT . 'rb.php'; // RedBeanPHP 4
+require_once __DIR__ .'/global.php';
+require_once ROOT.'vendor/autoload.php'; // Composer Autoloader
+require_once ROOT.'src/db.php';
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
 $app = new Application();
-
-// http://redbeanphp.com/
-$dburl = getenv('DATABASE_URL');
-if(strlen($dburl)>0) {
-    $dbopts = parse_url($dburl);
-    R::setup('pgsql:dbname='.ltrim($dbopts["path"],'/').';host='.$dbopts["host"].';port='.$dbopts["port"], $dbopts["user"], $dbopts["pass"]);
-} else {
-    $opened = R::testConnection();
-    if(!$opened) { // for unittest prevent multiple connection
-        R::setup(); // SQLite in memory
-    }
-}
-R::setAutoResolve( true );
-
 $app->error( function (Exception $exception, $code) use ($app) {
     if($app['debug']) {
         throw $exception;
@@ -33,21 +18,24 @@ $app->error( function (Exception $exception, $code) use ($app) {
             'line' => $exception->getLine(),
         ];
         if(getenv('ENV_NAME') === 'production') {
-            Rollbar::init(array('access_token' => getenv('ROLLBAR_ACCESS_TOKEN')));
+            Rollbar::init(array(
+                'access_token' => getenv('ROLLBAR_ACCESS_TOKEN'),
+                'root' => '/app',
+            ));
             Rollbar::report_exception($exception);
         }
         return $app->json($data, $code);
     }
 });
 
+$redis_exist = strlen(getenv('REDISCLOUD_URL'));
+if ($redis_exist) {
+    $app['predis'] = $redis;
+}
+
 $app->before(function (Request $request) {
     $data = json_decode($request->getContent(), true);
     $request->request->replace( is_array($data) ? $data : [] );
-});
-
-// Throw Exceptions for everything so we can see the errors
-set_error_handler(function ($errno, $errstr, $errfile, $errline ) {
-    throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
 });
 
 // Require all paths/routes
