@@ -14,9 +14,6 @@ $app->post('/upload', function() use ($app) {
     $archive = $zippy->open(ROOT.'bubble.zip');
     $archive->extract(ROOT.'web/bubble');
     $contains = [];
-    //foreach ($archive as $member) {
-    //    $contains[] = (string) $member;
-    //}
     unlink(ROOT.'bubble.zip');
     $time = microtime(true) - $start;
     $contains[] = sprintf('Скрипт выполнялся %.4F сек.', $time);
