@@ -25,11 +25,11 @@ class IntegrationTest extends TestBootstrap
         $this->assertArraySubset([],$answer);
         $this->assertGreaterThan(0, $answer['userId'], 'Incorrect user id');
 
-        $data = '{"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"1","msgId":"123","referer":null}';
-        $data = json_decode($data, true);
-        $answer2 = $this->post('/ReqEnter', $data);
-        $this->assertSame( (int)$answer2['userId'], $answer['userId'], 'Duplicate user');
-        $this->assertNotSame( $answer['userId'], $answer2['userId'], 'Not this user id');
+        $answer2 = $this->getFirstUser();
+        $this->assertSame( (int)$answer2['userId'], (int)$answer['userId'], 'Duplicate user');
+        
+        $answer3 = $this->getSecondUser();
+        $this->assertNotSame( (int)$answer['userId'], (int)$answer3['userId'], 'Not this user id');
     }
 
     public function testContentUpload()
@@ -76,11 +76,15 @@ class IntegrationTest extends TestBootstrap
     public function testUsersProgress()
     {
         $user = $this->getFirstUser();
+        $friend = $this->getSecondUser();
         $answ = $this->post('/ReqUsersProgress', [
             'userId' => $user['userId'],
-            'socIds' => [ $user['userId'] ],
+            'socIds' => [
+                $user['userId'],
+                $friend['userId'],
+            ],
         ]);
-        $this->assertSame(1, count($answ['usersProgress']), 'Incorrect answer length');
+        $this->assertSame(2, count($answ['usersProgress']), 'Incorrect answer length');
     }
 
     public function testSavePlayerProgress()
@@ -112,6 +116,13 @@ class IntegrationTest extends TestBootstrap
     private function getFirstUser()
     {
         $data = '{"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"1","msgId":"123","referer":null}';
+        $data = json_decode($data, true);
+        return $this->post('/ReqEnter', $data);
+    }
+
+    private function getSecondUser()
+    {
+        $data = '{"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"2","msgId":"123","referer":null}';
         $data = json_decode($data, true);
         return $this->post('/ReqEnter', $data);
     }
