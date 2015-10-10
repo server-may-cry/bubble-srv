@@ -21,7 +21,7 @@ $app->post('/ReqReduceCredits', function(Request $request) use ($app) {
     if($user === NULL)
         throw new Exception("UserID: ".$req['userId'].' not found');
 
-    $user->credits -= max( $req->amount, 0 );
+    $user->credits -= max( $req['amount'], 0 );
 
     R::store($user);
 
