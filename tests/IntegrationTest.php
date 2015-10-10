@@ -21,61 +21,68 @@ class IntegrationTest extends TestBootstrap
 
     public function testNewUser()
     {
+        $answer = $this->getFirstUser();
+        $this->assertArraySubset([],$answer);
+        $this->assertGreaterThan(0, $answer['userId'], 'Incorrect user id');
+
         $data = '{"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"1","msgId":"123","referer":null}';
         $data = json_decode($data, true);
-
-        $answer = $this->post('/ReqEnter', $data);
-        $this->assertArraySubset([],$answer);
-        $userID = $answer['userId']; // next tests
-
         $answer2 = $this->post('/ReqEnter', $data);
-
         $this->assertSame( (int)$answer2['userId'], $answer['userId'], 'Duplicate user');
-
-        $data2 = '{"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"2","msgId":"123","referer":null}';
-        $data2 = json_decode($data2, true);
-        $answer3 = $this->post('/ReqEnter', $data2);
-        $this->assertNotSame( $answer3['userId'], $answer2['userId'], 'Not this user id');
+        $this->assertNotSame( $answer['userId'], $answer2['userId'], 'Not this user id');
     }
 
     public function testContentUpload()
     {
         $this->post('/upload');
         $dirElements = scandir(ROOT.'web/bubble');
-        $this->assertGreaterThan(1, count($dirElements), 'Empty archive?');
+        $this->assertGreaterThan(1, count($dirElements), 'Empty archive');
     }
-/*
+
+    public function testReduseTries()
+    {
+        $user = $this->getFirstUser();
+        $answ = $this->post('/ReqReduceTries', [
+            'userId' => $user['userId'],
+        ]);
+        $this->assertSame($user['remainingTries']-1, $answ[0], 'Tries not redused');
+    }
+
     public function testReduseCredits()
     {
-        $reachedLevel = 40;
-        $data = [
-            "authKey" => "83db68e3e1524c2e62e6dc67b38bc38c",
-            "sysId" => "test",
-            "extId" => "1234",
-            "amount" => "2",
-            "msgId" => "123",
-            "userId" => $userID,
-            "appFriends" =>"0",
-        ];
-
-        $answer0 = $this->post('/ReqEnter', $data);
-        $answer = curl('ReqReduceCredits', $data);
-        if($answer !== NULL){
-            $answer2 = curl('ReqEnter', $data);
-            if($answer2 !== null) {
-                if($answer2->credits >= $answer0->credits)
-                    echo '"ReqEnter" credits not dicreased ('.$answer0->credits.')'.PHP_EOL;
-                else
-                    echo '. ';
-            } else {
-                'reqenter after reduce credits problem';
-            }
-        }
+        $spentCreditsCount = 10;
+        $user = $this->getFirstUser();
+        $answ = $this->post('/ReqReduceCredits', [
+            'userId' => $user['userId'],
+            'amount' => $spentCreditsCount,
+        ]);
+        $this->assertSame($user['credits']-$spentCreditsCount, $answ['credits'], 'Credits not redused');
     }
-/*
+
+    public function testBuyProduct()
+    {
+        $user = $this->getFirstUser();
+        $answ = $this->post('/ReqReduceCredits', [
+            'userId' => $user['userId'],
+            'amount' => 10,
+        ]);
+        $this->assertSame($user['credits']-10, $answ['credits'], 'Credits not redused');
+    }
+
+    public function testUsersProgress()
+    {
+        $user = $this->getFirstUser();
+        $answ = $this->post('/ReqUsersProgress', [
+            'userId' => $user['userId'],
+            'socIds' => [ $user['userId'] ],
+        ]);
+        $this->assertSame(1, count($answ['usersProgress']), 'Incorrect answer length');
+    }
+
     public function testSavePlayerProgress()
     {
-        $reschedLevel = 20;
+        $user = $this->getFirstUser();
+        $reachedLevel = 20;
         $data = '{
             "isTest":true,
             "authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -84,24 +91,25 @@ class IntegrationTest extends TestBootstrap
             "extId":"1234",
             "reachedSubStage":"10",
             "currentStage":"20",
-            "reachedStage":"'.$reschedLevel.'",
+            "reachedStage":"'.$reachedLevel.'",
             "completeSubStage":"40",
             "completeSubStageRecordStat":"40",
             "levelMode":"standart",
-            "userId":'.$userID.',
+            "userId":'.$user['userId'].',
             "appFriends":"0"
         }';
 
-        $answer = curl('ReqSavePlayerProgress', $data);
-        if($answer !== NULL){
-            $answer2 = curl('ReqEnter', $data);
-            if($answer2 !== NULL){
-                if($answer2->reachedStage01 != $reschedLevel)
-                    echo '"ReqSavePlayerProgress" progres not updated'.PHP_EOL;
-            } else {
-                echo ' regEnter after save progress problem';
-            }
-        }
+        $answer = $this->post('/ReqSavePlayerProgress', $data);
+        $updatedUser = $this->getFirstUser();
+        $this->assertNotSame($updatedUser['reachedStage01'], $user['reachedStage01'], 'Not updated progress');
+        $this->assertSame($reachedLevel, $updatedUser['reachedStage01'], 'Set incorrect max level');
     }
-*/
+
+    private function getFirstUser()
+    {
+        $data = '{"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"1","msgId":"123","referer":null}';
+        $data = json_decode($data, true);
+        return $this->post('/ReqEnter', $data);
+    }
+
 }
