@@ -1,5 +1,7 @@
 <?php
 
+use config\Market;
+
 /*
 {
     "app_id":"4890xxx",
@@ -79,7 +81,7 @@ $app->post('/vk_pay', function() use ($app) {
                     if(!is_object($user)) {
                         throw new Exception('Vk pay user not found');
                     }
-                    Market::buy($user, $input['item'], 'vk');
+                    Market::buy($app, $user, $input['item'], 'vk');
                     
                     // Код проверки товара, включая его стоимость
                     // fake id

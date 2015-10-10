@@ -19,50 +19,41 @@ class IntegrationTest extends TestBootstrap
         $this->assertArraySubset(['asd'=>'zxc'], $response);
     }
 
-    public function testTest2InitialPage()
-    {
-        $response = $this->post('/', ['asd'=>'zxc']);
-
-        $this->assertArraySubset(['asd'=>'zxc'], $response);
-    }
-/*
     public function testNewUser()
     {
-        $data = '{"isTest":true,"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"1234","msgId":"123","referer":null}';
+        $data = '{"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"1","msgId":"123","referer":null}';
         $data = json_decode($data, true);
 
-        $answer = $this->post('ReqEnter', $data);
-        if(is_object($answer)){
-            $userID = $answer->userId; // next tests
-            $answer2 = curl('ReqEnter', $data);
-            if ($answer2->userId == $answer->userId) {
-                echo '. ';
-            } else {
-                echo '"ReqEnter" duplicate user'.PHP_EOL;
-            }
-            $data2 = '{"isTest":true,"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"testooo","extId":"1234","msgId":"123","referer":null}';
-            $answer3 = curl('ReqEnter', $data2);
-            if($answer3->userId == $answer2->userId) {
-                echo '"ReqEnter" wrong user'.PHP_EOL;
-            } else
-                echo '. ';
-        } else {
-            echo '"ReqEnter" registration fail'.PHP_EOL;
-            echo $host.PHP_EOL;
-            die('Cannot continue test. There is no UserID'.PHP_EOL);
-        }
+        $answer = $this->post('/ReqEnter', $data);
+        $this->assertArraySubset([],$answer);
+        $userID = $answer['userId']; // next tests
+
+        $answer2 = $this->post('/ReqEnter', $data);
+
+        $this->assertSame( (int)$answer2['userId'], $answer['userId'], 'Duplicate user');
+
+        $data2 = '{"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"2","msgId":"123","referer":null}';
+        $data2 = json_decode($data2, true);
+        $answer3 = $this->post('/ReqEnter', $data2);
+        $this->assertNotSame( $answer3['userId'], $answer2['userId'], 'Not this user id');
+    }
+
+    public function testContentUpload()
+    {
+        $answer = $this->post('/upload');
+        $this->assertGreaterThan(1, count($answer), 'Empty archive?');
     }
 /*
     public function testReduseCredits()
     {
-        $reschedLevel = 40;
+        $reachedLevel = 40;
         $data = [
             "authKey" => "83db68e3e1524c2e62e6dc67b38bc38c",
-            "sysId" =>"test",
-            "extId" =>"1234",
-            "amount" =>"2",
-            "msgId" =>"123",
-            "userId" =>'.$userID.',
+            "sysId" => "test",
+            "extId" => "1234",
+            "amount" => "2",
+            "msgId" => "123",
+            "userId" => $userID,
             "appFriends" =>"0",
         ];
 
@@ -80,7 +71,7 @@ class IntegrationTest extends TestBootstrap
             }
         }
     }
-
+/*
     public function testSavePlayerProgress()
     {
         $reschedLevel = 20;

@@ -3,7 +3,7 @@
 use Symfony\Component\HttpFoundation\Request;
 
 $app->post('/ReqReduceTries', function(Request $request) use ($app) {
-    $req = (object) $request->request->all();
+    $req = $request->request->all();
 /*
 {
     "authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
@@ -13,12 +13,12 @@ $app->post('/ReqReduceTries', function(Request $request) use ($app) {
     "userId":null
 }
 */
-    if(!isset($req->userId))
+    if(!isset($req['userId']))
         throw new \Exception('user id not set');
-    $user = R::findOne('users', 'id = ?', [(int)$req->userId]);
+    $user = R::findOne('users', 'id = ?', [ (int)$req['userId'] ]);
 
     if($user === NULL)
-        throw new Exception("UserID: ".$req->userId.' not found');
+        throw new Exception("UserID: ".$req['userId'].' not found');
 
     $user->remainingTries = max($user->remainingTries-1, 0);
 
