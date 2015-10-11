@@ -10,6 +10,13 @@ $app->post('/upload', function() use ($app) {
     stream_copy_to_stream($src, $trg);
     fclose($src);
     fclose($trg);
+    $time = microtime(true) - $start;
+    $contains[] = sprintf('Скрипт выполнялся %.2F сек.', $time);
+    return $app->json($contains);
+});
+
+$app->post('/extract', function() use ($app) {
+    $start = microtime(true);
     $zippy = Zippy::load();
     $archive = $zippy->open(ROOT.'bubble.zip');
     $archive->extract(ROOT.'web/bubble');
