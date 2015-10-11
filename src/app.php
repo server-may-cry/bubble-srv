@@ -13,7 +13,7 @@ $app->error( function (Exception $exception, $code) use ($app) {
     } else {
         $data = [
             'error' => get_class($exception),
-            'message' => $exception->getMessage(),
+            'message' => str_replace('"', "'", $exception->getMessage()),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
         ];

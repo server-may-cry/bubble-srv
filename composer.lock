@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "22bd7a503b9b8a642fb8d81658bb0762",
+    "hash": "8fbdb9bbaea3d874f949b4ac40235f6a",
+    "content-hash": "6604cf3d67bf5319ffdb60797d946912",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -365,16 +366,16 @@
         },
         {
             "name": "rollbar/rollbar",
-            "version": "v0.13.0",
+            "version": "v0.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollbar/rollbar-php.git",
-                "reference": "f392af0c62b03d8538ef76e5da93c562c01700e4"
+                "reference": "f4ead5be5e52443f0c9e0272a0cd5813a5b3199a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/f392af0c62b03d8538ef76e5da93c562c01700e4",
-                "reference": "f392af0c62b03d8538ef76e5da93c562c01700e4",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/f4ead5be5e52443f0c9e0272a0cd5813a5b3199a",
+                "reference": "f4ead5be5e52443f0c9e0272a0cd5813a5b3199a",
                 "shasum": ""
             },
             "require": {
@@ -410,7 +411,7 @@
                 "logging",
                 "monitoring"
             ],
-            "time": "2015-06-16 22:10:25"
+            "time": "2015-07-29 00:03:24"
         },
         {
             "name": "silex/silex",
