@@ -93,7 +93,7 @@ abstract class Market
     ];
     private static $infExt00Lvl3 = [
         'price' => [
-            'vk' => 5,
+            'vk' => 1,
         ],
         'reward' => [
             'set' => [
@@ -107,7 +107,7 @@ abstract class Market
     ];
     private static $infExt01Lvl2 = [
         'price' => [
-            'vk' => 5,
+            'vk' => 1,
         ],
         'reward' => [
             'set' => [
@@ -121,7 +121,7 @@ abstract class Market
     ];
     private static $infExt02Lvl1 = [
         'price' => [
-            'vk' => 15,
+            'vk' => 3,
         ],
         'reward' => [
             'set' => [
@@ -135,7 +135,7 @@ abstract class Market
     ];
     private static $infExt03Lvl2 = [
         'price' => [
-            'vk' => 10,
+            'vk' => 2,
         ],
         'reward' => [
             'set' => [
@@ -149,7 +149,7 @@ abstract class Market
     ];
     private static $infExt04Lvl1 = [
         'price' => [
-            'vk' => 15,
+            'vk' => 3,
         ],
         'reward' => [
             'set' => [
@@ -163,7 +163,7 @@ abstract class Market
     ];
     private static $infExt05Lvl2 = [
         'price' => [
-            'vk' => 10,
+            'vk' => 2,
         ],
         'reward' => [
             'set' => [
@@ -177,7 +177,7 @@ abstract class Market
     ];
     private static $infExt06Lvl1 = [
         'price' => [
-            'vk' => 15,
+            'vk' => 3,
         ],
         'reward' => [
             'set' => [
@@ -191,7 +191,7 @@ abstract class Market
     ];
     private static $infExt07Lvl1 = [
         'price' => [
-            'vk' => 20,
+            'vk' => 4,
         ],
         'reward' => [
             'set' => [
@@ -205,7 +205,7 @@ abstract class Market
     ];
     private static $infExt08Lvl1 = [
         'price' => [
-            'vk' => 20,
+            'vk' => 4,
         ],
         'reward' => [
             'set' => [
@@ -219,7 +219,7 @@ abstract class Market
     ];
     private static $infExt09Lvl1 = [
         'price' => [
-            'vk' => 15,
+            'vk' => 3,
         ],
         'reward' => [
             'set' => [

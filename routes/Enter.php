@@ -47,8 +47,6 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $user = R::dispense('users');
         $user->sysId = $sysId;
         $user->extId = $req['extId'];
-        $user->referer = $req['referer'];
-        $user->srcExtId = $req['srcExtId'];
         $user->reachedStage01 = 0;
         $user->reachedSubStage01 = 0;
         $user->reachedStage02 = 0;

@@ -30,30 +30,40 @@ $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
         throw new Exception("UserID: ".$req['userId'].' not found');
 
     $levelMode = 0;
+    $needUpdate = false;
     switch($req['levelMode']) {
         case 'standart':
             $levelMode = 0;
-            $user->reachedStage01 = max((int)$req['reachedStage'], $user->reachedStage01);
             if($req['reachedStage'] > $user->reachedStage01) {
+                $needUpdate = true;
+                $user->reachedStage01 = (int)$req['reachedStage'];
                 $user->reachedSubStage01 = (int)$req['reachedSubStage'];
             } elseif ($req['reachedStage'] == $user->reachedStage01) {
-                $user->reachedSubStage01 = max((int)$req['reachedSubStage'], $user->reachedSubStage01);
+                if($req['reachedSubStage'] > $user->reachedSubStage01) {
+                    $needUpdate = true;
+                    $user->reachedSubStage01 = (int)$req['reachedSubStage'];
+                }
             }
             break;
         case 'arcade':
             $levelMode = 1;
-            $user->reachedStage02 = max((int)$req['reachedStage'], $user->reachedStage02);
             if($req['reachedStage'] > $user->reachedStage02) {
+                $user->reachedStage02 = (int)$req['reachedStage'];
                 $user->reachedSubStage02 = (int)$req['reachedSubStage'];
             } elseif ($req['reachedStage'] == $user->reachedStage02) {
-                $user->reachedSubStage02 = max((int)$req['reachedSubStage'], $user->reachedSubStage02);
+                if($req['reachedSubStage'] > $user->reachedSubStage02) {
+                    $needUpdate = true;
+                    $user->reachedSubStage02 = (int)$req['reachedSubStage'];
+                }
             }
             break;
         default:
             throw new Exception("Unknown level mode ".$req['levelMode']);
     }
 
-    R::store($user);
+    if($needUpdate) {
+        R::store($user);
+    }
 
     $star = R::findOne('star', 'user_id = ? AND level_mode = ? AND current_stage = ? AND complete_sub_stage = ?',
         [
