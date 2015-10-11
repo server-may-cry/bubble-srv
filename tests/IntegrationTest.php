@@ -1,5 +1,7 @@
 <?php
 
+use config\UserParams;
+
 class IntegrationTest extends TestBootstrap
 {
 
@@ -62,17 +64,6 @@ class IntegrationTest extends TestBootstrap
         $this->assertSame($user['credits']-$spentCreditsCount, $answ['credits'], 'Credits not reduced');
     }
 
-    public function testBuyProduct()
-    {
-        $user = $this->getFirstUser();
-        $answ = $this->post('/ReqReduceCredits', [
-            'userId' => $user['userId'],
-            'amount' => 10,
-            'msgId' => 1,
-        ]);
-        $this->assertSame($user['credits']-10, $answ['credits'], 'Credits not reduced');
-    }
-
     public function testUsersProgress()
     {
         $user = $this->getFirstUser();
@@ -115,12 +106,24 @@ class IntegrationTest extends TestBootstrap
 
     public function testBuyProduct()
     {
-
+        $user = $this->getFirstUser();
+        $this->post('/ReqBuyProduct', [
+            'userId' => $user['userId'],
+            'productId' => 'creditsPack01',
+        ]);
+        $updatedUser = $this->getFirstUser();
+        $this->assertGreaterThan($user['credits'], $updatedUser['credits'], 'Good not recieved');
     }
 
     public function testAutoRestoreLifes()
     {
-        
+        $user = $this->getFirstUser();
+        $this->post('/ReqReduceTries', [
+            'userId' => $user['userId'],
+        ]);
+        restoreLifes(strlen(getenv('REDISCLOUD_URL')));
+        $updatedUser = $this->getFirstUser();
+        $this->assertSame( (string) UserParams::$defaultUserRemainingTries, $updatedUser['remainingTries'], 'Lifes not restored');
     }
 
     private function getFirstUser()
