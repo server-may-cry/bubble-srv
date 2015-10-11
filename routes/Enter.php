@@ -49,7 +49,6 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $user->extId = $req['extId'];
         $user->referer = $req['referer'];
         $user->srcExtId = $req['srcExtId'];
-        $user->appFriends = $req['appFriends'];
         $user->reachedStage01 = 0;
         $user->reachedSubStage01 = 0;
         $user->reachedStage02 = 0;
@@ -69,10 +68,7 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $user->credits = UserParams::$defaultUserCredits;
         $user->friendsBonusCreditsTime = $timestamp;
         $user->id = R::store($user);
-    } else {
-        $user->appFriends = $req['appFriends'];
-    }
-    if( $timestamp - $user->friendsBonusCreditsTime > UserParams::$intervalFriendsBonusCreditsReceiveTime) {
+    } elseif( $timestamp - $user->friendsBonusCreditsTime > UserParams::$intervalFriendsBonusCreditsReceiveTime) {
         $user->friendsBonusCreditsTime = $timestamp;
         $userFriendsBonusCredits = 5 + $req['appFriends'] * UserParams::$userFriendsBonusCreditsMultiplier;
         $user->credits += $userFriendsBonusCredits;
