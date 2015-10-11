@@ -37,9 +37,6 @@ $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
             if($req['reachedStage'] > $user->reachedStage01) {
                 $needUpdate = true;
                 $user->reachedStage01 = (int)$req['reachedStage'];
-            }
-            if($req['reachedStage'] > $user->reachedStage01) {
-                $needUpdate = true;
                 $user->reachedSubStage01 = (int)$req['reachedSubStage'];
             } elseif ($req['reachedStage'] == $user->reachedStage01) {
                 if($req['reachedSubStage'] > $user->reachedSubStage01) {
@@ -52,9 +49,6 @@ $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
             $levelMode = 1;
             if($req['reachedStage'] > $user->reachedStage02) {
                 $user->reachedStage02 = (int)$req['reachedStage'];
-            }
-            if($req['reachedStage'] > $user->reachedStage02) {
-                $needUpdate = true;
                 $user->reachedSubStage02 = (int)$req['reachedSubStage'];
             } elseif ($req['reachedStage'] == $user->reachedStage02) {
                 if($req['reachedSubStage'] > $user->reachedSubStage02) {
