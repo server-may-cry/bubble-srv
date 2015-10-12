@@ -15,6 +15,7 @@ if(strlen($dburl)>0) {
 R::setAutoResolve( true );
 
 $redis_exist = strlen(getenv('REDISCLOUD_URL'));
+$redis = null;
 if ($redis_exist) {
     $redis_p = parse_url(getenv('REDISCLOUD_URL'));
     $redis = new Predis\Client([
