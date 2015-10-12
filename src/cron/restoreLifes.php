@@ -3,4 +3,4 @@
 require dirname(__DIR__).'/global.php';
 require ROOT.'src/db.php';
 
-restoreLifes($redis_exist);
+restoreLifes($redis_exist, $redis);
