@@ -1,6 +1,7 @@
 <?php
 
 require_once ROOT.'rb.php'; // RedBeanPHP 4
+require_once ROOT.'vendor/autoload.php'; // for predis client when run from cron
 
 // http://redbeanphp.com/
 $dburl = getenv('DATABASE_URL');
