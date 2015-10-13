@@ -34,6 +34,6 @@ function restoreLifes($redis_exist, $redis) {
 	}
 
 	if ($redis_exist) {
-		$redis->eval("return redis.call('del', unpack(redis.call('keys', 'remainingTries:*')))", 0, null);
+		// $redis->eval("return redis.call('del', unpack(redis.call('keys', 'remainingTries:*')))", 0, null);
 	}
 }
