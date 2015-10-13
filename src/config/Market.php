@@ -233,12 +233,12 @@ abstract class Market
     ];
     private static $helpPack01 = [
         'price' => [
-            'vk' => 5,
+            'vk' => 1,
         ],
         'reward' => [
             'increase' => [
                 'remainingTries' => 5,
-                'credits' => 600,
+                'credits' => 650,
             ],
         ],
         'photo' => 'helpPack01',
