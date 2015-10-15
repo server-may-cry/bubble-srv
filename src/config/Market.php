@@ -61,7 +61,7 @@ abstract class Market
     ];
     private static $bonus06_1 = [
         'price' => [
-            'vk' => 20,
+            'vk' => 10,
         ],
         'title' => [
             'ru' => 'Открыть следующий остров',
@@ -77,7 +77,7 @@ abstract class Market
     ];
     private static $bonus06_2 = [
         'price' => [
-            'vk' => 20,
+            'vk' => 10,
         ],
         'title' => [
             'ru' => 'Открыть следующий остров',
