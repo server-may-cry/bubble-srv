@@ -9,4 +9,5 @@ abstract class IslandLevels {
     public static $count4 = 14;
     public static $count5 = 14;
     public static $count6 = 14;
+    public static $count7 = 14;
 }

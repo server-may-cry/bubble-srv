@@ -80,6 +80,7 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         array_fill(0,IslandLevels::$count4,-1),
         array_fill(0,IslandLevels::$count5,-1),
         array_fill(0,IslandLevels::$count6,-1),
+        array_fill(0,IslandLevels::$count7,-1),
     ];
 
     $template = [
