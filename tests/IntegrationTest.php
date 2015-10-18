@@ -121,7 +121,7 @@ class IntegrationTest extends TestBootstrap
         $this->post('/ReqReduceTries', [
             'userId' => $user['userId'],
         ]);
-        restoreLifes(strlen(getenv('REDISCLOUD_URL')));
+        restoreLifes();
         $updatedUser = $this->getFirstUser();
         $this->assertSame( (string) UserParams::$defaultUserRemainingTries, $updatedUser['remainingTries'], 'Lifes not restored');
     }
