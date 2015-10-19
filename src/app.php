@@ -38,6 +38,17 @@ $app->before(function (Request $request) {
     $request->request->replace( is_array($data) ? $data : [] );
 });
 
+$app->finish(function() use ($app) {
+    if(!isset($app['predis'])) {
+        return;
+    }
+    $memory = memory_get_peak_usage(true);
+    $prevMemory = $app['predis']->get('debug:maxmemory');
+    if($prevMemory < $memory) {
+        $app['predis']->set('debug:maxmemory', $memory);
+    }
+});
+
 // Require all paths/routes
 $routes = scandir(ROUTE_ROOT);
 foreach ($routes as $route) {
