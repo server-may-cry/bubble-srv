@@ -47,7 +47,7 @@ $app->finish(function() use ($app) {
     if($prevMemory < $memory) {
         $app['predis']->set('debug:maxmemory', $memory);
     }
-})
+});
 
 // Require all paths/routes
 $routes = scandir(ROUTE_ROOT);
