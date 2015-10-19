@@ -42,7 +42,7 @@ $app->finish(function() use ($app) {
     if(!isset($app['predis'])) {
         return;
     }
-    $memory = memory_get_peak_usage();
+    $memory = memory_get_peak_usage(true);
     $prevMemory = $app['predis']->get('debug:maxmemory');
     if($prevMemory < $memory) {
         $app['predis']->set('debug:maxmemory', $memory);
