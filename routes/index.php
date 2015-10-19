@@ -11,7 +11,7 @@ $app->post('/', function(Request $request) use ($app) {
     // $request->request->get('key', 'default');
 });
 
-$app->get('/debug', function() {
+$app->get('/debug', function() use ($app) {
 	$maxMemory = $app['predis']->get('debug:maxmemory');
 	return $app->json([
 		'max_memory' => $maxMemory,
