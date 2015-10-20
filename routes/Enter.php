@@ -80,7 +80,7 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
             $needUpdate = true;
             $user->remainingTries = UserParams::$defaultUserRemainingTries;
             $user->restoreTriesAt = 0;
-        } else {
+        } elseif ($user->restoreTriesAt != 0) {
             $triesRestore = $user->restoreTriesAt - $timestamp;
         }
     }
