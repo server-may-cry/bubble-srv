@@ -28,14 +28,15 @@ $app->post('/ReqUsersProgress', function(Request $request) use ($app) {
     if(count($friendsIds) === 0) {
         return $app->json(['usersProgress'=>array()]);
     }
-    $friends = R::find('users', 
-        ' ext_id IN ('.R::genSlots( $friendsIds ).')', // TODO add sys_id filter
-        $friendsIds);
+    array_unshift($friendsIds, $user->sysId);
+    $friends = R::find(
+        'users', 
+        'sys_id = ? AND ext_id IN ('.R::genSlots( $friendsIds ).')',
+        $friendsIds
+    );
     $template = ['usersProgress'=>[]];
 
     foreach($friends as $friend) {
-        if( $user->sys_id != $friend['sys_id'] )
-            continue;
         $template['usersProgress'][] = [
             'userId' => $friend['id'],
             'socId' =>  $friend['extId'],
