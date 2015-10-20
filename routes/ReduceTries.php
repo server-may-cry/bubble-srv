@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use config\UserParams;
 
 $app->post('/ReqReduceTries', function(Request $request) use ($app) {
     $req = $request->request->all();
