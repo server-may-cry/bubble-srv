@@ -24,12 +24,3 @@ if ($redis_exist) {
         'password' => $redis_p['pass'],
     ]);
 }
-
-function restoreLifes() {
-    try{
-        $count = R::exec('update users set remaining_tries = 5 where remaining_tries < 5');
-        //error_log('users restored lifes: '.var_export($count, true) );
-    } catch (Exception $e) {
-        error_log('db exec exception '.$e->getMessage());
-    }
-}

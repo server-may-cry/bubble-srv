@@ -42,6 +42,8 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
     $userFriendsBonusCredits = 0;
     $timestamp = time();
     $firstGame = 0;
+    $needUpdate = false;
+    $triesRestore = 0;
     if($user === NULL) {
         $firstGame = 1;
         $user = R::dispense('users');
@@ -63,15 +65,28 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $user->inifinityExtra08 = 0;
         $user->inifinityExtra09 = 0;
         $user->remainingTries = UserParams::$defaultUserRemainingTries;
+        $user->restoreTriesAt = 0;
         $user->credits = UserParams::$defaultUserCredits;
         $user->friendsBonusCreditsTime = $timestamp;
         $user->id = R::store($user);
-    } elseif( $timestamp - $user->friendsBonusCreditsTime > UserParams::$intervalFriendsBonusCreditsReceiveTime) {
-        $user->friendsBonusCreditsTime = $timestamp;
-        $userFriendsBonusCredits = 50 + $req['appFriends'] * UserParams::$userFriendsBonusCreditsMultiplier;
-        $user->credits += $userFriendsBonusCredits;
+    } else {
+        if ($timestamp - $user->friendsBonusCreditsTime > UserParams::$intervalFriendsBonusCreditsReceiveTime) {
+            $needUpdate = true;
+            $user->friendsBonusCreditsTime = $timestamp;
+            $userFriendsBonusCredits = 50 + $req['appFriends'] * UserParams::$userFriendsBonusCreditsMultiplier;
+            $user->credits += $userFriendsBonusCredits;
+        }
+        if ($user->restoreTriesAt != 0 and $timestamp >= $user->restoreTriesAt) {
+            $needUpdate = true;
+            $user->remainingTries = UserParams::$defaultUserRemainingTries;
+            $user->restoreTriesAt = 0;
+        } elseif ($user->restoreTriesAt != 0) {
+            $triesRestore = $user->restoreTriesAt - $timestamp;
+        }
     }
-    R::store($user);
+    if ($needUpdate) {
+        R::store($user);
+    }
 
     $islandsLevelCount = [
         array_fill(0,IslandLevels::$count1,-1),
@@ -92,6 +107,9 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         'reachedSubStage02'=>$user->reachedSubStage02, // Идентификатор подуровня, до которого пользователь доиграл за все время игры в аркадном моде
         'ignoreSavePointBlock'=>$user->ignoreSavePointBlock, //  Может принимать значения 0 и 1
         'remainingTries'=>max($user->remainingTries, 0),
+        'triesMin'=>UserParams::$defaultUserRemainingTries,
+        'triesRegenSecondsInterval'=>UserParams::INTERVAL_TRIES_RESTORATION,
+        'secondsUntilTriesRegen'=>$triesRestore,
         'credits'=>max($user->credits,0),
         'inifinityExtra00'=>$user->inifinityExtra00, // Целое положительное число
         'inifinityExtra01'=>$user->inifinityExtra01, // Целое положительное число
