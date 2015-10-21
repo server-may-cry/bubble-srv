@@ -3,6 +3,7 @@
 namespace config;
 
 use Silex\Application;
+use config\UserParams;
 
 abstract class Market
 {
@@ -377,6 +378,9 @@ abstract class Market
                 foreach($reward as $name => $value) {
                     call_user_func_array( self::$functions[$action], [&$user->$name, $value] );
                 }
+            }
+            if($user->remainingTries >= UserParams::$defaultUserRemainingTries) {
+                $user->restoreTriesAt = 0;
             }
             $user->extId = $user->extId; // red bean fix
             $user->credits = max($user->credits, 0);
