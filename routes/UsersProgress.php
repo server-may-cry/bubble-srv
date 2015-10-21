@@ -31,11 +31,8 @@ $app->post('/ReqUsersProgress', function(Request $request) use ($app) {
 
     $friends = R::find(
         'users', 
-        'sys_id = ? AND ext_id IN ('.R::genSlots( $friendsIds ).')',
-        [
-            $user->sysId,
-            $friendsIds,
-        ]
+        'sys_id = '.$user->sysId.' AND ext_id IN ('.R::genSlots( $friendsIds ).')',
+        $friendsIds
     );
     $template = ['usersProgress'=>[]];
 
