@@ -83,9 +83,13 @@ $app->post('/vk_pay', function() use ($app) {
                     }
                     Market::buy($app, $user, $input['item'], 'vk');
                     
-                    // Код проверки товара, включая его стоимость
-                    // fake id
-                    $app_order_id = microtime(true) * 10000; // Получающийся у вас идентификатор заказа.
+                    $timestamp = time();
+                    $transaction = R::dispense('transactions');
+                    $transaction->orderId = $order_id;
+                    $transaction->createdAt = $timestamp;
+                    $transaction->userId = $user->id;
+                    $transaction->confirmedAt = $timestamp;
+                    $app_order_id = R::store($transaction);
 
                     $vk_response['response'] = [
                         'order_id' => $order_id,
