@@ -86,6 +86,7 @@ $app->post('/vk_pay', function() use ($app) {
                     $transaction = R::dispense('transactions');
                     $transaction->orderId = $order_id;
                     $transaction->createdAt = time();
+                    $transaction->userId = $user->id;
                     $app_order_id = R::store($transaction);
 
                     $vk_response['response'] = [
