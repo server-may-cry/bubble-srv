@@ -77,15 +77,19 @@ $app->post('/vk_pay', function() use ($app) {
                 // Изменение статуса заказа
                 if ($input['status'] == 'chargeable') {
                     $order_id = intval($input['order_id']);
-                    $user = R::findOne('users', 'sys_id = ? AND ext_id = ?', ["VK", $input['user_id']]);
+                    $user = R::findOne('users', 'sys_id = ? AND ext_id = ?', [1, $input['user_id']]);
                     if(!is_object($user)) {
                         throw new Exception('Vk pay user not found');
                     }
                     Market::buy($app, $user, $input['item'], 'vk');
                     
-                    // Код проверки товара, включая его стоимость
-                    // fake id
-                    $app_order_id = microtime(true) * 10000; // Получающийся у вас идентификатор заказа.
+                    $timestamp = time();
+                    $transaction = R::dispense('transactions');
+                    $transaction->orderId = $order_id;
+                    $transaction->createdAt = $timestamp;
+                    $transaction->userId = $user->id;
+                    $transaction->confirmedAt = $timestamp;
+                    $app_order_id = R::store($transaction);
 
                     $vk_response['response'] = [
                         'order_id' => $order_id,

@@ -28,8 +28,7 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
             $sysId = 0;
             break;
         case 'VK':
-            $sysId = 'VK';
-            //$sysId = 1;
+            $sysId = 1;
             // user validation in future
             break;
         default:
