@@ -83,10 +83,12 @@ $app->post('/vk_pay', function() use ($app) {
                     }
                     Market::buy($app, $user, $input['item'], 'vk');
                     
+                    $timestamp = time();
                     $transaction = R::dispense('transactions');
                     $transaction->orderId = $order_id;
-                    $transaction->createdAt = time();
+                    $transaction->createdAt = $timestamp;
                     $transaction->userId = $user->id;
+                    $transaction->confirmedAt = $timestamp;
                     $app_order_id = R::store($transaction);
 
                     $vk_response['response'] = [
