@@ -3,9 +3,8 @@
 namespace config;
 
 abstract class UserParams {
-    public static $defaultUserRemainingTries = 5;
-    public static $defaultUserCredits = 1000;
-    public static $intervalFriendsBonusCreditsReceiveTime = 84600; // 23,5 hours
+    const DEFAULT_REMAINING_TRIES = 5;
+    const DEFAULT_CREDITS = 1000;
     const INTERVAL_TRIES_RESTORATION = 3600; // 1 hour
-    public static $userFriendsBonusCreditsMultiplier = 40;
+    const FRIENDS_BONUS_CREDITS_MULTIPLIER = 40;
 }

@@ -123,7 +123,7 @@ class IntegrationTest extends TestBootstrap
         ]);
         // TODO
         $updatedUser = $this->getFirstUser();
-        $this->assertSame( (string) UserParams::$defaultUserRemainingTries, $updatedUser['remainingTries'], 'Lifes not restored');
+        $this->assertSame( (string) UserParams::DEFAULT_REMAINING_TRIES, $updatedUser['remainingTries'], 'Lifes not restored');
     }
 
     private function getFirstUser()
