@@ -63,21 +63,25 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         $user->inifinityExtra07 = 0;
         $user->inifinityExtra08 = 0;
         $user->inifinityExtra09 = 0;
-        $user->remainingTries = UserParams::$defaultUserRemainingTries;
+        $user->remainingTries = UserParams::DEFAULT_REMAINING_TRIES;
         $user->restoreTriesAt = 0;
-        $user->credits = UserParams::$defaultUserCredits;
+        $user->credits = UserParams::DEFAULT_CREDITS;
         $user->friendsBonusCreditsTime = $timestamp;
         $user->id = R::store($user);
     } else {
-        if ($timestamp - $user->friendsBonusCreditsTime > UserParams::$intervalFriendsBonusCreditsReceiveTime) {
+        if ($timestamp > $user->friendsBonusCreditsTime) {
             $needUpdate = true;
-            $user->friendsBonusCreditsTime = $timestamp;
-            $userFriendsBonusCredits = 50 + $req['appFriends'] * UserParams::$userFriendsBonusCreditsMultiplier;
+            $to = new \DateTime();
+            $to->setTime(0, 0);
+            $to->modify('+1 day');
+            $to = $to->getTimestamp();
+            $user->friendsBonusCreditsTime = $to;
+            $userFriendsBonusCredits = 50 + $req['appFriends'] * UserParams::FRIENDS_BONUS_CREDITS_MULTIPLIER;
             $user->credits += $userFriendsBonusCredits;
         }
         if ($user->restoreTriesAt != 0 and $timestamp >= $user->restoreTriesAt) {
             $needUpdate = true;
-            $user->remainingTries = UserParams::$defaultUserRemainingTries;
+            $user->remainingTries = UserParams::DEFAULT_REMAINING_TRIES;
             $user->restoreTriesAt = 0;
         } elseif ($user->restoreTriesAt != 0) {
             $triesRestore = $user->restoreTriesAt - $timestamp;
@@ -106,7 +110,7 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         'reachedSubStage02'=>$user->reachedSubStage02, // Идентификатор подуровня, до которого пользователь доиграл за все время игры в аркадном моде
         'ignoreSavePointBlock'=>$user->ignoreSavePointBlock, //  Может принимать значения 0 и 1
         'remainingTries'=>max($user->remainingTries, 0),
-        'triesMin'=>UserParams::$defaultUserRemainingTries,
+        'triesMin'=>UserParams::DEFAULT_REMAINING_TRIES,
         'triesRegenSecondsInterval'=>UserParams::INTERVAL_TRIES_RESTORATION,
         'secondsUntilTriesRegen'=>$triesRestore,
         'credits'=>max($user->credits,0),

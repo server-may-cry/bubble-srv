@@ -379,7 +379,7 @@ abstract class Market
                     call_user_func_array( self::$functions[$action], [&$user->$name, $value] );
                 }
             }
-            if($user->remainingTries >= UserParams::$defaultUserRemainingTries) {
+            if($user->remainingTries >= UserParams::DEFAULT_REMAINING_TRIES) {
                 $user->restoreTriesAt = 0;
             }
             $user->extId = $user->extId; // red bean fix
