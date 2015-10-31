@@ -81,7 +81,7 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
         }
         if ($user->restoreTriesAt != 0 and $timestamp >= $user->restoreTriesAt) {
             $needUpdate = true;
-            $user->remainingTries = UserParams::DEFAULT_REMAINING_TRIES;
+            $user->remainingTries = max($user->remainingTries, UserParams::DEFAULT_REMAINING_TRIES);
             $user->restoreTriesAt = 0;
         } elseif ($user->restoreTriesAt != 0) {
             $triesRestore = $user->restoreTriesAt - $timestamp;
