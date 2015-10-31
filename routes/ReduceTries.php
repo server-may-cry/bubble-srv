@@ -23,7 +23,7 @@ $app->post('/ReqReduceTries', function(Request $request) use ($app) {
 
     $timestamp = time();
     if ($user->restoreTriesAt != 0 and $timestamp >= $user->restoreTriesAt) {
-        $user->remainingTries = UserParams::DEFAULT_REMAINING_TRIES;
+        $user->remainingTries = max($user->remainingTries, UserParams::DEFAULT_REMAINING_TRIES);
     }
 
     $user->remainingTries = max($user->remainingTries-1, 0);
