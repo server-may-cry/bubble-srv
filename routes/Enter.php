@@ -29,6 +29,9 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
             break;
         case 'VK':
             $sysId = 1;
+            if($req['authKey'] !== md5(getenv('VK_APP_ID').'_'.$req['extId'].'_'.getenv('VK_SECRET'))) {
+                throw new \Exception("Invalid auth key");
+            }
             // user validation in future
             break;
         default:
