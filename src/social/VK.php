@@ -17,6 +17,7 @@ class VK
             var_dump($result);
             self::$token = json_decode($result, true)['access_token'];
         }
+        $params['access_token'] = self::$token;
         curl_setopt(
             self::$ch,
             CURLOPT_URL,
