@@ -14,10 +14,10 @@ class VK
         }
         if(!self::$token) {
             $result = file_get_contents('https://oauth.vk.com/access_token?client_id='.getenv('VK_APP_ID').'&client_secret='.getenv('VK_SECRET').'&v=5.37&grant_type=client_credentials');
-            var_dump($result);
             self::$token = json_decode($result, true)['access_token'];
         }
         $params['access_token'] = self::$token;
+        var_dump($params);
         curl_setopt(
             self::$ch,
             CURLOPT_URL,
