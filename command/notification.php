@@ -2,7 +2,7 @@
 
 use social\VK;
 
-require __DIR__.'../src/app.php';
+require __DIR__.'/../src/app.php';
 
 $users = R::findCollection('users', 'sys_id = ?', [1]);
 $ids = [];
