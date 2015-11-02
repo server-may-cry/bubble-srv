@@ -5,11 +5,17 @@ namespace social;
 class VK
 {
     private static $ch;
+    private static $token;
     const URL = 'https://api.vk.com/method/';
     private static function send($method, array $params)
     {
         if(!self::$ch) {
             self::$ch = curl_init();
+        }
+        if(!self::$token) {
+            $result = file_get_contents('https://oauth.vk.com/access_token?client_id='.getenv('VK_APP_ID').'&client_secret='.getenv('VK_SECRET').'&v=5.37&grant_type=client_credentials');
+            var_dump($result);
+            self::$token = json_decode($result, true)['access_token'];
         }
         curl_setopt(
             self::$ch,
