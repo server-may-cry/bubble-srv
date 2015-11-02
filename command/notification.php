@@ -15,11 +15,13 @@ $msg =  $map[$argv[1]];
 
 $users = R::findCollection('users', 'sys_id = ?', [1]);
 $ids = [];
+$r = null;
 while($user = $users->next()) {
     $ids[] = $user->extId;
     if(count($ids) == 200) {
-        VK::sendNotification($ids, $msg);
+        $r = VK::sendNotification($ids, $msg);
         $ids = [];
     }
 }
+var_dump($r);
 VK::sendNotification($ids, $msg);
