@@ -20,8 +20,9 @@ while($user = $users->next()) {
     $ids[] = $user->extId;
     if(count($ids) == 200) {
         $r = VK::sendNotification($ids, $msg);
+        var_dump($r);
         $ids = [];
     }
 }
+$r = VK::sendNotification($ids, $msg);
 var_dump($r);
-VK::sendNotification($ids, $msg);
