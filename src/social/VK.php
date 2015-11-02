@@ -21,12 +21,12 @@ class VK
             self::$ch,
             CURLOPT_URL,
             static::URL.$method.'?'.http_build_query($params)
-        )
+        );
         curl_setopt(
             self::$ch,
             CURLOPT_RETURNTRANSFER,
             true
-        )
+        );
         return curl_exec(self::$ch);
     }
 
