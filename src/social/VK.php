@@ -18,7 +18,6 @@ class VK
         }
         $params['access_token'] = self::$token;
         $params['client_secret'] = getenv('VK_SECRET');
-        var_dump($params);
         curl_setopt(
             self::$ch,
             CURLOPT_URL,
