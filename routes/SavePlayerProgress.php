@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use social\VK;
 
 $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
     $req = $request->request->all();
@@ -82,6 +83,51 @@ $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
         $star->completeSubStage = (int)$req['completeSubStage'];
         $star->completeSubStageRecordStat = (int)$req['completeSubStageRecordStat'];
         $result = R::store($star);
+
+        // social logic
+        if($req['completeSubStageRecordStat'] > 0) {
+            // social level
+            $levelOrder = 0;
+            if($req['currentStage'] > 0) {
+                $levelOrder = $req['currentStage'] * 14 - 6;
+            }
+            $levelOrder += $req['completeSubStage'] + 1;
+            VK::setUserLevel($req['extId'], $levelOrder);
+
+            // social event (island)
+            if($req['completeSubStage'] == 14 or ($req['completeSubStage'] == 8 and $req['currentStage'] == 0)) {
+                $islandOrder = $req['currentStage']+2; // start from 0 and unlock next island
+                switch ($islandOrder) {
+                    case 1:
+                        $eventId = 0;
+                        break;
+                    case 2:
+                        $eventId = 4;
+                        break;
+                    case 3:
+                        $eventId = 5;
+                        break;
+                    case 4:
+                        $eventId = 6;
+                        break;
+                    case 5:
+                        $eventId = 7;
+                        break;
+                    case 6:
+                        $eventId = 8;
+                        break;
+                    case 7:
+                        $eventId = 9;
+                        break;
+                }
+                if($eventId == 0) {
+                    error_log('error: no eventId for '.$islandOrder.' island');
+                } else {
+                    VK::addEvent($req['extId'], $eventId);
+                }
+            }
+        }
+
         return $app->json('added ('.var_export($result, true).')');
     } elseif($star->completeSubStageRecordStat < $req['completeSubStageRecordStat']) {
         $star->completeSubStageRecordStat = (int)$req['completeSubStageRecordStat'];
