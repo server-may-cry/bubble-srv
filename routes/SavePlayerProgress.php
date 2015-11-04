@@ -95,34 +95,36 @@ $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
             VK::setUserLevel($req['extId'], $levelOrder);
 
             // social event (island)
-            $islandOrder = $req['currentStage']+1;
-            switch ($islandOrder) {
-                case 1:
-                    $eventId = 0;
-                    break;
-                case 2:
-                    $eventId = 0;
-                    break;
-                case 3:
-                    $eventId = 0;
-                    break;
-                case 4:
-                    $eventId = 0;
-                    break;
-                case 5:
-                    $eventId = 0;
-                    break;
-                case 6:
-                    $eventId = 0;
-                    break;
-                case 7:
-                    $eventId = 0;
-                    break;
-            }
-            if($eventId == 0) {
-                error_log('error: no eventId for '.$islandOrder.' island');
-            } else {
-                VK::addEvent($req['extId'], $eventId);
+            if($req['completeSubStage'] == 0) {
+                $islandOrder = $req['currentStage']+1;
+                switch ($islandOrder) {
+                    case 1:
+                        $eventId = 0;
+                        break;
+                    case 2:
+                        $eventId = 4;
+                        break;
+                    case 3:
+                        $eventId = 5;
+                        break;
+                    case 4:
+                        $eventId = 6;
+                        break;
+                    case 5:
+                        $eventId = 7;
+                        break;
+                    case 6:
+                        $eventId = 8;
+                        break;
+                    case 7:
+                        $eventId = 9;
+                        break;
+                }
+                if($eventId == 0) {
+                    error_log('error: no eventId for '.$islandOrder.' island');
+                } else {
+                    VK::addEvent($req['extId'], $eventId);
+                }
             }
         }
 
