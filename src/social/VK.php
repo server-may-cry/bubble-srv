@@ -66,7 +66,7 @@ class VK
         ]);
     }
 
-    public static function addEvent($userId, $activityId, $value)
+    public static function addEvent($userId, $activityId, $value = 0)
     {
         return self::send('secure.addAppEvent', [
             'user_id' => $userId,

@@ -92,10 +92,38 @@ $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
                 $levelOrder = $req['currentStage'] * 14 - 6;
             }
             $levelOrder += $req['completeSubStage'] + 1;
-            $r = VK::setUserLevel($req['extId'], $levelOrder);
-            error_log($r);
+            VK::setUserLevel($req['extId'], $levelOrder);
 
             // social event (island)
+            $islandOrder = $req['currentStage']+1;
+            switch ($islandOrder) {
+                case 1:
+                    $eventId = 0;
+                    break;
+                case 2:
+                    $eventId = 0;
+                    break;
+                case 3:
+                    $eventId = 0;
+                    break;
+                case 4:
+                    $eventId = 0;
+                    break;
+                case 5:
+                    $eventId = 0;
+                    break;
+                case 6:
+                    $eventId = 0;
+                    break;
+                case 7:
+                    $eventId = 0;
+                    break;
+            }
+            if($eventId == 0) {
+                error_log('error: no eventId for '.$islandOrder.' island');
+            } else {
+                VK::addEvent($req['extId'], $eventId);
+            }
         }
 
         return $app->json('added ('.var_export($result, true).')');
