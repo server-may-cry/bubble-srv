@@ -6,9 +6,17 @@ class VK
 {
     private static $ch;
     private static $token;
+    private static $testMode = false;
     const URL = 'https://api.vk.com/method/';
+    public static function setTestMode()
+    {
+        self::$testMode = true;
+    }
     private static function send($method, array $params)
     {
+        if(self::$testMode) {
+            return 'test mode';
+        }
         if(!self::$ch) {
             self::$ch = curl_init();
         }
@@ -39,7 +47,7 @@ class VK
         ]);
     }
 
-    public static function setUserLevel(array $levels)
+    public static function setUsersLevel(array $levels)
     {
         $prepare = [];
         foreach($levels as $user => $level) {
@@ -47,6 +55,14 @@ class VK
         }
         return self::send('secure.setUserLevel', [
             'levels' => implode(',', $prepare),
+        ]);
+    }
+
+    public static function setUserLevel($id, $level)
+    {
+        return self::send('secure.setUserLevel', [
+            'user_id' => $id,
+            'level' => $level,
         ]);
     }
 

@@ -5,6 +5,7 @@ $dburl = getenv('DATABASE_URL');
 if(strlen($dburl)>0) {
     die('never run unit test on production couse data los');
 }
+social\VK::setTestMode();
 
 use Silex\WebTestCase;
 

@@ -14,11 +14,11 @@ while($user = $users->next()) {
 	}
     $levels[$user->extId] = $level + $user->reachedSubStage01;
     if(count($levels) == 200) {
-        $r = VK::setUserLevel($levels);
+        $r = VK::setUsersLevel($levels);
         var_dump($r);
         $levels = [];
         sleep(1);
     }
 }
-$r = VK::setUserLevel($levels);
+$r = VK::setUsersLevel($levels);
 var_dump($r);

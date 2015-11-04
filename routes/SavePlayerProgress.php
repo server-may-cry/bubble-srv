@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use social\VK;
 
 $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
     $req = $request->request->all();
@@ -82,6 +83,20 @@ $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
         $star->completeSubStage = (int)$req['completeSubStage'];
         $star->completeSubStageRecordStat = (int)$req['completeSubStageRecordStat'];
         $result = R::store($star);
+
+        // social logic
+        if($req['completeSubStageRecordStat'] > 0) {
+            // social level
+            $levelOrder = 0;
+            if($req['currentStage'] > 0) {
+                $levelOrder = $req['currentStage'] * 14 - 6;
+            }
+            $levelOrder += $req['completeSubStage'];
+            VK::setUserLevel($req['extId'], $levelOrder);
+
+            // social event (island)
+        }
+
         return $app->json('added ('.var_export($result, true).')');
     } elseif($star->completeSubStageRecordStat < $req['completeSubStageRecordStat']) {
         $star->completeSubStageRecordStat = (int)$req['completeSubStageRecordStat'];
