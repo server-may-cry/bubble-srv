@@ -95,8 +95,8 @@ $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
             VK::setUserLevel($req['extId'], $levelOrder);
 
             // social event (island)
-            if($req['completeSubStage'] == 0) {
-                $islandOrder = $req['currentStage']+1;
+            if($req['completeSubStage'] == 14 or ($req['completeSubStage'] == 8 and $req['currentStage'] == 0)) {
+                $islandOrder = $req['currentStage']+2; // start from 0 and unlock next island
                 switch ($islandOrder) {
                     case 1:
                         $eventId = 0;
