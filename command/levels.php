@@ -8,11 +8,12 @@ require __DIR__.'/../src/app.php';
 $users = R::findCollection('users', 'sys_id = ?', [1]);
 $levels = [];
 while($user = $users->next()) {
-	$level = 0;
-	if($user->reachedStage01) {
-		$level = $user->reachedStage01 * 14 - 6;
-	}
-    $levels[$user->extId] = $level + $user->reachedSubStage01;
+    $level = 0;
+    if($user->reachedStage01) {
+        $level = $user->reachedStage01 * 14 - 6;
+    }
+    $level += $user->reachedSubStage01;
+    $levels[$user->extId] = max($level, 1);
     if(count($levels) == 200) {
         $r = VK::setUsersLevel($levels);
         var_dump($r);
