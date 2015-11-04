@@ -96,27 +96,27 @@ $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
 
             // social event (island)
             if($req['completeSubStage'] == 14 or ($req['completeSubStage'] == 8 and $req['currentStage'] == 0)) {
-                $islandOrder = $req['currentStage']+2; // start from 0 and unlock next island
+                $islandOrder = $req['currentStage'];
                 switch ($islandOrder) {
-                    case 1:
+                    case 0:
                         $eventId = 0;
                         break;
-                    case 2:
+                    case 1:
                         $eventId = 4;
                         break;
-                    case 3:
+                    case 2:
                         $eventId = 5;
                         break;
-                    case 4:
+                    case 3:
                         $eventId = 6;
                         break;
-                    case 5:
+                    case 4:
                         $eventId = 7;
                         break;
-                    case 6:
+                    case 5:
                         $eventId = 8;
                         break;
-                    case 7:
+                    case 6:
                         $eventId = 9;
                         break;
                 }
