@@ -29,7 +29,12 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
             break;
         case 'VK':
             $sysId = 1;
-            // user validation in future
+            if($req['authKey'] !== md5(getenv('VK_APP_ID').'_'.$req['extId'].'_'.getenv('VK_SECRET'))) {
+                error_log('error: invalid sign');
+                // throw new \Exception("Invalid auth key");
+            } else {
+                error_log('sign ok');
+            }
             break;
         default:
             throw new \Exception('Unknown platform '.$req['sysId']);
