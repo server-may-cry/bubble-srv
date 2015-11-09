@@ -64,7 +64,7 @@ $app->before(function (Request $request) {
             require_once ROUTE_ROOT . 'vk_pay.php';
             break;
     }
-});
+}, Application::EARLY_EVENT);
 
 $app->finish(function() use ($app) {
     if(!isset($app['predis'])) {
