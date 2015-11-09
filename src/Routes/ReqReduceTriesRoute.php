@@ -17,6 +17,7 @@ use config\UserParams;
 */
 class ReqReduceTriesRoute {
     public static function post(Application $app, Request $request) {
+        $req = $request->request->all();
         $user = findUser( $req['userId'] );
 
         $timestamp = time();

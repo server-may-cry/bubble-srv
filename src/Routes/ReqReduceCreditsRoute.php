@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 */
 class ReqReduceCreditsRoute {
     public static function post(Application $app, Request $request) {
+        $req = $request->request->all();
         $user = findUser( $req['userId'] );
 
         $user->credits -= max( $req['amount'], 0 );
