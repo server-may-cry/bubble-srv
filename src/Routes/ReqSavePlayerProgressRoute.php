@@ -26,10 +26,7 @@ use social\VK;
 */
 class ReqSavePlayerProgressRoute {
     public static function post(Application $app, Request $request) {
-        $user = R::findOne('users', 'id = ?', [ $req['userId'] ]);
-
-        if($user === NULL)
-            throw new Exception("UserID: ".$req['userId'].' not found');
+        $user = findUser( $req['userId'] );
 
         $levelMode = 0;
         $needUpdate = false;
@@ -64,10 +61,10 @@ class ReqSavePlayerProgressRoute {
         }
 
         if($needUpdate) {
-            R::store($user);
+            \R::store($user);
         }
 
-        $star = R::findOne('star', 'user_id = ? AND level_mode = ? AND current_stage = ? AND complete_sub_stage = ?',
+        $star = \R::findOne('star', 'user_id = ? AND level_mode = ? AND current_stage = ? AND complete_sub_stage = ?',
             [
                 $user->id,
                 $levelMode,
@@ -77,13 +74,13 @@ class ReqSavePlayerProgressRoute {
         );
 
         if($star === NULL) {
-            $star = R::dispense('star');
+            $star = \R::dispense('star');
             $star->user = $user;
             $star->levelMode = $levelMode;
             $star->currentStage = (int)$req['currentStage'];
             $star->completeSubStage = (int)$req['completeSubStage'];
             $star->completeSubStageRecordStat = (int)$req['completeSubStageRecordStat'];
-            $result = R::store($star);
+            $result = \R::store($star);
 
             // social logic
             if($req['completeSubStageRecordStat'] > 0) {
@@ -132,7 +129,7 @@ class ReqSavePlayerProgressRoute {
             return $app->json('added ('.var_export($result, true).')');
         } elseif($star->completeSubStageRecordStat < $req['completeSubStageRecordStat']) {
             $star->completeSubStageRecordStat = (int)$req['completeSubStageRecordStat'];
-            $result = R::store($star);
+            $result = \R::store($star);
             return $app->json('updated ('.var_export($result, true).')');
         } else {
             return $app->json('less');

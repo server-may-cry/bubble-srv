@@ -40,7 +40,7 @@ class ReqEnterRoute {
                 throw new \Exception('Unknown platform '.$req['sysId']);
         }
 
-        $user = R::findOne('users', 'sys_id = ? AND ext_id = ?', [ $sysId, $req['extId'] ]);
+        $user = \R::findOne('users', 'sys_id = ? AND ext_id = ?', [ $sysId, $req['extId'] ]);
 
         $bonusCredits = 0;
         $userFriendsBonusCredits = 0;
@@ -50,7 +50,7 @@ class ReqEnterRoute {
         $triesRestore = 0;
         if($user === NULL) {
             $firstGame = 1;
-            $user = R::dispense('users');
+            $user = \R::dispense('users');
             $user->sysId = $sysId;
             $user->extId = $req['extId'];
             $user->reachedStage01 = 0;
@@ -72,7 +72,7 @@ class ReqEnterRoute {
             $user->restoreTriesAt = 0;
             $user->credits = UserParams::DEFAULT_CREDITS;
             $user->friendsBonusCreditsTime = $timestamp;
-            $user->id = R::store($user);
+            $user->id = \R::store($user);
         } else {
             if ($timestamp > $user->friendsBonusCreditsTime) {
                 $needUpdate = true;
@@ -93,7 +93,7 @@ class ReqEnterRoute {
             }
         }
         if ($needUpdate) {
-            R::store($user);
+            \R::store($user);
         }
 
         $islandsLevelCount = [
@@ -141,7 +141,7 @@ class ReqEnterRoute {
             'subStagesRecordStats02'=>$islandsLevelCount,
         ];
 
-        $collectionStars = R::findCollection('star', 'user_id = ?', [$user->id]);
+        $collectionStars = \R::findCollection('star', 'user_id = ?', [$user->id]);
         while( $star = $collectionStars->next() ) {
             switch( $star->levelMode ) {
                 case 0: // standart
@@ -165,7 +165,7 @@ class ReqEnterRoute {
         if(count($redisStandartLevels) ) {
             $template['stagesProgressStat01'] = array_map('intval', array_values($redisStandartLevels) );
         } else {
-            $usersProgresStandartRaw = R::getAll('select count(*) as "count", reached_stage01 from users
+            $usersProgresStandartRaw = \R::getAll('select count(*) as "count", reached_stage01 from users
                 where reached_stage01 > 0
              group by reached_stage01 order by reached_stage01 desc;');
             $usersProgresStandart = [];
@@ -205,7 +205,7 @@ class ReqEnterRoute {
         if(count($redisArcadeLevels) ) {
             $template['stagesProgressStat02'] = array_map('intval', array_values($redisArcadeLevels) );
         } else {
-            $usersProgresArcadeRaw = R::getAll('select count(*) as "count", reached_stage02 from users
+            $usersProgresArcadeRaw = \R::getAll('select count(*) as "count", reached_stage02 from users
                 where reached_stage02 > 0
              group by reached_stage02 order by reached_stage02 desc;');
             $usersProgresArcade = [];

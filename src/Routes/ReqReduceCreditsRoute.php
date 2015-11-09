@@ -17,14 +17,11 @@ use Symfony\Component\HttpFoundation\Request;
 */
 class ReqReduceCreditsRoute {
     public static function post(Application $app, Request $request) {
-        $user = R::findOne('users', 'id = ?', [ (int)$req['userId'] ]);
-
-        if($user === NULL)
-            throw new Exception("UserID: ".$req['userId'].' not found');
+        $user = findUser( $req['userId'] );
 
         $user->credits -= max( $req['amount'], 0 );
 
-        R::store($user);
+        \R::store($user);
 
         $template = [
             'reqMsgId' => $req['msgId'],

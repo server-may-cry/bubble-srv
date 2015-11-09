@@ -20,19 +20,16 @@ use Symfony\Component\HttpFoundation\Request;
 class ReqUsersProgressRoute {
     public static function post(Application $app, Request $request) {
         $req = $request->request->all();
-        $user = R::findOne('users', 'id = ?', [ (int)$req['userId'] ]);
-
-        if($user === NULL)
-            throw new Exception("UserID: ".$req['userId'].' not found');
+        $user = findUser( $req['userId'] );
 
         $friendsIds = $req['socIds'];
         if(count($friendsIds) === 0) {
             return $app->json(['usersProgress'=>array()]);
         }
 
-        $friends = R::find(
+        $friends = \R::find(
             'users', 
-            'sys_id = '.$user->sysId.' AND ext_id IN ('.R::genSlots( $friendsIds ).')',
+            'sys_id = '.$user->sysId.' AND ext_id IN ('.\R::genSlots( $friendsIds ).')',
             $friendsIds
         );
         $template = ['usersProgress'=>[]];

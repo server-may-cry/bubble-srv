@@ -17,10 +17,7 @@ use config\UserParams;
 */
 class ReqReduceTriesRoute {
     public static function post(Application $app, Request $request) {
-        $user = R::findOne('users', 'id = ?', [ (int)$req['userId'] ]);
-
-        if($user === NULL)
-            throw new Exception("UserID: ".$req['userId'].' not found');
+        $user = findUser( $req['userId'] );
 
         $timestamp = time();
         if ($user->restoreTriesAt != 0 and $timestamp >= $user->restoreTriesAt) {
@@ -32,7 +29,7 @@ class ReqReduceTriesRoute {
             $user->restoreTriesAt = $timestamp + UserParams::INTERVAL_TRIES_RESTORATION;
         }
 
-        R::store($user);
+        \R::store($user);
 
         $template = [
             $user->remainingTries
