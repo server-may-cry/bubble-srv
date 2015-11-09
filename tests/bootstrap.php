@@ -31,6 +31,9 @@ class TestBootstrap extends WebTestCase
 
     protected function post($url, array $parameters = [])
     {
+        // crutch 4 my autoloader
+        $_SERVER['REQUEST_URI'] = $url;
+
         $client = $this->createClient();
         $client->request('POST', $url, [], [], [], json_encode($parameters) );
 
