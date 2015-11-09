@@ -88,5 +88,9 @@ foreach ($routes as $route) {
 }
 
 $app->get('/', ['\\Routes\\IndexRoute', 'get']);
+$app->post('/', ['\\Routes\\IndexRoute', 'post']);
+$app->get('/debug', ['\\Routes\\IndexRoute', 'debug']);
+
+//$app->post('/', ['\\Routes\\', '']);
 
 return $app;
