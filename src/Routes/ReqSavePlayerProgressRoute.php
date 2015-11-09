@@ -26,7 +26,7 @@ use social\VK;
 */
 abstract class ReqSavePlayerProgressRoute {
     public static function post(Application $app, Request $request) {
-        $req = $request->request->all();
+        $req = requestData($request);
         $user = findUser( $req['userId'] );
 
         $levelMode = 0;

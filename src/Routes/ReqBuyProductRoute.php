@@ -20,7 +20,7 @@ use config\Market;
 */
 abstract class ReqBuyProductRoute {
     public static function post(Application $app, Request $request) {
-        $req = $request->request->all();
+        $req = requestData($request);
 
         $user = findUser( $req['userId'] );
 
