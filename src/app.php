@@ -36,6 +36,34 @@ if ($redis_exist) {
 $app->before(function (Request $request) {
     $data = json_decode($request->getContent(), true);
     $request->request->replace( is_array($data) ? $data : [] );
+
+    switch($request->getPathInfo()){
+        case '':
+        case '/debug':
+            require_once ROUTE_ROOT . 'index.php';
+            break;
+        case '/ReqBuyProduct':
+            require_once ROUTE_ROOT . 'BuyProduct.php';
+            break;
+        case '/ReqEnter':
+            require_once ROUTE_ROOT . 'Enter.php';
+            break;
+        case '/ReqReduceCredits':
+            require_once ROUTE_ROOT . 'ReduceCredits.php';
+            break;
+        case '/ReqReduceTries':
+            require_once ROUTE_ROOT . 'ReduceTries.php';
+            break;
+        case '/ReqSavePlayerProgress':
+            require_once ROUTE_ROOT . 'SavePlayerProgress.php';
+            break;
+        case '/ReqUsersProgress':
+            require_once ROUTE_ROOT . 'UsersProgress.php';
+            break;
+        case '/vk_pay':
+            require_once ROUTE_ROOT . 'vk_pay.php';
+            break;
+    }
 });
 
 $app->finish(function() use ($app) {
@@ -50,11 +78,13 @@ $app->finish(function() use ($app) {
 });
 
 // Require all paths/routes
+/*
 $routes = scandir(ROUTE_ROOT);
 foreach ($routes as $route) {
     if ( is_file(ROUTE_ROOT . $route) ) {
         require ROUTE_ROOT . $route;
     }
 }
+*/
 
 return $app;
