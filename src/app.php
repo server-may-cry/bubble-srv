@@ -49,48 +49,16 @@ $app->finish(function() use ($app) {
     }
 });
 
-/*
-switch($_SERVER['REQUEST_URI']){
-    case '':
-    case '/debug':
-        require_once ROUTE_ROOT . 'index.php';
-        break;
-    case '/ReqBuyProduct':
-        require_once ROUTE_ROOT . 'BuyProduct.php';
-        break;
-    case '/ReqEnter':
-        require_once ROUTE_ROOT . 'Enter.php';
-        break;
-    case '/ReqReduceCredits':
-        require_once ROUTE_ROOT . 'ReduceCredits.php';
-        break;
-    case '/ReqReduceTries':
-        require_once ROUTE_ROOT . 'ReduceTries.php';
-        break;
-    case '/ReqSavePlayerProgress':
-        require_once ROUTE_ROOT . 'SavePlayerProgress.php';
-        break;
-    case '/ReqUsersProgress':
-        require_once ROUTE_ROOT . 'UsersProgress.php';
-        break;
-    case '/vk_pay':
-        require_once ROUTE_ROOT . 'vk_pay.php';
-        break;
-}
-*/
-
-// Require all paths/routes
-$routes = scandir(ROUTE_ROOT);
-foreach ($routes as $route) {
-    if ( is_file(ROUTE_ROOT . $route) ) {
-        require ROUTE_ROOT . $route;
-    }
-}
-
 $app->get('/', ['\\Routes\\IndexRoute', 'get']);
 $app->post('/', ['\\Routes\\IndexRoute', 'post']);
 $app->get('/debug', ['\\Routes\\IndexRoute', 'debug']);
 
-//$app->post('/', ['\\Routes\\', '']);
+$app->post('/ReqBuyProduct', ['\\Routes\\ReqBuyProductRoute', 'post']);
+$app->post('/ReqEnter', ['\\Routes\\ReqEnterRoute', 'post']);
+$app->post('/ReqReduceCredits', ['\\Routes\\ReqReduceCreditsRoute', 'post']);
+$app->post('/ReqReduceTries', ['\\Routes\\ReqReduceTriesRoute', 'post']);
+$app->post('/ReqSavePlayerProgress', ['\\Routes\\ReqSavePlayerProgressRoute', 'post']);
+$app->post('/ReqUsersProgress', ['\\Routes\\ReqUsersProgressRoute', 'post']);
+$app->post('/VkPay', ['\\Routes\\VkPayRoute', 'post']);
 
 return $app;
