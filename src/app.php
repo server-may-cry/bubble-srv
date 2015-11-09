@@ -49,6 +49,7 @@ $app->finish(function() use ($app) {
     }
 });
 
+/*
 switch($_SERVER['REQUEST_URI']){
     case '':
     case '/debug':
@@ -76,15 +77,16 @@ switch($_SERVER['REQUEST_URI']){
         require_once ROUTE_ROOT . 'vk_pay.php';
         break;
 }
+*/
 
 // Require all paths/routes
-/*
 $routes = scandir(ROUTE_ROOT);
 foreach ($routes as $route) {
     if ( is_file(ROUTE_ROOT . $route) ) {
         require ROUTE_ROOT . $route;
     }
 }
-*/
+
+$app->get('/', ['\\Routes\\IndexRoute', 'get']);
 
 return $app;
