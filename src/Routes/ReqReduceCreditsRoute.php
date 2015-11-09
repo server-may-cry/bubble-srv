@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
     "userId":null
 }
 */
-class ReqReduceCreditsRoute {
+abstract class ReqReduceCreditsRoute {
     public static function post(Application $app, Request $request) {
         $req = $request->request->all();
         $user = findUser( $req['userId'] );

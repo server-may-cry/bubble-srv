@@ -19,7 +19,7 @@ use config\UserParams;
     "referer":null
 }
 */
-class ReqEnterRoute {
+abstract class ReqEnterRoute {
     public static function post(Application $app, Request $request) {
         $req = $request->request->all();
 

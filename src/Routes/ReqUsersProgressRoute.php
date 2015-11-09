@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
     "userId":null
 }
 */
-class ReqUsersProgressRoute {
+abstract class ReqUsersProgressRoute {
     public static function post(Application $app, Request $request) {
         $req = $request->request->all();
         $user = findUser( $req['userId'] );

@@ -24,7 +24,7 @@ use social\VK;
     которые приходят в ReqEnter`e, если же "arcade" то reachedStage02 и reachedSubStage02
 }
 */
-class ReqSavePlayerProgressRoute {
+abstract class ReqSavePlayerProgressRoute {
     public static function post(Application $app, Request $request) {
         $req = $request->request->all();
         $user = findUser( $req['userId'] );

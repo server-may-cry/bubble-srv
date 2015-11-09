@@ -18,7 +18,7 @@ use config\Market;
     "levelMode":"arcade"
 }
 */
-class ReqBuyProductRoute {
+abstract class ReqBuyProductRoute {
     public static function post(Application $app, Request $request) {
         $req = $request->request->all();
 

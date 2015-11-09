@@ -15,7 +15,7 @@ use config\UserParams;
     "userId":null
 }
 */
-class ReqReduceTriesRoute {
+abstract class ReqReduceTriesRoute {
     public static function post(Application $app, Request $request) {
         $req = $request->request->all();
         $user = findUser( $req['userId'] );

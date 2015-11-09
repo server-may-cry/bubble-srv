@@ -5,7 +5,7 @@ namespace Routes;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
-class IndexRoute {
+abstract class IndexRoute {
     public static function get(Application $app) {
         return $app->json(['foo'=>'bar']);
     }
