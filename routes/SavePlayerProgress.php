@@ -23,8 +23,6 @@ $app->post('/ReqSavePlayerProgress', function(Request $request) use ($app) {
     которые приходят в ReqEnter`e, если же "arcade" то reachedStage02 и reachedSubStage02
 }
 */
-    if(!isset($req['userId']))
-        throw new \Exception('user id not set');
     $user = R::findOne('users', 'id = ?', [ $req['userId'] ]);
 
     if($user === NULL)

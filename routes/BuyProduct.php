@@ -18,8 +18,6 @@ use config\Market;
 $app->post('/ReqBuyProduct', function(Request $request) use ($app) {
     $req = $request->request->all();
 
-    if(!isset($req['userId']))
-        throw new \Exception('user id not set');
     $user = findUser( $req['userId'] );
 
     Market::buy($app, $user, $req['productId']);

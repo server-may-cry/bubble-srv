@@ -18,11 +18,6 @@ $app->post('/ReqEnter', function(Request $request) use ($app) {
     "referer":null
 }
 */
-    if(!isset($req['sysId']))
-        throw new \Exception('Social platform not set. request: '.json_encode($req));
-    if(!isset($req['extId']))
-        throw new \Exception('Social id not set');
-
     switch($req['sysId']) {
         case 'test':
             $sysId = 0;
