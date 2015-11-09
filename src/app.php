@@ -36,35 +36,7 @@ if ($redis_exist) {
 $app->before(function (Request $request) {
     $data = json_decode($request->getContent(), true);
     $request->request->replace( is_array($data) ? $data : [] );
-
-    switch($request->getPathInfo()){
-        case '':
-        case '/debug':
-            require_once ROUTE_ROOT . 'index.php';
-            break;
-        case '/ReqBuyProduct':
-            require_once ROUTE_ROOT . 'BuyProduct.php';
-            break;
-        case '/ReqEnter':
-            require_once ROUTE_ROOT . 'Enter.php';
-            break;
-        case '/ReqReduceCredits':
-            require_once ROUTE_ROOT . 'ReduceCredits.php';
-            break;
-        case '/ReqReduceTries':
-            require_once ROUTE_ROOT . 'ReduceTries.php';
-            break;
-        case '/ReqSavePlayerProgress':
-            require_once ROUTE_ROOT . 'SavePlayerProgress.php';
-            break;
-        case '/ReqUsersProgress':
-            require_once ROUTE_ROOT . 'UsersProgress.php';
-            break;
-        case '/vk_pay':
-            require_once ROUTE_ROOT . 'vk_pay.php';
-            break;
-    }
-}, Application::EARLY_EVENT);
+});
 
 $app->finish(function() use ($app) {
     if(!isset($app['predis'])) {
@@ -76,6 +48,34 @@ $app->finish(function() use ($app) {
         $app['predis']->set('debug:maxmemory', $memory);
     }
 });
+
+switch($_SERVER['REQUEST_URI']){
+    case '':
+    case '/debug':
+        require_once ROUTE_ROOT . 'index.php';
+        break;
+    case '/ReqBuyProduct':
+        require_once ROUTE_ROOT . 'BuyProduct.php';
+        break;
+    case '/ReqEnter':
+        require_once ROUTE_ROOT . 'Enter.php';
+        break;
+    case '/ReqReduceCredits':
+        require_once ROUTE_ROOT . 'ReduceCredits.php';
+        break;
+    case '/ReqReduceTries':
+        require_once ROUTE_ROOT . 'ReduceTries.php';
+        break;
+    case '/ReqSavePlayerProgress':
+        require_once ROUTE_ROOT . 'SavePlayerProgress.php';
+        break;
+    case '/ReqUsersProgress':
+        require_once ROUTE_ROOT . 'UsersProgress.php';
+        break;
+    case '/vk_pay':
+        require_once ROUTE_ROOT . 'vk_pay.php';
+        break;
+}
 
 // Require all paths/routes
 /*
