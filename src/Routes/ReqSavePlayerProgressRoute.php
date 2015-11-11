@@ -85,45 +85,49 @@ abstract class ReqSavePlayerProgressRoute {
 
             // social logic
             if($req['completeSubStageRecordStat'] > 0) {
-                // social level
-                $levelOrder = 0;
-                if($req['currentStage'] > 0) {
-                    $levelOrder = $req['currentStage'] * 14 - 6;
-                }
-                $levelOrder += $req['completeSubStage'] + 1;
-                VK::setUserLevel($req['extId'], $levelOrder);
+                switch($user->sysId) {
+                    case 1:
+                        // social level
+                        $levelOrder = 0;
+                        if($req['currentStage'] > 0) {
+                            $levelOrder = $req['currentStage'] * 14 - 6;
+                        }
+                        $levelOrder += $req['completeSubStage'] + 1;
+                        VK::setUserLevel($req['extId'], $levelOrder);
 
-                // social event (island)
-                if($req['completeSubStage'] == 14 or ($req['completeSubStage'] == 8 and $req['currentStage'] == 0)) {
-                    $islandOrder = $req['currentStage'];
-                    switch ($islandOrder) {
-                        case 0:
-                            $eventId = 0;
-                            break;
-                        case 1:
-                            $eventId = 4;
-                            break;
-                        case 2:
-                            $eventId = 5;
-                            break;
-                        case 3:
-                            $eventId = 6;
-                            break;
-                        case 4:
-                            $eventId = 7;
-                            break;
-                        case 5:
-                            $eventId = 8;
-                            break;
-                        case 6:
-                            $eventId = 9;
-                            break;
-                    }
-                    if($eventId == 0) {
-                        error_log('error: no eventId for '.$islandOrder.' island');
-                    } else {
-                        VK::addEvent($req['extId'], $eventId);
-                    }
+                        // social event (island)
+                        if($req['completeSubStage'] == 14 or ($req['completeSubStage'] == 8 and $req['currentStage'] == 0)) {
+                            $islandOrder = $req['currentStage'];
+                            switch ($islandOrder) {
+                                case 0:
+                                    $eventId = 0;
+                                    break;
+                                case 1:
+                                    $eventId = 4;
+                                    break;
+                                case 2:
+                                    $eventId = 5;
+                                    break;
+                                case 3:
+                                    $eventId = 6;
+                                    break;
+                                case 4:
+                                    $eventId = 7;
+                                    break;
+                                case 5:
+                                    $eventId = 8;
+                                    break;
+                                case 6:
+                                    $eventId = 9;
+                                    break;
+                            }
+                            if($eventId == 0) {
+                                error_log('error: no eventId for '.$islandOrder.' island');
+                            } else {
+                                VK::addEvent($req['extId'], $eventId);
+                            }
+                        }
+                        break;
                 }
             }
 
