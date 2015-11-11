@@ -49,12 +49,16 @@ $app->finish(function() use ($app) {
     }
 });
 
-// Require all paths/routes
-$routes = scandir(ROUTE_ROOT);
-foreach ($routes as $route) {
-    if ( is_file(ROUTE_ROOT . $route) ) {
-        require ROUTE_ROOT . $route;
-    }
-}
+$app->get('/', ['\\Routes\\IndexRoute', 'get']);
+$app->post('/', ['\\Routes\\IndexRoute', 'post']);
+$app->get('/debug', ['\\Routes\\IndexRoute', 'debug']);
+
+$app->post('/ReqBuyProduct', ['\\Routes\\ReqBuyProductRoute', 'post']);
+$app->post('/ReqEnter', ['\\Routes\\ReqEnterRoute', 'post']);
+$app->post('/ReqReduceCredits', ['\\Routes\\ReqReduceCreditsRoute', 'post']);
+$app->post('/ReqReduceTries', ['\\Routes\\ReqReduceTriesRoute', 'post']);
+$app->post('/ReqSavePlayerProgress', ['\\Routes\\ReqSavePlayerProgressRoute', 'post']);
+$app->post('/ReqUsersProgress', ['\\Routes\\ReqUsersProgressRoute', 'post']);
+$app->post('/VkPay', ['\\Routes\\VkPayRoute', 'post']);
 
 return $app;

@@ -13,6 +13,10 @@ function findUser($uid) {
     return $user;
 }
 
+function requestData(Symfony\Component\HttpFoundation\Request $request) {
+	return $request->request->all();
+}
+
 // Throw Exceptions for everything so we can see the errors
 set_error_handler(function ($errno, $errstr, $errfile, $errline ) {
     throw new ErrorException($errstr, $errno, 0, $errfile, $errline);

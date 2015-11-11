@@ -34,15 +34,6 @@ class IntegrationTest extends TestBootstrap
         $this->assertNotSame( (int)$answer['userId'], (int)$answer3['userId'], 'Not this user id');
     }
 
-    public function testContentUpload()
-    {
-        // skip slow test
-        return null;
-        $this->post('/upload');
-        $dirElements = scandir(ROOT.'web/bubble');
-        $this->assertGreaterThan(1, count($dirElements), 'Empty archive');
-    }
-
     public function testReduceTries()
     {
         $user = $this->getFirstUser();
