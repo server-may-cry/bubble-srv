@@ -30,10 +30,7 @@ abstract class ReqEnterRoute {
             case 'VK':
                 $sysId = 1;
                 if($req['authKey'] !== md5(getenv('VK_APP_ID').'_'.$req['extId'].'_'.getenv('VK_SECRET'))) {
-                    error_log('error: invalid sign');
-                    // throw new \Exception("Invalid auth key");
-                } else {
-                    error_log('sign ok');
+                    throw new \Exception("Invalid auth key");
                 }
                 break;
             default:
