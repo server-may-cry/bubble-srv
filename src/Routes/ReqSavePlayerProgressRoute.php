@@ -84,6 +84,7 @@ abstract class ReqSavePlayerProgressRoute {
             $result = \R::store($star);
 
             // social logic
+            /* slow work. need send to redis. then use background job
             if($req['completeSubStageRecordStat'] > 0) {
                 switch($user->sysId) {
                     case 1:
@@ -130,6 +131,7 @@ abstract class ReqSavePlayerProgressRoute {
                         break;
                 }
             }
+            */
 
             return $app->json('added ('.var_export($result, true).')');
         } elseif($star->completeSubStageRecordStat < $req['completeSubStageRecordStat']) {
