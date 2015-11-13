@@ -83,6 +83,7 @@ abstract class ReqSavePlayerProgressRoute {
             $star->completeSubStageRecordStat = (int)$req['completeSubStageRecordStat'];
             $result = \R::store($star);
 
+
             // social logic
             /* slow work. need send to redis. then use background job
             if($req['completeSubStageRecordStat'] > 0) {
