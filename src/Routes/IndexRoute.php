@@ -16,8 +16,11 @@ abstract class IndexRoute {
 
     public static function debug(Application $app) {
         $maxMemory = $app['predis']->get('debug:maxmemory');
+        $memory = memory_get_peak_usage(true);
+
         return $app->json([
             'max_memory' => $maxMemory,
+            'cur_memory' => $memory,
         ]);
     }
 }
