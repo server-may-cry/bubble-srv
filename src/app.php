@@ -24,6 +24,9 @@ $app->error( function (Exception $exception, $code) use ($app) {
             ));
             Rollbar::report_exception($exception);
         }
+        if($code !== 404) {
+            $code = 500;
+        }
         return $app->json($data, $code);
     }
 });
