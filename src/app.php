@@ -35,9 +35,12 @@ if ($redis_exist) {
 
 $app->before(function (Request $request) {
     $data = json_decode($request->getContent(), true);
-    $request->request->replace( is_array($data) ? $data : [] );
+    if(is_array($data)) {
+        $request->request->replace($data);
+    }
 });
 
+/*
 $app->finish(function() use ($app) {
     if(!isset($app['predis'])) {
         return;
@@ -48,6 +51,7 @@ $app->finish(function() use ($app) {
         $app['predis']->set('debug:maxmemory', $memory);
     }
 });
+*/
 
 $app->get('/', ['\\Routes\\IndexRoute', 'get']);
 $app->post('/', ['\\Routes\\IndexRoute', 'post']);
