@@ -107,9 +107,9 @@ abstract class ReqEnterRoute {
             'reqMsgId'=>$req['msgId'],
             'userId'=>$user->id,
             'reachedStage01'=>$user->reachedStage01, // Идентификатор уровня, до которого пользователь доиграл за все время игры в стандартном моде
-            'reachedStage02'=>$user->reachedStage02, // Идентификатор подуровня, до которого пользователь доиграл за все время игры в стандартном моде
+            'reachedStage02'=>0, // Идентификатор подуровня, до которого пользователь доиграл за все время игры в стандартном моде
             'reachedSubStage01'=>$user->reachedSubStage01, // Идентификатор уровня, до которого пользователь доиграл за все время игры в аркадном моде
-            'reachedSubStage02'=>$user->reachedSubStage02, // Идентификатор подуровня, до которого пользователь доиграл за все время игры в аркадном моде
+            'reachedSubStage02'=>0, // Идентификатор подуровня, до которого пользователь доиграл за все время игры в аркадном моде
             'ignoreSavePointBlock'=>$user->ignoreSavePointBlock, //  Может принимать значения 0 и 1
             'remainingTries'=>max($user->remainingTries, 0),
             'triesMin'=>UserParams::DEFAULT_REMAINING_TRIES,
@@ -144,9 +144,9 @@ abstract class ReqEnterRoute {
                 case 0: // standart
                     $key = 'subStagesRecordStats01';
                     break;
-                case 1: // arcade
-                    $key = 'subStagesRecordStats02';
-                    break;
+                // case 1: // arcade
+                //     $key = 'subStagesRecordStats02';
+                //     break;
                 default:
                     error_log('error: Unknown game type in DB: '.$star->levelMode);
                     continue 2;
@@ -195,6 +195,7 @@ abstract class ReqEnterRoute {
             }
         }
 
+        /*
         $redisArcadeLevels = [];
         if(isset($app['predis'])) {
             $redisArcadeLevels = $app['predis']->hgetall('arcade_levels');
@@ -234,6 +235,7 @@ abstract class ReqEnterRoute {
                 $app['predis']->expire('arcade_levels', REDIS_CACHE_TIME_ISLANDS);
             }
         }
+        */
 
         return $app->json($template);
     }
