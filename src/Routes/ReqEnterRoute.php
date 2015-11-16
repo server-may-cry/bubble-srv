@@ -144,9 +144,10 @@ abstract class ReqEnterRoute {
                 case 0: // standart
                     $key = 'subStagesRecordStats01';
                     break;
-                // case 1: // arcade
+                case 1: // arcade
                 //     $key = 'subStagesRecordStats02';
                 //     break;
+                    continue 2;
                 default:
                     error_log('error: Unknown game type in DB: '.$star->levelMode);
                     continue 2;
