@@ -45,6 +45,7 @@ abstract class ReqSavePlayerProgressRoute {
                     }
                 }
                 break;
+            /*
             case 'arcade':
                 $levelMode = 1;
                 if($req['reachedStage'] > $user->reachedStage02) {
@@ -57,6 +58,7 @@ abstract class ReqSavePlayerProgressRoute {
                     }
                 }
                 break;
+            */
             default:
                 throw new Exception("Unknown level mode ".$req['levelMode']);
         }
