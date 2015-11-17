@@ -39,6 +39,16 @@ abstract class ReqEnterRoute {
 
         $user = \R::findOne('users', 'sys_id = ? AND ext_id = ?', [ $sysId, $req['extId'] ]);
 
+        $islandsLevelCount = [
+            array_fill(0,IslandLevels::$count1,-1),
+            array_fill(0,IslandLevels::$count2,-1),
+            array_fill(0,IslandLevels::$count3,-1),
+            array_fill(0,IslandLevels::$count4,-1),
+            array_fill(0,IslandLevels::$count5,-1),
+            array_fill(0,IslandLevels::$count6,-1),
+            array_fill(0,IslandLevels::$count7,-1),
+        ];
+
         $bonusCredits = 0;
         $userFriendsBonusCredits = 0;
         $timestamp = time();
@@ -69,6 +79,7 @@ abstract class ReqEnterRoute {
             $user->restoreTriesAt = 0;
             $user->credits = UserParams::DEFAULT_CREDITS;
             $user->friendsBonusCreditsTime = $timestamp;
+            $user->progressStandart = json_encode($islandsLevelCount);
             $user->id = \R::store($user);
         } else {
             if ($timestamp > $user->friendsBonusCreditsTime) {
@@ -92,16 +103,6 @@ abstract class ReqEnterRoute {
         if ($needUpdate) {
             \R::store($user);
         }
-
-        $islandsLevelCount = [
-            array_fill(0,IslandLevels::$count1,-1),
-            array_fill(0,IslandLevels::$count2,-1),
-            array_fill(0,IslandLevels::$count3,-1),
-            array_fill(0,IslandLevels::$count4,-1),
-            array_fill(0,IslandLevels::$count5,-1),
-            array_fill(0,IslandLevels::$count6,-1),
-            array_fill(0,IslandLevels::$count7,-1),
-        ];
 
         $template = [
             'reqMsgId'=>$req['msgId'],
@@ -134,27 +135,9 @@ abstract class ReqEnterRoute {
             'stagesProgressStat02'=>[], // Список объектов subStagesRecordStat. Отображает количество звезд на подуровнях в стандартном моде.
             
             // индекс первого массива это reachedStage, а во втором массиве это reachedSubStage, а самое значение в массиве это reqSavePlayerProgress.completeSubStageRecordStat
-            'subStagesRecordStats01'=>$islandsLevelCount,
+            'subStagesRecordStats01'=>json_decode($user->progressStandart, true),
             'subStagesRecordStats02'=>$islandsLevelCount,
         ];
-
-        $collectionStars = \R::findCollection('star', 'user_id = ?', [$user->id]);
-        while( $star = $collectionStars->next() ) {
-            switch( $star->levelMode ) {
-                case 0: // standart
-                    $key = 'subStagesRecordStats01';
-                    break;
-                case 1: // arcade
-                //     $key = 'subStagesRecordStats02';
-                //     break;
-                    continue 2;
-                default:
-                    error_log('error: Unknown game type in DB: '.$star->levelMode);
-                    continue 2;
-            }
-            $template [ $key ] [ $star->currentStage ] [ $star->completeSubStage ] = $star->completeSubStageRecordStat;
-        }
-
 
         $redisStandartLevels = [];
         if(isset($app['predis'])) {

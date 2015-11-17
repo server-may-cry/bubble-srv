@@ -72,18 +72,17 @@ class IntegrationTest extends TestBootstrap
     public function testSavePlayerProgress()
     {
         $user = $this->getFirstUser();
-        $reachedLevel = '20';
+        $reachedLevel = '5';
         $data = '{
-            "isTest":true,
             "authKey":"83db68e3e1524c2e62e6dc67b38bc38c",
             "sysId":"test",
             "msgId":"123",
             "extId":"1234",
-            "reachedSubStage":"10",
-            "currentStage":"20",
+            "reachedSubStage":"5",
+            "currentStage":"5",
             "reachedStage":"'.$reachedLevel.'",
-            "completeSubStage":"40",
-            "completeSubStageRecordStat":"40",
+            "completeSubStage":"5",
+            "completeSubStageRecordStat":"3",
             "levelMode":"standart",
             "userId":'.$user['userId'].',
             "appFriends":"0"
