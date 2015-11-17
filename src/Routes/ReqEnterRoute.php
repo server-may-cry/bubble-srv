@@ -39,6 +39,16 @@ abstract class ReqEnterRoute {
 
         $user = \R::findOne('users', 'sys_id = ? AND ext_id = ?', [ $sysId, $req['extId'] ]);
 
+        $islandsLevelCount = [
+            array_fill(0,IslandLevels::$count1,-1),
+            array_fill(0,IslandLevels::$count2,-1),
+            array_fill(0,IslandLevels::$count3,-1),
+            array_fill(0,IslandLevels::$count4,-1),
+            array_fill(0,IslandLevels::$count5,-1),
+            array_fill(0,IslandLevels::$count6,-1),
+            array_fill(0,IslandLevels::$count7,-1),
+        ];
+
         $bonusCredits = 0;
         $userFriendsBonusCredits = 0;
         $timestamp = time();
@@ -69,6 +79,7 @@ abstract class ReqEnterRoute {
             $user->restoreTriesAt = 0;
             $user->credits = UserParams::DEFAULT_CREDITS;
             $user->friendsBonusCreditsTime = $timestamp;
+            $user->progressStandart = json_encode($islandsLevelCount);
             $user->id = \R::store($user);
         } else {
             if ($timestamp > $user->friendsBonusCreditsTime) {
@@ -92,16 +103,6 @@ abstract class ReqEnterRoute {
         if ($needUpdate) {
             \R::store($user);
         }
-
-        $islandsLevelCount = [
-            array_fill(0,IslandLevels::$count1,-1),
-            array_fill(0,IslandLevels::$count2,-1),
-            array_fill(0,IslandLevels::$count3,-1),
-            array_fill(0,IslandLevels::$count4,-1),
-            array_fill(0,IslandLevels::$count5,-1),
-            array_fill(0,IslandLevels::$count6,-1),
-            array_fill(0,IslandLevels::$count7,-1),
-        ];
 
         $template = [
             'reqMsgId'=>$req['msgId'],
@@ -130,31 +131,13 @@ abstract class ReqEnterRoute {
             'appFriendsBonusCredits'=>$userFriendsBonusCredits, // Количество монет в ежедневном бонусе за друзей. Рассчитывается по формуле reqEnter.appFriends умноженное на 30 монет за друга
             'offerAvailable'=>0, // Может принимать значения 0 и 1. Включать ли акцию сегодня или нет(возможно надо будет куда-нибудь вынести как параметр)
             'firstGame'=>$firstGame, // Может принимать значения 0 и 1. Если пользователь зашел в игру в первый раз в жизни, то 1, в остальных случаях 0.
-            'stagesProgressStat01'=>[], // unsigned integer array // Список чисел. Каждое число обозначает количество игроков дошедших до определенного уровня в стандартном моде. // острова
+            'stagesProgressStat01'=>json_decode($user->progressStandart, true), // unsigned integer array // Список чисел. Каждое число обозначает количество игроков дошедших до определенного уровня в стандартном моде. // острова
             'stagesProgressStat02'=>[], // Список объектов subStagesRecordStat. Отображает количество звезд на подуровнях в стандартном моде.
             
             // индекс первого массива это reachedStage, а во втором массиве это reachedSubStage, а самое значение в массиве это reqSavePlayerProgress.completeSubStageRecordStat
             'subStagesRecordStats01'=>$islandsLevelCount,
             'subStagesRecordStats02'=>$islandsLevelCount,
         ];
-
-        $collectionStars = \R::findCollection('star', 'user_id = ?', [$user->id]);
-        while( $star = $collectionStars->next() ) {
-            switch( $star->levelMode ) {
-                case 0: // standart
-                    $key = 'subStagesRecordStats01';
-                    break;
-                case 1: // arcade
-                //     $key = 'subStagesRecordStats02';
-                //     break;
-                    continue 2;
-                default:
-                    error_log('error: Unknown game type in DB: '.$star->levelMode);
-                    continue 2;
-            }
-            $template [ $key ] [ $star->currentStage ] [ $star->completeSubStage ] = $star->completeSubStageRecordStat;
-        }
-
 
         $redisStandartLevels = [];
         if(isset($app['predis'])) {

@@ -18,9 +18,14 @@ $redis_exist = strlen(getenv('REDISCLOUD_URL'));
 $redis = null;
 if ($redis_exist) {
     $redis_p = parse_url(getenv('REDISCLOUD_URL'));
-    $redis = new Predis\Client([
-        'host' => $redis_p['host'],
-        'port' => $redis_p['port'],
-        'password' => $redis_p['pass'],
-    ]);
+    $redis = new Predis\Client(
+        [
+            'host' => $redis_p['host'],
+            'port' => $redis_p['port'],
+            'password' => $redis_p['pass'],
+        ],
+        [
+            'profile' => '2.8',
+        ]
+    );
 }
