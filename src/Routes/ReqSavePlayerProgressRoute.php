@@ -92,6 +92,11 @@ abstract class ReqSavePlayerProgressRoute {
         if( !isset($progress[ $curStage ][ $subStage ]) or $progress[ $curStage ][ $subStage ] < $starCount) {
             $needUpdate = true;
             $progress[ $curStage ][ $subStage ] = $starCount;
+            switch($levelMode) {
+                case 0:
+                    $user->progressStandart = json_encode($progress);
+                    break;
+            }
         }
 
         if($needUpdate) {
