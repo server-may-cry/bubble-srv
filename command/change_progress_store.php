@@ -20,7 +20,7 @@ while($user = $users->next()) {
     $stars = R::findCollection('star', 'user_id = ? and level_mode = 0', [$user->id]);
     $progress = $islandsLevelCount;
     while($star = $stars->next()) {
-        $progress[ $star->currentStage ][ $star->completeSubStage ] = $star->completeSubStageRecordStat;
+        $progress[ $star->currentStage ][ $star->completeSubStage ] = (int) $star->completeSubStageRecordStat;
     }
     $user->progressStandart = json_encode($progress);
     R::store($user);
