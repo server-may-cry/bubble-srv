@@ -3,6 +3,8 @@
 
 require __DIR__.'/../src/app.php';
 
+use config\IslandLevels;
+
 $islandsLevelCount = [
     array_fill(0,IslandLevels::$count1,-1),
     array_fill(0,IslandLevels::$count2,-1),
