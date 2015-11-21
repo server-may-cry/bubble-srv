@@ -33,6 +33,9 @@ abstract class ReqEnterRoute {
                     throw new \Exception("Invalid auth key");
                 }
                 break;
+            case 'OK':
+                $sysId = 2;
+                break;
             default:
                 throw new \Exception('Unknown platform '.$req['sysId']);
         }
