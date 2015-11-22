@@ -4,6 +4,7 @@ require dirname(__DIR__) . '/src/global.php';
 social\VK::setTestMode();
 
 use Silex\WebTestCase;
+use RedBeanPHP\Driver\RPDO as RPDO;
 
 class TestBootstrap extends WebTestCase
 {
