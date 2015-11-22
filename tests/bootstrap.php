@@ -1,7 +1,5 @@
 <?php
 require dirname(__DIR__) . '/src/global.php';
-require ROOT . '/src/app.php';
-R::setup(); // SQLite in memory
 
 $dburl = getenv('DATABASE_URL');
 if(strlen($dburl)>0) {
