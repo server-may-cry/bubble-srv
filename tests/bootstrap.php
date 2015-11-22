@@ -1,17 +1,27 @@
 <?php
 require dirname(__DIR__) . '/src/global.php';
 
+$dburl = getenv('DATABASE_URL');
+if(strlen($dburl)>0) {
+    die('never run unit test on production couse data los');
+}
+
 social\VK::setTestMode();
 
 use Silex\WebTestCase;
-use RedBeanPHP\Driver\RPDO as RPDO;
+R::setup(); // SQLite in memory
 
 class TestBootstrap extends WebTestCase
 {
     public function tearDown()
     {
+        // drop db
+        R::nuke();
+        $app = $this->createApplication();
+        if(isset($app['predis'])) {
+            $app['predis']->flush();
+        }
         parent::tearDown();
-        R::close();
     }
 
     protected function post($url, array $parameters = [])
@@ -27,7 +37,6 @@ class TestBootstrap extends WebTestCase
     {
         $app = require ROOT . '/src/app.php';
         $app['debug'] = true;
-        R::setup(); // SQLite in memory
 
         return $app;
     }
