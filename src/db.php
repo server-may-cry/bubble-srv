@@ -5,8 +5,8 @@ require_once ROOT.'vendor/autoload.php'; // for predis client when run from cron
 
 // http://redbeanphp.com/
 $dburl = getenv('DATABASE_URL');
-$dbopts = parse_url($dburl);
-if(count($dbopts)>0) {
+if(strlen($dburl)>0) {
+    $dbopts = parse_url($dburl);
     R::setup('pgsql:dbname='.ltrim($dbopts["path"],'/').';host='.$dbopts["host"].';port='.$dbopts["port"], $dbopts["user"], $dbopts["pass"]);
     R::freeze( true );
     $pdo = R::getPDO();
