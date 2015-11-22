@@ -5,14 +5,14 @@ require_once ROOT.'vendor/autoload.php'; // for predis client when run from cron
 
 // http://redbeanphp.com/
 $dburl = getenv('DATABASE_URL');
-if(strlen($dburl)>0) {
-    $dbopts = parse_url($dburl);
+$dbopts = parse_url($dburl);
+if(is_array($dbopts)) {
     R::setup('pgsql:dbname='.ltrim($dbopts["path"],'/').';host='.$dbopts["host"].';port='.$dbopts["port"], $dbopts["user"], $dbopts["pass"]);
     R::freeze( true );
-} else {
-    R::setup(); // SQLite in memory
+    $pdo = R::getPDO();
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+    R::setPDO($pdo);
 }
-R::setAutoResolve( true );
 
 $redis_exist = strlen(getenv('REDISCLOUD_URL'));
 $redis = null;

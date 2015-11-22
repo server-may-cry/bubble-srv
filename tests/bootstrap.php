@@ -1,39 +1,14 @@
 <?php
 require dirname(__DIR__) . '/src/global.php';
 
-$dburl = getenv('DATABASE_URL');
-if(strlen($dburl)>0) {
-    die('never run unit test on production couse data los');
-}
 social\VK::setTestMode();
 
 use Silex\WebTestCase;
 
 class TestBootstrap extends WebTestCase
 {
-
-    public function setUp()
-    {
-        // create db scheme
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        // drop db
-        R::nuke();
-        $app = $this->createApplication();
-        if(isset($app['predis'])) {
-            $app['predis']->flush();
-        }
-        parent::tearDown();
-    }
-
     protected function post($url, array $parameters = [])
     {
-        // crutch 4 my autoloader
-        $_SERVER['REQUEST_URI'] = $url;
-
         $client = $this->createClient();
         $client->request('POST', $url, [], [], [], json_encode($parameters) );
 
@@ -45,6 +20,11 @@ class TestBootstrap extends WebTestCase
     {
         $app = require ROOT . '/src/app.php';
         $app['debug'] = true;
+        R::close();
+        R::setup(); // SQLite in memory
+        $pdo = R::getPDO();
+        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+        R::setPDO($pdo);
 
         return $app;
     }
