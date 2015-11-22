@@ -22,9 +22,9 @@ class TestBootstrap extends WebTestCase
         $app['debug'] = true;
         R::close();
         R::setup(); // SQLite in memory
-        $pdo = R::getPDO();
+        $pdo = R::ext('getPDO');
         $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-        R::setPDO($pdo);
+        R::ext('setPDO', $pdo);
 
         return $app;
     }
