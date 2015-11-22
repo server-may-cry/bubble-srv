@@ -8,6 +8,12 @@ use RedBeanPHP\Driver\RPDO as RPDO;
 
 class TestBootstrap extends WebTestCase
 {
+    public function tearDown()
+    {
+        parent::tearDown();
+        R::close();
+    }
+
     protected function post($url, array $parameters = [])
     {
         $client = $this->createClient();
@@ -21,11 +27,7 @@ class TestBootstrap extends WebTestCase
     {
         $app = require ROOT . '/src/app.php';
         $app['debug'] = true;
-        R::close();
         R::setup(); // SQLite in memory
-        $pdo = RPDO::getPDO();
-        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-        RPDO::setPDO($pdo);
 
         return $app;
     }
