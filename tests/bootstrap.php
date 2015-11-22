@@ -1,5 +1,7 @@
 <?php
 require dirname(__DIR__) . '/src/global.php';
+require ROOT . '/src/app.php';
+R::setup(); // SQLite in memory
 
 $dburl = getenv('DATABASE_URL');
 if(strlen($dburl)>0) {
@@ -9,7 +11,6 @@ if(strlen($dburl)>0) {
 social\VK::setTestMode();
 
 use Silex\WebTestCase;
-R::setup(); // SQLite in memory
 
 class TestBootstrap extends WebTestCase
 {
