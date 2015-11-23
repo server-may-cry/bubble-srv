@@ -5,19 +5,13 @@ $dburl = getenv('DATABASE_URL');
 if(strlen($dburl)>0) {
     die('never run unit test on production couse data los');
 }
+
 social\VK::setTestMode();
 
 use Silex\WebTestCase;
 
 class TestBootstrap extends WebTestCase
 {
-
-    public function setUp()
-    {
-        // create db scheme
-        parent::setUp();
-    }
-
     public function tearDown()
     {
         // drop db
@@ -31,9 +25,6 @@ class TestBootstrap extends WebTestCase
 
     protected function post($url, array $parameters = [])
     {
-        // crutch 4 my autoloader
-        $_SERVER['REQUEST_URI'] = $url;
-
         $client = $this->createClient();
         $client->request('POST', $url, [], [], [], json_encode($parameters) );
 
