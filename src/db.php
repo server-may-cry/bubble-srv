@@ -15,8 +15,8 @@ if(strlen($dburl)>0) {
 
 $redis_exist = strlen(getenv('REDISCLOUD_URL'));
 $redis = null;
-if ($redis_exist) {
-    $redis_p = parse_url(getenv('REDISCLOUD_URL'));
+if (strlen($redis_exist)>0) {
+    $redis_p = parse_url($redis_exist);
     $redis = new Predis\Client(
         [
             'host' => $redis_p['host'],

@@ -4,6 +4,7 @@ namespace Routes;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class IndexRoute {
     public static function get(Application $app) {
@@ -22,5 +23,9 @@ abstract class IndexRoute {
             'max_memory' => $maxMemory,
             'cur_memory' => $memory,
         ]);
+    }
+
+    public static function loader(Application $app) {
+        return new Response('loaderio-b1605c8654686a992bd3968349d85b8e');
     }
 }
