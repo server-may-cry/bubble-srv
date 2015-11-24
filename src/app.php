@@ -59,6 +59,7 @@ $app->finish(function() use ($app) {
 $app->get('/', ['\\Routes\\IndexRoute', 'get']);
 $app->post('/', ['\\Routes\\IndexRoute', 'post']);
 $app->get('/debug', ['\\Routes\\IndexRoute', 'debug']);
+$app->get('/loaderio-b1605c8654686a992bd3968349d85b8e/', ['\\Routes\\IndexRoute', 'loader']);
 
 $app->post('/ReqBuyProduct', ['\\Routes\\ReqBuyProductRoute', 'post']);
 $app->post('/ReqEnter', ['\\Routes\\ReqEnterRoute', 'post']);
