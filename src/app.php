@@ -68,5 +68,6 @@ $app->post('/ReqReduceTries', ['\\Routes\\ReqReduceTriesRoute', 'post']);
 $app->post('/ReqSavePlayerProgress', ['\\Routes\\ReqSavePlayerProgressRoute', 'post']);
 $app->post('/ReqUsersProgress', ['\\Routes\\ReqUsersProgressRoute', 'post']);
 $app->post('/VkPay', ['\\Routes\\VkPayRoute', 'post']);
+$app->get('/OkPay', ['\\Routes\\OkPayRoute', 'get']);
 
 return $app;
