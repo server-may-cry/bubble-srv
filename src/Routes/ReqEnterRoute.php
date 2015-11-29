@@ -153,24 +153,18 @@ abstract class ReqEnterRoute {
                 where reached_stage01 > 0
              group by reached_stage01 order by reached_stage01 desc;');
             $usersProgresStandart = [];
-            $prevC = 0;
+            $islandsCount = 10; // future hack
             foreach($usersProgresStandartRaw as $row) {
-                if(count($usersProgresStandart) == 0) {
-                    $usersProgresStandart[] = $row['count'];
-
-                    $prevC = $row['count'];
-                    $prevI = $row['reached_stage01'];
+                $i = -1;
+                while(true) {
+                    $i++;
+                    if($row['reached_stage01'] >= $i) {
+                        $usersProgresStandart[$i] += $row['count'];
+                    } else {
+                        break;
+                    }
                 }
-
-                while($prevI >= ($row['reached_stage01'] + 1) ) {
-                    --$prevI;
-                    $usersProgresStandart[] = $prevC;
-                }
-
-                $prevC += $row['count'];
             }
-            $usersProgresStandart[] = $prevC;
-            $usersProgresStandart = array_reverse($usersProgresStandart);
             $template['stagesProgressStat01'] = $usersProgresStandart;
             if (count($usersProgresStandart)) {
                 file_put_contents(ROOT.'cache/standartLevels.php', '<?php return '.var_export($usersProgresStandart));
