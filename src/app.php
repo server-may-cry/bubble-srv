@@ -11,19 +11,30 @@ $app->error( function (Exception $exception, $code) use ($app) {
     if($app['debug']) {
         throw $exception;
     } else {
+        Rollbar::init(array(
+            'access_token' => getenv('ROLLBAR_ACCESS_TOKEN'),
+            'root' => '/app',
+        ));
+        Rollbar::report_exception($exception);
+
+        $client = new Raven_Client(getenv('RAVEN_URL'));
+        $client->getIdent(
+                $client->captureException(
+                $exception,
+                [
+                    'extra' => [
+                        'php_version' => phpversion(),
+                    ],
+                ]
+            )
+        );
+
         $data = [
             'error' => get_class($exception),
             'message' => str_replace('"', "'", $exception->getMessage()),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
         ];
-        if(getenv('ENV_NAME') === 'production') {
-            Rollbar::init(array(
-                'access_token' => getenv('ROLLBAR_ACCESS_TOKEN'),
-                'root' => '/app',
-            ));
-            Rollbar::report_exception($exception);
-        }
         if($code !== 404) {
             $code = 500;
         }
@@ -34,6 +45,7 @@ $app->error( function (Exception $exception, $code) use ($app) {
 $app->get('/', ['\\Routes\\IndexRoute', 'get']);
 $app->post('/', ['\\Routes\\IndexRoute', 'post']);
 $app->get('/debug', ['\\Routes\\IndexRoute', 'debug']);
+$app->get('/exception', ['\\Routes\\IndexRoute', 'test_exception']);
 $app->get('/loaderio-b1605c8654686a992bd3968349d85b8e/', ['\\Routes\\IndexRoute', 'loader']);
 $app->get('/loaderio-a1605b7f59f37748149caae19249ff85/', ['\\Routes\\IndexRoute', 'loader2']);
 

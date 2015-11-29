@@ -23,6 +23,10 @@ abstract class IndexRoute {
         ]);
     }
 
+    public static function test_exception() {
+        throw new \InvalidArgumentException('test excemption msg');
+    }
+
     public static function loader(Application $app) {
         return new Response('loaderio-b1605c8654686a992bd3968349d85b8e');
     }
