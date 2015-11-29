@@ -4,7 +4,6 @@ namespace Routes;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use config\IslandLevels;
 use config\UserParams;
 
 /*
@@ -46,13 +45,13 @@ abstract class ReqEnterRoute {
         $user = \R::findOne('users', 'sys_id = ? AND ext_id = ?', [ $sysId, $req['extId'] ]);
 
         $islandsLevelCount = [
-            array_fill(0,IslandLevels::$count1,-1),
-            array_fill(0,IslandLevels::$count2,-1),
-            array_fill(0,IslandLevels::$count3,-1),
-            array_fill(0,IslandLevels::$count4,-1),
-            array_fill(0,IslandLevels::$count5,-1),
-            array_fill(0,IslandLevels::$count6,-1),
-            array_fill(0,IslandLevels::$count7,-1),
+            [-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
         ];
 
         $bonusCredits = 0;
