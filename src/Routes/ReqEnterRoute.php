@@ -153,7 +153,6 @@ abstract class ReqEnterRoute {
                 where reached_stage01 > 0
              group by reached_stage01 order by reached_stage01 desc;');
             $usersProgresStandart = [];
-            $islandsCount = 10; // future hack
             foreach($usersProgresStandartRaw as $row) {
                 $i = -1;
                 while(true) {
