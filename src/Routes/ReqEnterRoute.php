@@ -146,11 +146,8 @@ abstract class ReqEnterRoute {
         ];
 
         $redisStandartLevels = [];
-        if(isset($app['predis'])) {
-            $redisStandartLevels = $app['predis']->hgetall('standart_levels');
-        }
-        if(count($redisStandartLevels) ) {
-            $template['stagesProgressStat01'] = array_map('intval', array_values($redisStandartLevels) );
+        if (file_exists(ROOT.'cache/standartLevels.php') and filemtime(ROOT.'cache/standartLevels.php') + REDIS_CACHE_TIME_ISLANDS > time()) {
+            $template['stagesProgressStat01'] = require ROOT.'cache/standartLevels.php';
         } else {
             $usersProgresStandartRaw = \R::getAll('select count(*) as "count", reached_stage01 from users
                 where reached_stage01 > 0
@@ -175,13 +172,8 @@ abstract class ReqEnterRoute {
             $usersProgresStandart[] = $prevC;
             $usersProgresStandart = array_reverse($usersProgresStandart);
             $template['stagesProgressStat01'] = $usersProgresStandart;
-            if(isset($app['predis']) and count($usersProgresStandart)) {
-                $toRedis = [];
-                foreach($usersProgresStandart as $k => $count) {
-                    $toRedis[ (string)$k ] = (string)$count;
-                }
-                $app['predis']->hmset('standart_levels', $toRedis);
-                $app['predis']->expire('standart_levels', REDIS_CACHE_TIME_ISLANDS);
+            if (count($usersProgresStandart)) {
+                file_put_contents(ROOT.'cache/standartLevels.php', '<?php return '.var_export($usersProgresStandart));
             }
         }
 
