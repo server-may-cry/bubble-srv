@@ -31,11 +31,6 @@ $app->error( function (Exception $exception, $code) use ($app) {
     }
 });
 
-$redis_exist = strlen(getenv('REDISCLOUD_URL'));
-if ($redis_exist) {
-    $app['predis'] = $redis;
-}
-
 $app->before(function (Request $request) {
     $data = json_decode($request->getContent(), true);
     if(is_array($data)) {
@@ -43,31 +38,18 @@ $app->before(function (Request $request) {
     }
 });
 
-/*
-$app->finish(function() use ($app) {
-    if(!isset($app['predis'])) {
-        return;
-    }
-    $memory = memory_get_peak_usage(true);
-    $prevMemory = $app['predis']->get('debug:maxmemory');
-    if($prevMemory < $memory) {
-        $app['predis']->set('debug:maxmemory', $memory);
-    }
-});
-*/
-
 $app->get('/', ['\\Routes\\IndexRoute', 'get']);
 $app->post('/', ['\\Routes\\IndexRoute', 'post']);
 $app->get('/debug', ['\\Routes\\IndexRoute', 'debug']);
 $app->get('/loaderio-b1605c8654686a992bd3968349d85b8e/', ['\\Routes\\IndexRoute', 'loader']);
 
-$app->post('/ReqBuyProduct', ['\\Routes\\ReqBuyProductRoute', 'post']);
-$app->post('/ReqEnter', ['\\Routes\\ReqEnterRoute', 'post']);
-$app->post('/ReqReduceCredits', ['\\Routes\\ReqReduceCreditsRoute', 'post']);
-$app->post('/ReqReduceTries', ['\\Routes\\ReqReduceTriesRoute', 'post']);
-$app->post('/ReqSavePlayerProgress', ['\\Routes\\ReqSavePlayerProgressRoute', 'post']);
-$app->post('/ReqUsersProgress', ['\\Routes\\ReqUsersProgressRoute', 'post']);
-$app->post('/VkPay', ['\\Routes\\VkPayRoute', 'post']);
-$app->get('/OkPay', ['\\Routes\\OkPayRoute', 'get']);
+$app->post('/ReqBuyProduct', ['\\Routes\\ReqBuyProductRoute', 'action']);
+$app->post('/ReqEnter', ['\\Routes\\ReqEnterRoute', 'action']);
+$app->post('/ReqReduceCredits', ['\\Routes\\ReqReduceCreditsRoute', 'action']);
+$app->post('/ReqReduceTries', ['\\Routes\\ReqReduceTriesRoute', 'action']);
+$app->post('/ReqSavePlayerProgress', ['\\Routes\\ReqSavePlayerProgressRoute', 'action']);
+$app->post('/ReqUsersProgress', ['\\Routes\\ReqUsersProgressRoute', 'action']);
+$app->post('/VkPay', ['\\Routes\\PayVkRoute', 'action']);
+$app->get('/OkPay', ['\\Routes\\PayOkRoute', 'action']);
 
 return $app;

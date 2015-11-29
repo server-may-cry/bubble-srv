@@ -12,19 +12,3 @@ if(strlen($dburl)>0) {
 } else {
     R::setup(); // SQLite in memory
 }
-
-$redis_url = getenv('REDISCLOUD_URL');
-$redis = null;
-if (strlen($redis_url)>0) {
-    $redis_p = parse_url($redis_url);
-    $redis = new Predis\Client(
-        [
-            'host' => $redis_p['host'],
-            'port' => $redis_p['port'],
-            'password' => $redis_p['pass'],
-        ],
-        [
-            'profile' => '2.8',
-        ]
-    );
-}

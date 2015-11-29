@@ -20,7 +20,7 @@ use config\UserParams;
 }
 */
 abstract class ReqEnterRoute {
-    public static function post(Application $app, Request $request) {
+    public static function action(Application $app, Request $request) {
         $req = requestData($request);
 
         switch($req['sysId']) {
@@ -184,48 +184,6 @@ abstract class ReqEnterRoute {
                 $app['predis']->expire('standart_levels', REDIS_CACHE_TIME_ISLANDS);
             }
         }
-
-        /*
-        $redisArcadeLevels = [];
-        if(isset($app['predis'])) {
-            $redisArcadeLevels = $app['predis']->hgetall('arcade_levels');
-        }
-        if(count($redisArcadeLevels) ) {
-            $template['stagesProgressStat02'] = array_map('intval', array_values($redisArcadeLevels) );
-        } else {
-            $usersProgresArcadeRaw = \R::getAll('select count(*) as "count", reached_stage02 from users
-                where reached_stage02 > 0
-             group by reached_stage02 order by reached_stage02 desc;');
-            $usersProgresArcade = [];
-            $prevC = 0;
-            foreach($usersProgresArcadeRaw as $row) {
-                if(count($usersProgresArcade) == 0) {
-                    $usersProgresArcade[] = $row['count'];
-
-                    $prevC = $row['count'];
-                    $prevI = $row['reached_stage02'];
-                }
-
-                while($prevI >= ($row['reached_stage02'] + 1) ) {
-                    --$prevI;
-                    $usersProgresArcade[] = $prevC;
-                }
-
-                $prevC += $row['count'];
-            }
-            $usersProgresArcade[] = $prevC;
-            $usersProgresArcade = array_reverse($usersProgresArcade);
-            $template['stagesProgressStat02'] = $usersProgresArcade;
-            if(isset($app['predis']) and count($usersProgresArcade)) {
-                $toRedis = [];
-                foreach($usersProgresArcade as $k => $count) {
-                    $toRedis[ (string)$k ] = (string)$count;
-                }
-                $app['predis']->hmset('arcade_levels', $toRedis);
-                $app['predis']->expire('arcade_levels', REDIS_CACHE_TIME_ISLANDS);
-            }
-        }
-        */
 
         return $app->json($template);
     }

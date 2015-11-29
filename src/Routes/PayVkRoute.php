@@ -33,8 +33,8 @@ use config\Market;
     "sig":"bd59934272e8xxxx"
 }
 */
-abstract class VkPayRoute {
-    public static function post(Application $app) {
+abstract class PayVkRoute {
+    public static function action(Application $app) {
         $secret_key = getenv('VK_SECRET');
         if(strlen($secret_key) < 1) {
             throw new Exception('VK_SECRET not set');

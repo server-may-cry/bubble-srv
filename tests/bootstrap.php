@@ -15,11 +15,7 @@ class TestBootstrap extends WebTestCase
     public function tearDown()
     {
         // drop db
-        R::nuke();
-        $app = $this->createApplication();
-        if(isset($app['predis'])) {
-            $app['predis']->flush();
-        }
+        \R::nuke();
         parent::tearDown();
     }
 

@@ -10,7 +10,7 @@ use config\Market;
 * проверка корректности платежа, сохранение информации о платеже,
 * ответ на запрос сервера одноклассников.
 */
-abstract class OkPayRoute {
+abstract class PayOkRoute {
     const ERROR_TYPE_UNKNOWN = 1;
     const ERROR_TYPE_SERVISE = 2;
     const ERROR_TYPE_CALLBACK_INVALID_PYMENT = 3;
@@ -137,7 +137,7 @@ abstract class OkPayRoute {
         return $dom;
     }
 
-    public static function get(Application $app)
+    public static function action(Application $app)
     {
         error_log(json_encode($_GET));
         die();
@@ -166,38 +166,3 @@ abstract class OkPayRoute {
         die();
     }
 }
-
-8d849ca4163e04ca4c5eeba9cfa633ac
-
-3b6ba6f21da579d9e006190dbf0e8579
-78c887aa5a053bfedb23f1ab15e1ef8e
-8d849ca4163e04ca4c5eeba9cfa633ac
-
-3b6ba6f21da579d9e006190dbf0e8579
-78c887aa5a053bfedb23f1ab15e1ef8e
-8d849ca4163e04ca4c5eeba9cfa633ac
-1233634304_1448712726785
-
-239278689941
-91f459cd9fd4d42e79322cad5a5847029f354d6d4ea45f6c19092431.47
-ef2d97b4fbf70b35079c3146
-EF2D97B4FBF70B35079C3146
-
-8d849ca4163e04ca4c5eeba9cfa633ac
-
-
-web_server=ok.ru
-first_start=0
-logged_user_id=239278689941
-sig=3b6ba6f21da579d9e006190dbf0e8579
-new_sig=1
-apiconnection=1233634304_1448712726785
-authorized=1
-session_key=91f459cd9fd4d42e79322cad5a5847029f354d6d4ea45f6c19092431.47
-clientLog=0
-session_secret_key=78c887aa5a053bfedb23f1ab15e1ef8e
-auth_sig=8d849ca4163e04ca4c5eeba9cfa633ac
-api_server=https%3A%2F%2Fapi.ok.ru%2F
-ip_geo_location=RU%2C48%2CMoscow
-application_key=CBAFMIIKEBABABABA
-
