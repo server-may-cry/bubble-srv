@@ -25,6 +25,9 @@ abstract class IndexRoute {
 
     public static function loader(Application $app) {
         return new Response('loaderio-b1605c8654686a992bd3968349d85b8e');
-        // loaderio-a1605b7f59f37748149caae19249ff85
+    }
+
+    public static function loader2(Application $app) {
+        return new Response('loaderio-a1605b7f59f37748149caae19249ff85');
     }
 }

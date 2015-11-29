@@ -31,17 +31,11 @@ $app->error( function (Exception $exception, $code) use ($app) {
     }
 });
 
-$app->before(function (Request $request) {
-    $data = json_decode($request->getContent(), true);
-    if(is_array($data)) {
-        $request->request->replace($data);
-    }
-});
-
 $app->get('/', ['\\Routes\\IndexRoute', 'get']);
 $app->post('/', ['\\Routes\\IndexRoute', 'post']);
 $app->get('/debug', ['\\Routes\\IndexRoute', 'debug']);
 $app->get('/loaderio-b1605c8654686a992bd3968349d85b8e/', ['\\Routes\\IndexRoute', 'loader']);
+$app->get('/loaderio-a1605b7f59f37748149caae19249ff85/', ['\\Routes\\IndexRoute', 'loader2']);
 
 $app->post('/ReqBuyProduct', ['\\Routes\\ReqBuyProductRoute', 'action']);
 $app->post('/ReqEnter', ['\\Routes\\ReqEnterRoute', 'action']);

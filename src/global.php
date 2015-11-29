@@ -5,7 +5,7 @@ define('CDN_ROOT', 'http://119226.selcdn.com/bubble/');
 define('REDIS_CACHE_TIME_ISLANDS', 3600); // 1 hour
 
 function findUser($uid) {
-    $user = R::findOne('users', 'id = ?', [(int)$uid]);
+    $user = \R::findOne('users', 'id = ?', [(int)$uid]);
 
     if($user === NULL)
         throw new Exception("UserID: ".$uid.' not found');
@@ -13,7 +13,7 @@ function findUser($uid) {
 }
 
 function requestData(Symfony\Component\HttpFoundation\Request $request) {
-	return $request->request->all();
+	return json_decode($request->getContent(), true);
 }
 
 // Throw Exceptions for everything so we can see the errors
