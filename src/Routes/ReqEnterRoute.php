@@ -165,7 +165,7 @@ abstract class ReqEnterRoute {
             }
             $template['stagesProgressStat01'] = $usersProgresStandart;
             if (count($usersProgresStandart)) {
-                file_put_contents(ROOT.'cache/standartLevels.php', '<?php return '.var_export($usersProgresStandart).';');
+                file_put_contents(ROOT.'cache/standartLevels.php', '<?php return '.var_export($usersProgresStandart, true).';');
             }
         }
 
