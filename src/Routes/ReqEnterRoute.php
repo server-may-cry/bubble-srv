@@ -151,7 +151,7 @@ abstract class ReqEnterRoute {
             $usersProgresStandartRaw = \R::getAll('select count(*) as "count", reached_stage01 from users
                 where reached_stage01 > 0
              group by reached_stage01 order by reached_stage01 desc;');
-            $usersProgresStandart = [];
+            $usersProgresStandart = [0,0,0,0,0,0,0];
             foreach($usersProgresStandartRaw as $row) {
                 $i = -1;
                 while(true) {
@@ -165,7 +165,7 @@ abstract class ReqEnterRoute {
             }
             $template['stagesProgressStat01'] = $usersProgresStandart;
             if (count($usersProgresStandart)) {
-                file_put_contents(ROOT.'cache/standartLevels.php', '<?php return '.var_export($usersProgresStandart));
+                file_put_contents(ROOT.'cache/standartLevels.php', '<?php return '.var_export($usersProgresStandart).';');
             }
         }
 
