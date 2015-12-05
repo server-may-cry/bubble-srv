@@ -145,7 +145,7 @@ abstract class ReqEnterRoute {
         ];
 
         $redisStandartLevels = [];
-        if (file_exists(ROOT.'cache/standartLevels.php') and filemtime(ROOT.'cache/standartLevels.php') + REDIS_CACHE_TIME_ISLANDS > time()) {
+        if (file_exists(ROOT.'cache/standartLevels.php') and filemtime(ROOT.'cache/standartLevels.php') + CACHE_TIME_ISLANDS > time()) {
             $template['stagesProgressStat01'] = require ROOT.'cache/standartLevels.php';
         } else {
             $usersProgresStandartRaw = \R::getAll('select count(*) as "count", reached_stage01 from users

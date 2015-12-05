@@ -2,7 +2,7 @@
 define('ROOT', dirname(__DIR__).'/');
 define('ROUTE_ROOT', ROOT.'routes/');
 define('CDN_ROOT', 'http://119226.selcdn.com/bubble/');
-define('REDIS_CACHE_TIME_ISLANDS', 3600); // 1 hour
+define('CACHE_TIME_ISLANDS', 3600); // 1 hour
 
 function findUser($uid) {
     $user = \R::findOne('users', 'id = ?', [(int)$uid]);
