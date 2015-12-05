@@ -4,7 +4,6 @@ namespace Routes;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use config\IslandLevels;
 use config\UserParams;
 
 /*
@@ -20,7 +19,7 @@ use config\UserParams;
 }
 */
 abstract class ReqEnterRoute {
-    public static function post(Application $app, Request $request) {
+    public static function action(Application $app, Request $request) {
         $req = requestData($request);
 
         switch($req['sysId']) {
@@ -35,6 +34,9 @@ abstract class ReqEnterRoute {
                 break;
             case 'OK':
                 $sysId = 2;
+                if($req['authKey'] !== md5($req['extId'].getenv('OK_SECRET'))) {
+                    //throw new \Exception("Invalid auth key");
+                }
                 break;
             default:
                 throw new \Exception('Unknown platform '.$req['sysId']);
@@ -43,13 +45,13 @@ abstract class ReqEnterRoute {
         $user = \R::findOne('users', 'sys_id = ? AND ext_id = ?', [ $sysId, $req['extId'] ]);
 
         $islandsLevelCount = [
-            array_fill(0,IslandLevels::$count1,-1),
-            array_fill(0,IslandLevels::$count2,-1),
-            array_fill(0,IslandLevels::$count3,-1),
-            array_fill(0,IslandLevels::$count4,-1),
-            array_fill(0,IslandLevels::$count5,-1),
-            array_fill(0,IslandLevels::$count6,-1),
-            array_fill(0,IslandLevels::$count7,-1),
+            [-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
         ];
 
         $bonusCredits = 0;
@@ -143,86 +145,29 @@ abstract class ReqEnterRoute {
         ];
 
         $redisStandartLevels = [];
-        if(isset($app['predis'])) {
-            $redisStandartLevels = $app['predis']->hgetall('standart_levels');
-        }
-        if(count($redisStandartLevels) ) {
-            $template['stagesProgressStat01'] = array_map('intval', array_values($redisStandartLevels) );
+        if (file_exists(ROOT.'cache/standartLevels.php') and filemtime(ROOT.'cache/standartLevels.php') + CACHE_TIME_ISLANDS > time()) {
+            $template['stagesProgressStat01'] = require ROOT.'cache/standartLevels.php';
         } else {
             $usersProgresStandartRaw = \R::getAll('select count(*) as "count", reached_stage01 from users
                 where reached_stage01 > 0
              group by reached_stage01 order by reached_stage01 desc;');
-            $usersProgresStandart = [];
-            $prevC = 0;
+            $usersProgresStandart = [0,0,0,0,0,0,0];
             foreach($usersProgresStandartRaw as $row) {
-                if(count($usersProgresStandart) == 0) {
-                    $usersProgresStandart[] = $row['count'];
-
-                    $prevC = $row['count'];
-                    $prevI = $row['reached_stage01'];
+                $i = -1;
+                while(true) {
+                    $i++;
+                    if($row['reached_stage01'] >= $i) {
+                        $usersProgresStandart[$i] += $row['count'];
+                    } else {
+                        break;
+                    }
                 }
-
-                while($prevI >= ($row['reached_stage01'] + 1) ) {
-                    --$prevI;
-                    $usersProgresStandart[] = $prevC;
-                }
-
-                $prevC += $row['count'];
             }
-            $usersProgresStandart[] = $prevC;
-            $usersProgresStandart = array_reverse($usersProgresStandart);
             $template['stagesProgressStat01'] = $usersProgresStandart;
-            if(isset($app['predis']) and count($usersProgresStandart)) {
-                $toRedis = [];
-                foreach($usersProgresStandart as $k => $count) {
-                    $toRedis[ (string)$k ] = (string)$count;
-                }
-                $app['predis']->hmset('standart_levels', $toRedis);
-                $app['predis']->expire('standart_levels', REDIS_CACHE_TIME_ISLANDS);
+            if (count($usersProgresStandart)) {
+                file_put_contents(ROOT.'cache/standartLevels.php', '<?php return '.var_export($usersProgresStandart, true).';');
             }
         }
-
-        /*
-        $redisArcadeLevels = [];
-        if(isset($app['predis'])) {
-            $redisArcadeLevels = $app['predis']->hgetall('arcade_levels');
-        }
-        if(count($redisArcadeLevels) ) {
-            $template['stagesProgressStat02'] = array_map('intval', array_values($redisArcadeLevels) );
-        } else {
-            $usersProgresArcadeRaw = \R::getAll('select count(*) as "count", reached_stage02 from users
-                where reached_stage02 > 0
-             group by reached_stage02 order by reached_stage02 desc;');
-            $usersProgresArcade = [];
-            $prevC = 0;
-            foreach($usersProgresArcadeRaw as $row) {
-                if(count($usersProgresArcade) == 0) {
-                    $usersProgresArcade[] = $row['count'];
-
-                    $prevC = $row['count'];
-                    $prevI = $row['reached_stage02'];
-                }
-
-                while($prevI >= ($row['reached_stage02'] + 1) ) {
-                    --$prevI;
-                    $usersProgresArcade[] = $prevC;
-                }
-
-                $prevC += $row['count'];
-            }
-            $usersProgresArcade[] = $prevC;
-            $usersProgresArcade = array_reverse($usersProgresArcade);
-            $template['stagesProgressStat02'] = $usersProgresArcade;
-            if(isset($app['predis']) and count($usersProgresArcade)) {
-                $toRedis = [];
-                foreach($usersProgresArcade as $k => $count) {
-                    $toRedis[ (string)$k ] = (string)$count;
-                }
-                $app['predis']->hmset('arcade_levels', $toRedis);
-                $app['predis']->expire('arcade_levels', REDIS_CACHE_TIME_ISLANDS);
-            }
-        }
-        */
 
         return $app->json($template);
     }

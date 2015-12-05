@@ -12,20 +12,27 @@ abstract class IndexRoute {
     }
 
     public static function post(Application $app, Request $request) {
-        return $app->json($request->request->all());
+        $all = requestData($request);
+        return $app->json($all);
     }
 
     public static function debug(Application $app) {
-        $maxMemory = $app['predis']->get('debug:maxmemory');
         $memory = memory_get_peak_usage(true);
 
         return $app->json([
-            'max_memory' => $maxMemory,
             'cur_memory' => $memory,
         ]);
     }
 
+    public static function test_exception() {
+        throw new \InvalidArgumentException('test excemption msg');
+    }
+
     public static function loader(Application $app) {
         return new Response('loaderio-b1605c8654686a992bd3968349d85b8e');
+    }
+
+    public static function loader2(Application $app) {
+        return new Response('loaderio-a1605b7f59f37748149caae19249ff85');
     }
 }

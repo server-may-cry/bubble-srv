@@ -3,3 +3,5 @@ composer.phar
 .DS_store
 /web/bubble/*
 !web/bubble/.gitkeep
+/cache/*
+!cache/.gitkeep
