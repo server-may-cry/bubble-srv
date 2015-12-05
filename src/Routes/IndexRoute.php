@@ -33,10 +33,6 @@ abstract class IndexRoute {
     }
 
     public static function loader(Application $app) {
-        return new Response('loaderio-b1605c8654686a992bd3968349d85b8e');
-    }
-
-    public static function loader2(Application $app) {
-        return new Response('loaderio-a1605b7f59f37748149caae19249ff85');
+        return new Response('loaderio-42a36845d21f907d9077524bb26f9a9d');
     }
 }

@@ -46,8 +46,7 @@ $app->post('/', ['\\Routes\\IndexRoute', 'post']);
 $app->get('/favicon.ico', ['\\Routes\\IndexRoute', 'favicon']);
 $app->get('/debug', ['\\Routes\\IndexRoute', 'debug']);
 $app->get('/exception', ['\\Routes\\IndexRoute', 'test_exception']);
-$app->get('/loaderio-b1605c8654686a992bd3968349d85b8e/', ['\\Routes\\IndexRoute', 'loader']);
-$app->get('/loaderio-a1605b7f59f37748149caae19249ff85/', ['\\Routes\\IndexRoute', 'loader2']);
+$app->get('/loaderio-42a36845d21f907d9077524bb26f9a9d/', ['\\Routes\\IndexRoute', 'loader']);
 
 $app->post('/ReqBuyProduct', ['\\Routes\\ReqBuyProductRoute', 'action']);
 $app->post('/ReqEnter', ['\\Routes\\ReqEnterRoute', 'action']);
