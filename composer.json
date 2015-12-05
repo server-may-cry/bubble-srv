@@ -6,7 +6,6 @@
     "require": {
         "php": ">=5.6",
         "silex/silex": "~2.0@dev",
-        "rollbar/rollbar": "^0.15.0",
         "raven/raven": "^0.13.0"
     },
     "require-dev": {
