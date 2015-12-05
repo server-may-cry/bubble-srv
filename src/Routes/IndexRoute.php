@@ -16,6 +16,10 @@ abstract class IndexRoute {
         return $app->json($all);
     }
 
+    public static function favicon(Application $app) {
+        return $app->json(null);
+    }
+
     public static function debug(Application $app) {
         $memory = memory_get_peak_usage(true);
 

@@ -89,6 +89,35 @@ abstract class ReqSavePlayerProgressRoute {
             \R::store($user);
         }
 
+        // social logic
+        if($req['completeSubStageRecordStat'] > 0) {
+            // social level
+            $levelOrder = 0;
+            if($req['currentStage'] > 0) {
+                $levelOrder = $req['currentStage'] * 14 - 6;
+            }
+            $levelOrder += $req['completeSubStage'] + 1;
+            // VK::setUserLevel($req['extId'], $levelOrder); TODO
+
+            // social event (island)
+            if($req['completeSubStage'] == 14 or ($req['completeSubStage'] == 8 and $req['currentStage'] == 0)) {
+                $eventMap = [
+                    1 => 0,
+                    2 => 4,
+                    3 => 5,
+                    4 => 6,
+                    5 => 7,
+                    6 => 8,
+                    7 => 9,
+                ];
+                $islandOrder = $req['currentStage']+2; // start from 0 and unlock next island
+                $eventId = $eventMap[ $islandOrder ];
+                if($eventId !== 0) {
+                    // VK::addEvent($req['extId'], $eventId); TODO
+                }
+            }
+        }
+
         // в этом запросе ответ не имеет значения
         return $app->json('ok');
     }

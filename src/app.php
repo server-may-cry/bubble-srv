@@ -43,6 +43,7 @@ $error_handler->registerShutdownFunction();
 
 $app->get('/', ['\\Routes\\IndexRoute', 'get']);
 $app->post('/', ['\\Routes\\IndexRoute', 'post']);
+$app->get('/favicon.ico', ['\\Routes\\IndexRoute', 'favicon']);
 $app->get('/debug', ['\\Routes\\IndexRoute', 'debug']);
 $app->get('/exception', ['\\Routes\\IndexRoute', 'test_exception']);
 $app->get('/loaderio-b1605c8654686a992bd3968349d85b8e/', ['\\Routes\\IndexRoute', 'loader']);
