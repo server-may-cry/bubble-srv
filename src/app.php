@@ -13,13 +13,6 @@ $app->error( function (Exception $exception, $code) use ($app, $ravenClient) {
     if($app['debug']) {
         throw $exception;
     } else {
-        Rollbar::init(array(
-            'access_token' => getenv('ROLLBAR_ACCESS_TOKEN'),
-            'root' => '/app',
-        ));
-        Rollbar::report_exception($exception);
-
-        
         $ravenClient->captureException(
             $exception,
             [
