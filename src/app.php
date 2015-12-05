@@ -19,7 +19,7 @@ $app->error( function (Exception $exception, $code) use ($app) {
 
         $client = new Raven_Client(getenv('RAVEN_URL'));
         $client->getIdent(
-                $client->captureException(
+            $client->captureException(
                 $exception,
                 [
                     'extra' => [
@@ -41,6 +41,12 @@ $app->error( function (Exception $exception, $code) use ($app) {
         return $app->json($data, $code);
     }
 });
+
+// Install error handlers and shutdown function to catch fatal errors
+$error_handler = new Raven_ErrorHandler($client);
+$error_handler->registerExceptionHandler();
+$error_handler->registerErrorHandler();
+$error_handler->registerShutdownFunction();
 
 $app->get('/', ['\\Routes\\IndexRoute', 'get']);
 $app->post('/', ['\\Routes\\IndexRoute', 'post']);
