@@ -6,8 +6,10 @@ require_once ROOT.'src/db.php';
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
+$ravenClient = new Raven_Client(getenv('RAVEN_URL'));
+
 $app = new Application();
-$app->error( function (Exception $exception, $code) use ($app) {
+$app->error( function (Exception $exception, $code) use ($app, $ravenClient) {
     if($app['debug']) {
         throw $exception;
     } else {
@@ -17,16 +19,14 @@ $app->error( function (Exception $exception, $code) use ($app) {
         ));
         Rollbar::report_exception($exception);
 
-        $client = new Raven_Client(getenv('RAVEN_URL'));
-        $client->getIdent(
-            $client->captureException(
-                $exception,
-                [
-                    'extra' => [
-                        'php_version' => phpversion(),
-                    ],
-                ]
-            )
+        
+        $ravenClient->captureException(
+            $exception,
+            [
+                'extra' => [
+                    'php_version' => phpversion(),
+                ],
+            ]
         );
 
         $data = [
@@ -43,9 +43,9 @@ $app->error( function (Exception $exception, $code) use ($app) {
 });
 
 // Install error handlers and shutdown function to catch fatal errors
-$error_handler = new Raven_ErrorHandler($client);
+$error_handler = new Raven_ErrorHandler($ravenClient);
 $error_handler->registerExceptionHandler();
-$error_handler->registerErrorHandler();
+// test $error_handler->registerErrorHandler();
 $error_handler->registerShutdownFunction();
 
 $app->get('/', ['\\Routes\\IndexRoute', 'get']);

@@ -12,7 +12,8 @@ abstract class IndexRoute {
     }
 
     public static function post(Application $app, Request $request) {
-        return $app->json($request->request->all());
+        $all = requestData($request);
+        return $app->json($all);
     }
 
     public static function debug(Application $app) {
