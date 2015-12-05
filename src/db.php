@@ -12,3 +12,7 @@ if(strlen($dburl)>0) {
 } else {
     \R::setup(); // SQLite in memory
 }
+
+$pdo = \R::getDatabaseAdapter()->getDatabase()->getPDO();
+$pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, true);
+\R::getDatabaseAdapter()->getDatabase()->setPDO($pdo);
