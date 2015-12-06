@@ -156,7 +156,7 @@ abstract class ReqEnterRoute {
                 $i = -1;
                 while(true) {
                     $i++;
-                    if($row['reached_stage01'] >= $i) {
+                    if($row['reached_stage01'] > $i) {
                         $usersProgresStandart[$i] += $row['count'];
                     } else {
                         break;
