@@ -19,6 +19,7 @@ $users = \R::findCollection(
         0,
     ]
 );
+$rst = [];
 $ids = [];
 while($user = $users->next()) {
     $ids[] = $user->extId;
@@ -27,6 +28,11 @@ while($user = $users->next()) {
     if(count($ids) === 200) {
         $r = VK::sendNotification($ids, $msg);
         var_dump($r);
+        $p = json_decode($r, true);
+        if (isset($p['response'])) {
+            $sp = explode(',', $p['response']);
+            $rst = array_merge($rst, $sp);
+        }
         $ids = [];
         sleep(5);
     }
@@ -34,4 +40,10 @@ while($user = $users->next()) {
 if(count($ids) !== 0) {
     $r = VK::sendNotification($ids, $msg);
     var_dump($r);
+    $p = json_decode($r, true);
+    if (isset($p['response'])) {
+        $sp = explode(',', $p['response']);
+        $rst = array_merge($rst, $sp);
+    }
 }
+var_dump(count($rst));
