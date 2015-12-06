@@ -24,12 +24,11 @@ while($user = $users->next()) {
     $ids[] = $user->extId;
     $user->notifSendet = 1;
     \R::store($user);
-    if(count($ids) === 2) {
+    if(count($ids) === 200) {
         $r = VK::sendNotification($ids, $msg);
         var_dump($r);
         $ids = [];
-        break;
-        sleep(1);
+        sleep(5);
     }
 }
 if(count($ids) !== 0) {
