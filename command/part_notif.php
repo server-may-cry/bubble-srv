@@ -11,23 +11,23 @@ $map = [
 $msg =  $map[$argv[1]];
 
 $users = \R::findCollection(
-	'users',
-	'sys_id = ? and reached_stage01 < ? and notif_sendet = ? and id = ?',
-	[
-		1,
-		10, // 3,
-		0,
-		$argv[2], // 1 57
-	]
+    'users',
+    'sys_id = ? and reached_stage01 < ? and notif_sendet = ? LIMIT = ?',
+    [
+        1,
+        10, // 3,
+        0,
+        500,
+    ]
 );
 $ids = [];
 while($user = $users->next()) {
     $ids[] = $user->extId;
-    if(count($ids) == 1) {
+    $user->notifSendet = 1;
+    \R::store($user);
+    if(count($ids) === 2) {
         $r = VK::sendNotification($ids, $msg);
         var_dump($r);
-        $user->notifSendet = 1;
-        \R::store($user);
         $ids = [];
         break;
         sleep(1);
