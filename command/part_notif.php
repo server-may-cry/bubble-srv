@@ -1,0 +1,35 @@
+<?php
+
+use social\VK;
+
+require __DIR__.'/../src/app.php';
+
+$map = [
+    0 => 'Не останавливайтесь на достигнутом! Впереди еще много захватывающих приключений!',
+];
+
+$msg =  $map[$argv[1]];
+
+$users = \R::findCollection(
+	'users',
+	'sys_id = ? and reached_stage01 < ? and notif_sendet = ? and id = ?',
+	[
+		1,
+		10, // 3,
+		0,
+		$argv[2], // 1 57
+	]
+);
+$ids = [];
+while($user = $users->next()) {
+    $ids[] = $user->extId;
+    if(count($ids) == 1) {
+        $r = VK::sendNotification($ids, $msg);
+        var_dump($r);
+        $user->notifSendet = 1;
+        \R::store($user);
+        $ids = [];
+        break;
+        sleep(1);
+    }
+}
