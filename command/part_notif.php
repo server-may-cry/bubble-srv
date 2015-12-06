@@ -15,7 +15,7 @@ $users = \R::findCollection(
     'sys_id = ? and reached_stage01 < ? and notif_sendet = ? limit 500 offset 0',
     [
         1,
-        10, // 3,
+        3,
         0,
     ]
 );
