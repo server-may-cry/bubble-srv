@@ -12,12 +12,11 @@ $msg =  $map[$argv[1]];
 
 $users = \R::findCollection(
     'users',
-    'sys_id = ? and reached_stage01 < ? and notif_sendet = ? LIMIT = ?',
+    'sys_id = ? and reached_stage01 < ? and notif_sendet = ? limit 500 offset 0',
     [
         1,
         10, // 3,
         0,
-        500,
     ]
 );
 $ids = [];
@@ -32,4 +31,8 @@ while($user = $users->next()) {
         break;
         sleep(1);
     }
+}
+if(count($ids) !== 0) {
+    $r = VK::sendNotification($ids, $msg);
+    var_dump($r);
 }
