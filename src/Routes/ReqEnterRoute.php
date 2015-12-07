@@ -34,7 +34,7 @@ abstract class ReqEnterRoute {
                 break;
             case 'OK':
                 $sysId = 2;
-                if($req['authKey'] !== md5($req['extId'].getenv('OK_SECRET'))) {
+                if($req['authKey'] !== md5($req['extId'].$req['session_key'].getenv('OK_SECRET'))) {
                     //throw new \Exception("Invalid auth key");
                 }
                 break;
