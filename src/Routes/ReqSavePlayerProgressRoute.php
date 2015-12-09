@@ -97,6 +97,19 @@ abstract class ReqSavePlayerProgressRoute {
                 $levelOrder = $req['currentStage'] * 14 - 6;
             }
             $levelOrder += $req['completeSubStage'] + 1;
+            $prevReachedLevelOrder = 0;
+            if($user->reachedStage01 > 0) {
+                $prevReachedLevelOrder = $user->reachedStage01 * 14 - 6;
+            }
+            $prevReachedLevelOrder += $user->reachedSubStage01 + 1;
+            if($levelOrder > $prevReachedLevelOrder) {
+                $event = \R::dispense('event');
+                $event->sysId = $user->sysId;
+                $event->extId = $user->extId;
+                $event->type = 1;
+                $event->value = $levelOrder;
+                \R::store($event);
+            }
             // VK::setUserLevel($req['extId'], $levelOrder); TODO
 
             // social event (island)
@@ -113,6 +126,14 @@ abstract class ReqSavePlayerProgressRoute {
                 $islandOrder = $req['currentStage']+2; // start from 0 and unlock next island
                 $eventId = $eventMap[ $islandOrder ];
                 if($eventId !== 0) {
+                    if($req['currentStage'] > $user->reachedStage01) {
+                        $event = \R::dispense('event');
+                        $event->sysId = $user->sysId;
+                        $event->extId = $user->extId;
+                        $event->type = 2;
+                        $event->value = $eventId;
+                        \R::store($event);
+                    }
                     // VK::addEvent($req['extId'], $eventId); TODO
                 }
             }
