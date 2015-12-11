@@ -31,10 +31,7 @@ $events = \R::findCollection(
 );
 $notifs = [[],[]];
 while($event = $events->next()) {
-    $event->sysId = $user->sysId;
-    $event->extId = $user->extId;
-    $event->type = 2;
-    $event->value = $eventId;
+    echo '. ';
 
     switch($event->type) {
         case 1:
