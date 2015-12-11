@@ -27,7 +27,7 @@ function sendEventsVK(array $events)
 
 $events = \R::findCollection(
     'event',
-    'status is null and sys_id = 1 limit 1000 offset 0',
+    'status is null and sys_id = 1 limit 1000 offset 0'
 );
 $notifs = [[],[]];
 while($event = $events->next()) {
