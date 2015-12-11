@@ -9,7 +9,8 @@ function sendLevelVK(array $notifs)
 {
     usleep(300000);
     echo 'send levels'.PHP_EOL;
-    return \VK::setUsersLevel($notifs);
+    $r = \VK::setUsersLevel($notifs);
+    var_dump($r);
 }
 
 function sendEventsVK(array $events)
@@ -35,10 +36,10 @@ while($event = $events->next()) {
 
     switch($event->type) {
         case 1:
-            $notifs[0][ $event->extId ][ $event->value ];
+            $notifs[0][ $event->extId ] = $event->value;
             break;
         case 2:
-            $notifs[1][ $event->extId ][ $event->value ];
+            $notifs[1][ $event->extId ] = $event->value;
             break;
         default:
             echo 'TYPE?';
@@ -47,14 +48,12 @@ while($event = $events->next()) {
     $event->status = 1;
     \R::store($event);
     if(count($notifs[0]) === 200) {
-        $r = sendLevelVK($notifs[0]);
+        sendLevelVK($notifs[0]);
         $notifs[0] = [];
-        var_dump($r);
     }
 }
 if(count($notifs[0]) !== 0) {
-    $r = sendLevelVK($notifs[0]);
-    var_dump($r);
+    sendLevelVK($notifs[0]);
 }
 if(count($notifs[1]) !== 0) {
     sendEventsVK($notifs[0]);
