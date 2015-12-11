@@ -9,7 +9,7 @@ function sendLevelVK(array $notifs)
 {
     usleep(300000);
     echo 'send levels'.PHP_EOL;
-    $r = \VK::setUsersLevel($notifs);
+    $r = VK::setUsersLevel($notifs);
     var_dump($r);
 }
 
@@ -19,7 +19,7 @@ function sendEventsVK(array $events)
     $i = 0;
     foreach ($events as $userId => $activityId) {
         ++$i;
-        $r = \VK::addEvent($userId, $activityId);
+        $r = VK::addEvent($userId, $activityId);
         usleep(300000);
         echo 'event user '.$i.' of '.$len.PHP_EOL;
         var_dump($r);
