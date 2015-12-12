@@ -139,8 +139,7 @@ abstract class PayOkRoute {
 
     public static function action(Application $app)
     {
-        error_log(json_encode($_GET));
-        die();
+        throw new \Exception('ok pay: '.json_encode($_GET));
         static::$appSecretKey = getenv('OK_SECRET');
         if (
             array_key_exists("product_code", $_GET)
