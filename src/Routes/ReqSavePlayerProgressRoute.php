@@ -101,7 +101,7 @@ abstract class ReqSavePlayerProgressRoute {
             if($user->reachedStage01 > 0) {
                 $prevReachedLevelOrder = $user->reachedStage01 * 14 - 6;
             }
-            $prevReachedLevelOrder += $user->reachedSubStage01 + 1;
+            $prevReachedLevelOrder += (int)$req['reachedSubStage'] + 1;
             if($levelOrder > $prevReachedLevelOrder) {
                 $event = \R::dispense('event');
                 $event->sysId = $user->sysId;
@@ -110,7 +110,6 @@ abstract class ReqSavePlayerProgressRoute {
                 $event->value = $levelOrder;
                 \R::store($event);
             }
-            // VK::setUserLevel($req['extId'], $levelOrder); TODO
 
             // social event (island)
             if($req['completeSubStage'] == 14 or ($req['completeSubStage'] == 8 and $req['currentStage'] == 0)) {
@@ -134,7 +133,6 @@ abstract class ReqSavePlayerProgressRoute {
                         $event->value = $eventId;
                         \R::store($event);
                     }
-                    // VK::addEvent($req['extId'], $eventId); TODO
                 }
             }
         }
