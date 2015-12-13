@@ -55,7 +55,7 @@ while($event = $events->next()) {
 if(count($notifs[0]) !== 0) {
     sendLevelVK($notifs[0]);
 }
-echo count(($notifs[1]).PHP_EOL;
+echo count($notifs[1]).PHP_EOL;
 if(count($notifs[1]) !== 0) {
     sendEventsVK($notifs[0]);
 }
