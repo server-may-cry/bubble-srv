@@ -134,8 +134,8 @@ class IntegrationTest extends TestBootstrap
 
         $response = $client->getResponse();
 
-        $filesCount = scandir(ROOT.'web/bubble');
-        $this->assertSame(3, $filesCount);
+        $files = scandir(ROOT.'web/bubble');
+        $this->assertSame(3, count($files));
     }
 
     public function FIX_ME_testAutoRestoreLifes()
