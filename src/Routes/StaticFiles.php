@@ -16,4 +16,25 @@ abstract class StaticFiles {
         stream_copy_to_stream($source, $dest);
         return new RedirectResponse($request->getRequestUri(), 307);
     }
+
+    public function clear(Application $app) {
+        $this->delete();
+        return $app->json('CLEARED');
+    }
+
+    private function delete() {
+        $dir = ROOT.'web/bubble';
+        $it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+        $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
+        foreach($files as $file) {
+            if ($file === '.gitkeep') {
+                continue;
+            }
+            if ($file->isDir()){
+                rmdir($file->getRealPath());
+            } else {
+                unlink($file->getRealPath());
+            }
+        }
+    }
 }
