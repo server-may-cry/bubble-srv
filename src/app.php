@@ -58,5 +58,6 @@ $app->post('/VkPay', ['\\Routes\\PayVkRoute', 'action']);
 $app->get('/OkPay', ['\\Routes\\PayOkRoute', 'action']);
 
 $app->get('/bubble/{any}', ['\\Routes\\StaticFiles', 'action'])->assert('any', '.+');
+$app->get('/cache-clear', ['\\Routes\\StaticFiles', 'clear']);
 
 return $app;

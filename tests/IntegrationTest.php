@@ -127,6 +127,17 @@ class IntegrationTest extends TestBootstrap
         $this->assertSame(307, $response->getStatusCode());
     }
 
+    public function testCearStaticFilesCache()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/cache-clear');
+
+        $response = $client->getResponse();
+
+        $files = scandir(ROOT.'web/bubble');
+        $this->assertSame(3, count($files));
+    }
+
     public function FIX_ME_testAutoRestoreLifes()
     {
         $user = $this->getFirstUser();
