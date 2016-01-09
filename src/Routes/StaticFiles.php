@@ -19,8 +19,8 @@ abstract class StaticFiles {
 
     public static function clear(Application $app) {
         $dir = ROOT.'web/bubble';
-        $it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
-        $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
+        $it = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
+        $files = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);
         foreach($files as $file) {
             if ($file === '.gitkeep') {
                 continue;
