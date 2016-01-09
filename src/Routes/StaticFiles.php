@@ -17,12 +17,7 @@ abstract class StaticFiles {
         return new RedirectResponse($request->getRequestUri(), 307);
     }
 
-    public function clear(Application $app) {
-        $this->delete();
-        return $app->json('CLEARED');
-    }
-
-    private function delete() {
+    public static function clear(Application $app) {
         $dir = ROOT.'web/bubble';
         $it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
         $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
@@ -36,5 +31,6 @@ abstract class StaticFiles {
                 unlink($file->getRealPath());
             }
         }
+        return $app->json('CLEARED');
     }
 }
