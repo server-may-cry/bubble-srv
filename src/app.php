@@ -57,4 +57,6 @@ $app->post('/ReqUsersProgress', ['\\Routes\\ReqUsersProgressRoute', 'action']);
 $app->post('/VkPay', ['\\Routes\\PayVkRoute', 'action']);
 $app->get('/OkPay', ['\\Routes\\PayOkRoute', 'action']);
 
+$app->get('/bubble/{any}', ['\\Routes\\StaticFiles', 'action'])->assert('any', '.+');
+
 return $app;

@@ -105,6 +105,28 @@ class IntegrationTest extends TestBootstrap
         $this->assertGreaterThan($user['credits'], $updatedUser['credits'], 'Good not recieved');
     }
 
+    public function testGetStaticFiles()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/bubble/assets/Map/Stage01Path.png?ololo');
+
+        $response = $client->getResponse();
+
+        $this->assertSame('/bubble/assets/Map/Stage01Path.png?ololo', $response->getTargetUrl());
+        $this->assertSame(307, $response->getStatusCode());
+    }
+
+    public function testGetStaticFilesCached()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/bubble/assets/Map/Stage02Path.png');
+
+        $response = $client->getResponse();
+
+        $this->assertSame('/bubble/assets/Map/Stage02Path.png', $response->getTargetUrl());
+        $this->assertSame(307, $response->getStatusCode());
+    }
+
     public function FIX_ME_testAutoRestoreLifes()
     {
         $user = $this->getFirstUser();
