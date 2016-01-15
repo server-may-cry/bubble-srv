@@ -87,7 +87,7 @@ abstract class ReqEnterRoute {
             $user->progressStandart = json_encode($islandsLevelCount);
             $user->id = \R::store($user);
         } else {
-            if ($timestamp > $user->friendsBonusCreditsTime) {
+            if (false and $timestamp > $user->friendsBonusCreditsTime) {
                 $needUpdate = true;
                 $to = new \DateTime();
                 $to->setTime(0, 0);
