@@ -82,7 +82,11 @@ abstract class ReqEnterRoute {
             $user->inifinityExtra09 = 0;
             $user->remainingTries = UserParams::DEFAULT_REMAINING_TRIES;
             $user->restoreTriesAt = 0;
-            $user->credits = UserParams::DEFAULT_CREDITS;
+            if ($req['sysId'] === 'OK') {
+                $user->credits = UserParams::DEFAULT_CREDITS_OK;
+            } else {
+                $user->credits = UserParams::DEFAULT_CREDITS;
+            }
             $user->friendsBonusCreditsTime = $timestamp;
             $user->progressStandart = json_encode($islandsLevelCount);
             $user->id = \R::store($user);

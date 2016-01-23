@@ -1,7 +1,6 @@
 {
     "name": "server-may-cry/bubble-srv",
     "description": "Back end of flash application",
-    "license": "MIT",
     "type": "project",
     "require": {
         "php": "~5.6",

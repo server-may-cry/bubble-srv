@@ -21,6 +21,7 @@ abstract class Market
     private static $bonus04_1 = [
         'price' => [
             'vk' => 100,
+            'ok' => 769,
         ],
         'title' => [
             'ru' => 'Открыть все острова',
@@ -35,6 +36,7 @@ abstract class Market
     private static $bonus04_2 = [
         'price' => [
             'vk' => 100,
+            'ok' => 769,
         ],
         'title' => [
             'ru' => 'Открыть все острова',
@@ -49,6 +51,7 @@ abstract class Market
     private static $bonus05 = [
         'price' => [
             'vk' => 20,
+            'ok' => 449,
         ],
         'reward' => [
             'set' => [
@@ -63,6 +66,7 @@ abstract class Market
     private static $bonus06_1 = [
         'price' => [
             'vk' => 10,
+            'ok' => 299,
         ],
         'title' => [
             'ru' => 'Открыть следующий остров',
@@ -79,6 +83,7 @@ abstract class Market
     private static $bonus06_2 = [
         'price' => [
             'vk' => 10,
+            'ok' => 299,
         ],
         'title' => [
             'ru' => 'Открыть следующий остров',
@@ -95,6 +100,7 @@ abstract class Market
     private static $infExt00Lvl3 = [
         'price' => [
             'vk' => 1,
+            'ok' => 29,
         ],
         'reward' => [
             'set' => [
@@ -109,6 +115,7 @@ abstract class Market
     private static $infExt01Lvl2 = [
         'price' => [
             'vk' => 1,
+            'ok' => 29,
         ],
         'reward' => [
             'set' => [
@@ -123,6 +130,7 @@ abstract class Market
     private static $infExt02Lvl1 = [
         'price' => [
             'vk' => 3,
+            'ok' => 89,
         ],
         'reward' => [
             'set' => [
@@ -137,6 +145,7 @@ abstract class Market
     private static $infExt03Lvl2 = [
         'price' => [
             'vk' => 2,
+            'ok' => 58,
         ],
         'reward' => [
             'set' => [
@@ -151,6 +160,7 @@ abstract class Market
     private static $infExt04Lvl1 = [
         'price' => [
             'vk' => 3,
+            'ok' => 89,
         ],
         'reward' => [
             'set' => [
@@ -165,6 +175,7 @@ abstract class Market
     private static $infExt05Lvl2 = [
         'price' => [
             'vk' => 2,
+            'ok' => 58,
         ],
         'reward' => [
             'set' => [
@@ -179,6 +190,7 @@ abstract class Market
     private static $infExt06Lvl1 = [
         'price' => [
             'vk' => 3,
+            'ok' => 89,
         ],
         'reward' => [
             'set' => [
@@ -193,6 +205,7 @@ abstract class Market
     private static $infExt07Lvl1 = [
         'price' => [
             'vk' => 4,
+            'ok' => 116,
         ],
         'reward' => [
             'set' => [
@@ -207,6 +220,7 @@ abstract class Market
     private static $infExt08Lvl1 = [
         'price' => [
             'vk' => 4,
+            'ok' => 116,
         ],
         'reward' => [
             'set' => [
@@ -221,6 +235,7 @@ abstract class Market
     private static $infExt09Lvl1 = [
         'price' => [
             'vk' => 3,
+            'ok' => 89,
         ],
         'reward' => [
             'set' => [
@@ -235,6 +250,7 @@ abstract class Market
     private static $helpPack01 = [
         'price' => [
             'vk' => 1,
+            'ok' => 29,
         ],
         'reward' => [
             'increase' => [
@@ -250,6 +266,7 @@ abstract class Market
     private static $additionalShots = [
         'price' => [
             'vk' => 1,
+            'ok' => 89,
         ],
         'reward' => [],
         'photo' => 'additionalShots',
@@ -260,6 +277,7 @@ abstract class Market
     private static $additionalTime = [
         'price' => [
             'vk' => 1,
+            'ok' => 89,
         ],
         'reward' => [],
         'photo' => 'additionalTime',
@@ -270,6 +288,7 @@ abstract class Market
     private static $creditsPack01 = [
         'price' => [
             'vk' => 1,
+            'ok' => 29,
         ],
         'reward' => [
             'increase' => [
@@ -284,6 +303,7 @@ abstract class Market
     private static $creditsPack02 = [
         'price' => [
             'vk' => 2,
+            'ok' => 89,
         ],
         'reward' => [
             'increase' => [
@@ -298,6 +318,7 @@ abstract class Market
     private static $creditsPack03 = [
         'price' => [
             'vk' => 9,
+            'ok' => 299,
         ],
         'reward' => [
             'increase' => [
@@ -312,6 +333,7 @@ abstract class Market
     private static $creditsPack04 = [
         'price' => [
             'vk' => 16,
+            'ok' => 449,
         ],
         'reward' => [
             'increase' => [
@@ -326,6 +348,7 @@ abstract class Market
     private static $creditsPack05 = [
         'price' => [
             'vk' => 34,
+            'ok' => 769,
         ],
         'reward' => [
             'increase' => [

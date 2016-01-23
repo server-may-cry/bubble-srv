@@ -25,13 +25,13 @@ abstract class PayOkRoute {
         "777" => 1
     );
     // массив пар код ошибки => описание
-    private static $errors = array(
-            1 => "UNKNOWN: please, try again later. If error repeats, contact application support team.",
-            2 => "SERVICE: service temporary unavailible. Please try again later",
-            3 => "CALLBACK_INVALID_PAYMENT: invalid payment data. Please try again later. If error repeats, contact application support team. ",
-            9999 => "SYSTEM: critical system error. Please contact application support team.",
-            104 => "PARAM_SIGNATURE: invalid signature. Please contact application support team."
-    );
+    private static $errors = [
+        1 => "UNKNOWN: please, try again later. If error repeats, contact application support team.",
+        2 => "SERVICE: service temporary unavailible. Please try again later",
+        3 => "CALLBACK_INVALID_PAYMENT: invalid payment data. Please try again later. If error repeats, contact application support team. ",
+        9999 => "SYSTEM: critical system error. Please contact application support team.",
+        104 => "PARAM_SIGNATURE: invalid signature. Please contact application support team."
+    ];
 
     // функция рассчитывает подпись для пришедшего запроса
     // подробнее про алгоритм расчета подписи можно посмотреть в документации (http://apiok.ru/wiki/pages/viewpage.action?pageId=42476522)
