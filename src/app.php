@@ -50,7 +50,7 @@ $app->post('/ReqUsersProgress', ['\\Routes\\ReqUsersProgressRoute', 'action']);
 $app->post('/VkPay', ['\\Routes\\PayVkRoute', 'action']);
 $app->get('/OkPay', ['\\Routes\\PayOkRoute', 'action']);
 
-$app->get('/bubble/{any}', ['\\Routes\\StaticFiles', 'action'])->assert('any', '.+');
+$app->match('/bubble/{any}', ['\\Routes\\StaticFiles', 'action'])->assert('any', '.+');
 $app->get('/cache-clear', ['\\Routes\\StaticFiles', 'clear']);
 
 $app->get('/', ['\\Routes\\IndexRoute', 'get']);
