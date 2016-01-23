@@ -41,23 +41,23 @@ $error_handler->registerExceptionHandler();
 // test $error_handler->registerErrorHandler();
 $error_handler->registerShutdownFunction();
 
-$app->get('/', ['\\Routes\\IndexRoute', 'get']);
-$app->post('/', ['\\Routes\\IndexRoute', 'post']);
-$app->get('/favicon.ico', ['\\Routes\\IndexRoute', 'favicon']);
-$app->get('/debug', ['\\Routes\\IndexRoute', 'debug']);
-$app->get('/exception', ['\\Routes\\IndexRoute', 'test_exception']);
-$app->get('/loaderio-42a36845d21f907d9077524bb26f9a9d/', ['\\Routes\\IndexRoute', 'loader']);
-
-$app->post('/ReqBuyProduct', ['\\Routes\\ReqBuyProductRoute', 'action']);
 $app->post('/ReqEnter', ['\\Routes\\ReqEnterRoute', 'action']);
-$app->post('/ReqReduceCredits', ['\\Routes\\ReqReduceCreditsRoute', 'action']);
 $app->post('/ReqReduceTries', ['\\Routes\\ReqReduceTriesRoute', 'action']);
 $app->post('/ReqSavePlayerProgress', ['\\Routes\\ReqSavePlayerProgressRoute', 'action']);
+$app->post('/ReqReduceCredits', ['\\Routes\\ReqReduceCreditsRoute', 'action']);
+$app->post('/ReqBuyProduct', ['\\Routes\\ReqBuyProductRoute', 'action']);
 $app->post('/ReqUsersProgress', ['\\Routes\\ReqUsersProgressRoute', 'action']);
 $app->post('/VkPay', ['\\Routes\\PayVkRoute', 'action']);
 $app->get('/OkPay', ['\\Routes\\PayOkRoute', 'action']);
 
 $app->get('/bubble/{any}', ['\\Routes\\StaticFiles', 'action'])->assert('any', '.+');
 $app->get('/cache-clear', ['\\Routes\\StaticFiles', 'clear']);
+
+$app->get('/', ['\\Routes\\IndexRoute', 'get']);
+$app->post('/', ['\\Routes\\IndexRoute', 'post']);
+$app->get('/favicon.ico', ['\\Routes\\IndexRoute', 'favicon']);
+$app->get('/debug', ['\\Routes\\IndexRoute', 'debug']);
+$app->get('/exception', ['\\Routes\\IndexRoute', 'test_exception']);
+$app->get('/loaderio-42a36845d21f907d9077524bb26f9a9d/', ['\\Routes\\IndexRoute', 'loader']);
 
 return $app;
