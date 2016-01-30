@@ -20,10 +20,7 @@ abstract class PayOkRoute {
     // в эти переменные следует записать открытый и секретный ключи приложения
     private static $appSecretKey;
 
-    // массив пар код продукта => цена
-    private static $catalog = array(
-        "777" => 1
-    );
+
     // массив пар код ошибки => описание
     private static $errors = [
         1 => "UNKNOWN: please, try again later. If error repeats, contact application support team.",
@@ -51,14 +48,13 @@ abstract class PayOkRoute {
     // функция провкерки корректности платежа
     private static function checkPayment($productCode, $price)
     {
-        if (
-            array_key_exists($productCode, self::$catalog)
-            and (self::$catalog[$productCode] == $price)
-        ) {
-            return true; 
-        } else {
-            return false;
-        }
+        try {
+            $item_info = Market::info($productCode, 'ok', 'ru');
+            if ($item_info['price'] === $price) {
+                return true;
+            }
+        } catch (\Exception $e) {}
+        return false;
     }
 
     // функция возвращает ответ на сервер одноклассников
@@ -112,14 +108,19 @@ abstract class PayOkRoute {
     }
 
     // Рекомендуется хранить информацию обо всех транзакциях
-    private static function saveTransaction(/* any params you need*/)
+    private static function saveTransaction($get)
     {
+        ;
+        $user = \R::findOne('users', 'sys_id = ? AND ext_id = ?', [2, $get['uid']]);
+        if(!is_object($user)) {
+            throw new Exception('OK pay user not found');
+        }
         $timestamp = time();
         $transaction = \R::dispense('transactions');
-        $transaction->orderId = $order_id;
-        $transaction->createdAt = $timestamp;
+        $transaction->orderId = $get['transaction_id'];
+        $transaction->createdAt = $$get['transaction_time'];
         $transaction->userId = $user->id;
-        $transaction->confirmedAt = $timestamp;
+        $transaction->confirmedAt = time();
         $app_order_id = \R::store($transaction);
         // тут может быть код для сохранения информации о транзакции
     }
@@ -139,8 +140,7 @@ abstract class PayOkRoute {
 
     public static function action(Application $app)
     {
-        throw new \Exception('ok pay: '.json_encode($_GET));
-        static::$appSecretKey = getenv('OK_SECRET');
+        self::$appSecretKey = getenv('OK_SECRET');
         if (
             array_key_exists("product_code", $_GET)
             and array_key_exists("amount", $_GET)
@@ -148,7 +148,7 @@ abstract class PayOkRoute {
         ) {
             if (self::checkPayment($_GET["product_code"], $_GET["amount"])){
                 if ($_GET["sig"] == self::calcSignature($_GET)){
-                    self::saveTransaction();
+                    self::saveTransaction($_GET);
                     self::returnPaymentOK();
                 } else {
                     // здесь можно что-нибудь сделать, если подпись неверная
