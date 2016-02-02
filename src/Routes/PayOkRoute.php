@@ -46,14 +46,16 @@ abstract class PayOkRoute {
     }
 
     // функция провкерки корректности платежа
-    private static function checkPayment($productCode, $price)
+    private static function checkPayment($productCode, $price, $app)
     {
         try {
             $item_info = Market::info($productCode, 'ok', 'ru');
             if ($item_info['price'] === $price) {
                 return true;
             }
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            $app['raven']->handleException($e);
+        }
         return false;
     }
 
@@ -138,15 +140,16 @@ abstract class PayOkRoute {
         return $dom;
     }
 
-    public static function action(Application $app)
+    public static function action(Application $app, Request $request)
     {
         self::$appSecretKey = getenv('OK_SECRET');
+        $app['raven']->handleError(E_USER_ERROR, (string) $request);
         if (
             array_key_exists("product_code", $_GET)
             and array_key_exists("amount", $_GET)
             and array_key_exists("sig", $_GET)
         ) {
-            if (self::checkPayment($_GET["product_code"], $_GET["amount"])){
+            if (self::checkPayment($_GET["product_code"], $_GET["amount"], $app)){
                 if ($_GET["sig"] == self::calcSignature($_GET)){
                     self::saveTransaction($_GET);
                     self::returnPaymentOK();
@@ -156,10 +159,12 @@ abstract class PayOkRoute {
                 }
             } else {
                 // здесь можно что-нибудь сделать, если информация о покупке некорректна
+                $app['raven']->handleError(E_USER_ERROR, 'check payment failed');
                 self::returnPaymentError(self::ERROR_TYPE_CALLBACK_INVALID_PYMENT);
             }
         } else {
             // здесь можно что-нибудь сделать, если информация о покупке или подпись отсутствуют в запросе
+            $app['raven']->handleError(E_USER_ERROR, 'not enought arguments');
             self::returnPaymentError(self::ERROR_TYPE_CALLBACK_INVALID_PYMENT);
         }
         die();

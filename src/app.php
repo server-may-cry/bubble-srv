@@ -40,6 +40,7 @@ $error_handler = new Raven_ErrorHandler($ravenClient);
 $error_handler->registerExceptionHandler();
 // test $error_handler->registerErrorHandler();
 $error_handler->registerShutdownFunction();
+$app['raven'] = $error_handler;
 
 $app->post('/ReqEnter', ['\\Routes\\ReqEnterRoute', 'action']);
 $app->post('/ReqReduceTries', ['\\Routes\\ReqReduceTriesRoute', 'action']);
