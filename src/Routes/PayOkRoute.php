@@ -4,6 +4,7 @@ namespace Routes;
 
 use Silex\Application;
 use config\Market;
+use Symfony\Component\HttpFoundation\Request;
 
 /*
 * Класс отвечает за следующие операции:
