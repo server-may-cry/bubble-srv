@@ -152,10 +152,12 @@ abstract class PayOkRoute {
         ) {
             if (self::checkPayment($_GET["product_code"], $_GET["amount"], $app)){
                 if ($_GET["sig"] == self::calcSignature($_GET)){
+                    $app['raven']->handleError(E_USER_ERROR, 'payment ok');
                     self::saveTransaction($_GET);
                     self::returnPaymentOK();
                 } else {
                     // здесь можно что-нибудь сделать, если подпись неверная
+                    $app['raven']->handleError(E_USER_ERROR, 'invalid hash');
                     self::returnPaymentError(self::ERROR_TYPE_PARAM_SIGNATURE);
                 }
             } else {
