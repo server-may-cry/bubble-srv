@@ -5,7 +5,7 @@ namespace social;
 class VK
 {
     private static $ch;
-    private static $token;
+    private static $token = '57895b4f57895b4f57e4f638ae57c3fa0b5578957895b4f0132fa666980bed9fb30c60d'; // client_credentials
     private static $testMode = false;
     const URL = 'https://api.vk.com/method/';
     public static function setTestMode()
@@ -19,10 +19,6 @@ class VK
         }
         if(!self::$ch) {
             self::$ch = curl_init();
-        }
-        if(!self::$token) {
-            $result = file_get_contents('https://oauth.vk.com/access_token?client_id='.getenv('VK_APP_ID').'&client_secret='.getenv('VK_SECRET').'&v=5.37&grant_type=client_credentials');
-            self::$token = json_decode($result, true)['access_token'];
         }
         $params['access_token'] = self::$token;
         $params['client_secret'] = getenv('VK_SECRET');
