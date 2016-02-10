@@ -149,6 +149,26 @@ class IntegrationTest extends TestBootstrap
         $this->assertSame( (string) UserParams::DEFAULT_REMAINING_TRIES, $updatedUser['remainingTries'], 'Lifes not restored');
     }
 
+    public function testOkPay()
+    {
+        $this->getOkUser();
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/OkPay', [
+            'amount' => 29,
+            'application_key' => 'CBAHCJIKEBABABABA',
+            'call_id' => 1455095504601,
+            'method' => 'callbacks.payment',
+            'product_code' => 'creditsPack01',
+            'sig' => '8b07e57c1845f7adf157f478f23cfff6',
+            'transaction_id' => '299363449344',
+            'transaction_time' => '2016-02-10 12:11:44',
+            'uid' => 556111519987,
+        ]);
+
+        $response = $client->getResponse()->getContent();
+        $this->assertGreaterThan(1, strpos($response, '>true</callbacks_payment_response>'));
+    }
+
     private function getFirstUser()
     {
         $data = '{"userId":null,"appFriends":"0","srcExtId":null,"authKey":"83db68e","sysId":"test","extId":"1","msgId":"123","referer":null}';
@@ -163,4 +183,10 @@ class IntegrationTest extends TestBootstrap
         return $this->post('/ReqEnter', $data);
     }
 
+    private function getOkUser()
+    {
+        $data = '{"userId":null,"appFriends":"0","srcExtId":null,"authKey":"006a8f6ca8638110f4183ac2a4f18b69","sysId":"OK","extId":"556111519987","msgId":"123","referer":null,"sessionKey":""}';
+        $data = json_decode($data, true);
+        return $this->post('/ReqEnter', $data);
+    }
 }

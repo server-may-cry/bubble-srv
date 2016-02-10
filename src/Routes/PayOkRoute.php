@@ -5,6 +5,7 @@ namespace Routes;
 use Silex\Application;
 use config\Market;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /*
 * Класс отвечает за следующие операции:
@@ -38,9 +39,9 @@ abstract class PayOkRoute {
         $tmp = $request;
         unset($tmp["sig"]);
         ksort($tmp);
-        $resstr = "";
+        $resstr = '';
         foreach($tmp as $key=>$value){
-            $resstr = $resstr.$key."=".$value;
+            $resstr = $resstr.$key.'='.$value;
         }
         $resstr = $resstr.self::$appSecretKey;
         return md5($resstr);
@@ -51,7 +52,7 @@ abstract class PayOkRoute {
     {
         try {
             $item_info = Market::info($productCode, 'ok', 'ru');
-            if ($item_info['price'] === $price) {
+            if ($item_info['price'] === (int) $price) {
                 return true;
             }
         } catch (\Exception $e) {
@@ -74,11 +75,15 @@ abstract class PayOkRoute {
         // генерация xml 
         $dom->formatOutput = true;
         $rezString = $dom->saveXML();
-        
-        // установка заголовка
-        header('Content-Type: application/xml');
-        // вывод xml
-        print $rezString;
+
+        $response = new Response($rezString);
+        $response->headers->add(
+            [
+                'Content-Type' => 'application/xml',
+            ]
+        );
+
+        return $response;
     }
 
     // функция возвращает ответ на сервер одноклассников
@@ -102,12 +107,15 @@ abstract class PayOkRoute {
         $dom->formatOutput = true;
         $rezString = $dom->saveXML();
         
-        // добавление необходимых заголовков
-        header('Content-Type: application/xml');
-        // ВАЖНО: если не добавить этот заголовок, система может некорректно обработать ответ
-        header('invocation-error:'.$errorCode);
-        // вывод xml
-        print $rezString;
+        $response = new Response($rezString);
+        $response->headers->add(
+            [
+                'Content-Type' => 'application/xml',
+                'invocation-error' => $errorCode,
+            ]
+        );
+
+        return $response;
     }
 
     // Рекомендуется хранить информацию обо всех транзакциях
@@ -116,12 +124,12 @@ abstract class PayOkRoute {
         ;
         $user = \R::findOne('users', 'sys_id = ? AND ext_id = ?', [2, $get['uid']]);
         if(!is_object($user)) {
-            throw new Exception('OK pay user not found');
+            throw new \Exception('OK pay user not found');
         }
         $timestamp = time();
         $transaction = \R::dispense('transactions');
         $transaction->orderId = $get['transaction_id'];
-        $transaction->createdAt = $$get['transaction_time'];
+        $transaction->createdAt = $get['transaction_time'];
         $transaction->userId = $user->id;
         $transaction->confirmedAt = time();
         $app_order_id = \R::store($transaction);
@@ -144,32 +152,29 @@ abstract class PayOkRoute {
     public static function action(Application $app, Request $request)
     {
         self::$appSecretKey = getenv('OK_SECRET');
-        $app['raven']->handleError(E_USER_ERROR, (string) $request);
-        if (
-            array_key_exists("product_code", $_GET)
-            and array_key_exists("amount", $_GET)
-            and array_key_exists("sig", $_GET)
-        ) {
-            if (self::checkPayment($_GET["product_code"], $_GET["amount"], $app)){
-                if ($_GET["sig"] == self::calcSignature($_GET)){
-                    $app['raven']->handleError(E_USER_ERROR, 'payment ok');
-                    self::saveTransaction($_GET);
-                    self::returnPaymentOK();
-                } else {
-                    // здесь можно что-нибудь сделать, если подпись неверная
-                    $app['raven']->handleError(E_USER_ERROR, 'invalid hash');
-                    self::returnPaymentError(self::ERROR_TYPE_PARAM_SIGNATURE);
-                }
-            } else {
-                // здесь можно что-нибудь сделать, если информация о покупке некорректна
-                $app['raven']->handleError(E_USER_ERROR, 'check payment failed');
-                self::returnPaymentError(self::ERROR_TYPE_CALLBACK_INVALID_PYMENT);
+        self::$appSecretKey = '50FE0921FEC5E944A7BE989B';
+        $request_params = $request->query->all();
+        try {
+            if (
+                !array_key_exists("product_code", $request_params)
+                or !array_key_exists("amount", $request_params)
+                or !array_key_exists("sig", $request_params)
+            ) {
+                throw new \Exception("Not enought arguments", self::ERROR_TYPE_CALLBACK_INVALID_PYMENT);
             }
-        } else {
-            // здесь можно что-нибудь сделать, если информация о покупке или подпись отсутствуют в запросе
-            $app['raven']->handleError(E_USER_ERROR, 'not enought arguments');
-            self::returnPaymentError(self::ERROR_TYPE_CALLBACK_INVALID_PYMENT);
+            if (!self::checkPayment($request_params["product_code"], $request_params["amount"], $app)){
+                throw new \Exception("Invalid product_code or amount", self::ERROR_TYPE_CALLBACK_INVALID_PYMENT);
+            }
+            if ($request_params["sig"] !== self::calcSignature($request_params)){
+                throw new \Exception("Invalid signature", self::ERROR_TYPE_PARAM_SIGNATURE);
+            }
+            self::saveTransaction($request_params);
+            return self::returnPaymentOK();
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            var_dump($e->getLine());
+            $app['raven']->handleException($e);
+            return self::returnPaymentError($e->getCode());
         }
-        die();
     }
 }
