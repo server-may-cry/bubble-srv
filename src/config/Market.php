@@ -300,6 +300,21 @@ abstract class Market
             'ru' => '140 золотых монет',
         ],
     ];
+    private static$creditsPack01_test = [
+        'price' => [
+            'vk' => 1,
+            'ok' => 1,
+        ],
+        'reward' => [
+            'increase' => [
+                'credits' => 1,
+            ],
+        ],
+        'photo' => 'creditsPack01',
+        'title' => [
+            'ru' => 'Тестовая покупка одной монеты',
+        ],
+    ]; 
     private static $creditsPack02 = [
         'price' => [
             'vk' => 2,
