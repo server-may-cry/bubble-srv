@@ -129,7 +129,7 @@ abstract class PayOkRoute {
         $timestamp = time();
         $transaction = \R::dispense('transactions');
         $transaction->orderId = $get['transaction_id'];
-        $transaction->createdAt = $get['transaction_time'];
+        $transaction->createdAt = \DateTime::createFromFormat('Y-m-d H:i:s', $get['transaction_time'])->getTimestamp();
         $transaction->userId = $user->id;
         $transaction->confirmedAt = time();
         $app_order_id = \R::store($transaction);
