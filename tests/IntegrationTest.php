@@ -166,7 +166,7 @@ class IntegrationTest extends TestBootstrap
         ]);
 
         $response = $client->getResponse()->getContent();
-        $this->assertGreaterThan(1, strpos($response, '>true</callbacks_payment_response>'));
+        $this->assertGreaterThan(1, strpos($response, '>PARAM_SIGNATURE:'));
     }
 
     private function getFirstUser()
