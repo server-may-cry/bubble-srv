@@ -170,8 +170,6 @@ abstract class PayOkRoute {
             self::saveTransaction($request_params, $app);
             return self::returnPaymentOK();
         } catch (\Exception $e) {
-            var_dump($e->getMessage());
-            var_dump($e->getLine());
             $app['raven']->handleException($e);
             return self::returnPaymentError($e->getCode());
         }
