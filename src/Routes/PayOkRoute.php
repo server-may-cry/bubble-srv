@@ -119,9 +119,8 @@ abstract class PayOkRoute {
     }
 
     // Рекомендуется хранить информацию обо всех транзакциях
-    private static function saveTransaction($get)
+    private static function saveTransaction($get, Application $app)
     {
-        ;
         $user = \R::findOne('users', 'sys_id = ? AND ext_id = ?', [2, $get['uid']]);
         if(!is_object($user)) {
             throw new \Exception('OK pay user not found');
@@ -133,7 +132,8 @@ abstract class PayOkRoute {
         $transaction->userId = $user->id;
         $transaction->confirmedAt = time();
         $app_order_id = \R::store($transaction);
-        // тут может быть код для сохранения информации о транзакции
+
+        Market::buy($app, $user, $get['product_code'], 'ok');
     }
 
     // функция создает объект DomDocument и добавляет в него в качестве корневого тега $root
@@ -152,7 +152,6 @@ abstract class PayOkRoute {
     public static function action(Application $app, Request $request)
     {
         self::$appSecretKey = getenv('OK_SECRET');
-        self::$appSecretKey = '50FE0921FEC5E944A7BE989B';
         $request_params = $request->query->all();
         try {
             if (
@@ -168,7 +167,7 @@ abstract class PayOkRoute {
             if ($request_params["sig"] !== self::calcSignature($request_params)){
                 throw new \Exception("Invalid signature", self::ERROR_TYPE_PARAM_SIGNATURE);
             }
-            self::saveTransaction($request_params);
+            self::saveTransaction($request_params, $app);
             return self::returnPaymentOK();
         } catch (\Exception $e) {
             var_dump($e->getMessage());
