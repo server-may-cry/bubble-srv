@@ -51,6 +51,10 @@ while($event = $events->next()) {
         sendLevelVK($notifs[0]);
         $notifs[0] = [];
     }
+    if(count($notifs[1]) === 200) {
+        sendEventsVK($notifs[1]);
+        $notifs[1] = [];
+    }
 }
 if(count($notifs[0]) !== 0) {
     sendLevelVK($notifs[0]);
