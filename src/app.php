@@ -24,7 +24,7 @@ $app->error( function (Exception $exception, $code) use ($app, $ravenClient) {
 
         $data = [
             'error' => get_class($exception),
-            'message' => str_replace('"', "'", $exception->getMessage()),
+            'message' => $exception->getMessage(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
         ];
@@ -34,6 +34,11 @@ $app->error( function (Exception $exception, $code) use ($app, $ravenClient) {
         return $app->json($data, $code);
     }
 });
+
+$app->register(new \Knp\Provider\ConsoleServiceProvider(), [
+    'console.name' => 'MyApplication',
+    'console.project_directory' => ROOT,
+]);
 
 // Install error handlers and shutdown function to catch fatal errors
 $error_handler = new Raven_ErrorHandler($ravenClient);
@@ -50,6 +55,7 @@ $app->post('/ReqBuyProduct', ['\\Routes\\ReqBuyProductRoute', 'action']);
 $app->post('/ReqUsersProgress', ['\\Routes\\ReqUsersProgressRoute', 'action']);
 $app->post('/VkPay', ['\\Routes\\PayVkRoute', 'action']);
 $app->get('/OkPay', ['\\Routes\\PayOkRoute', 'action']);
+$app->match('/pay/{platform}', ['\\Routes\\PayRoute', 'action'])->assert('platform', 'vk|ok');
 
 $app->match('/bubble/{any}', ['\\Routes\\StaticFiles', 'action'])->assert('any', '.+');
 $app->get('/cache-clear', ['\\Routes\\StaticFiles', 'clear']);
