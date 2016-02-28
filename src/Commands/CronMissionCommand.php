@@ -2,10 +2,12 @@
 
 namespace Commands;
 
-use Knp\Command\Command;
+use Saxulum\Console\Command\AbstractPimpleCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use social\VK;
 
-class CronMissionCommand extends Command
+class CronMissionCommand extends AbstractPimpleCommand
 {
     private function sendLevelVK(array $notifs)
     {

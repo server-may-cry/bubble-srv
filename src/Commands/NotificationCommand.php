@@ -2,10 +2,13 @@
 
 namespace Commands;
 
-use Knp\Command\Command;
+use Saxulum\Console\Command\AbstractPimpleCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use social\VK;
 
-class NotificationCommand extends Command
+class NotificationCommand extends AbstractPimpleCommand
 {
     protected function configure()
     {

@@ -5,8 +5,4 @@ set_time_limit(0);
 
 $app = require_once __DIR__.'/app.php';
 
-use Commands\NotificationCommand;
-
-$application = $app['console'];
-$application->add(new NotificationCommand());
-$application->run();
+$app['console']->run();
