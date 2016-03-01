@@ -35,7 +35,7 @@ class NotificationCommand extends AbstractPimpleCommand
 
         $msg = $map[$msg];
 
-        $users = R::findCollection('users', 'sys_id = ?', [1]);
+        $users = \R::findCollection('users', 'sys_id = ?', [1]);
         $ids = [];
         $rst = [];
         while($user = $users->next()) {
