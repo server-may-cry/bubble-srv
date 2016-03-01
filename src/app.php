@@ -1,6 +1,6 @@
 <?php
+require_once dirname(__DIR__).'/vendor/autoload.php'; // Composer Autoloader
 require_once __DIR__ .'/global.php';
-require_once ROOT.'vendor/autoload.php'; // Composer Autoloader
 require_once ROOT.'src/db.php';
 
 use Silex\Application;
@@ -24,7 +24,7 @@ $app->error( function (Exception $exception, $code) use ($app, $ravenClient) {
 
         $data = [
             'error' => get_class($exception),
-            'message' => str_replace('"', "'", $exception->getMessage()),
+            'message' => $exception->getMessage(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
         ];
@@ -33,6 +33,13 @@ $app->error( function (Exception $exception, $code) use ($app, $ravenClient) {
         }
         return $app->json($data, $code);
     }
+});
+
+$app->register(new \Saxulum\Console\Provider\ConsoleProvider());
+$app['console.command.paths'] = $app->extend('console.command.paths', function ($paths) {
+    $paths[] = ROOT.'src/Commands';
+
+    return $paths;
 });
 
 // Install error handlers and shutdown function to catch fatal errors
@@ -50,6 +57,7 @@ $app->post('/ReqBuyProduct', ['\\Routes\\ReqBuyProductRoute', 'action']);
 $app->post('/ReqUsersProgress', ['\\Routes\\ReqUsersProgressRoute', 'action']);
 $app->post('/VkPay', ['\\Routes\\PayVkRoute', 'action']);
 $app->get('/OkPay', ['\\Routes\\PayOkRoute', 'action']);
+$app->match('/pay/{platform}', ['\\Routes\\PayRoute', 'action'])->assert('platform', 'vk|ok');
 
 $app->match('/bubble/{any}', ['\\Routes\\StaticFiles', 'action'])->assert('any', '.+');
 $app->get('/cache-clear', ['\\Routes\\StaticFiles', 'clear']);
