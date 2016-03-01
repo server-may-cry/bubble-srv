@@ -16,7 +16,4 @@ function requestData(Symfony\Component\HttpFoundation\Request $request) {
 	return json_decode($request->getContent(), true);
 }
 
-// Throw Exceptions for everything so we can see the errors
-set_error_handler(function ($errno, $errstr, $errfile, $errline ) {
-    throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
-});
+Symfony\Component\Debug\ErrorHandler::register();
