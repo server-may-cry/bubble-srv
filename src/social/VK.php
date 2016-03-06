@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 class VK
 {
     private static $client;
-    private static $token = '57895b4f57895b4f57e4f638ae57c3fa0b5578957895b4f0132fa666980bed9fb30c60d'; // client_credentials
+    private static $token; // client_credentials
     private static $testMode = false;
     const URL = 'https://api.vk.com/method/';
 
@@ -28,6 +28,21 @@ class VK
                 ]
             );
         }
+        if(!self::$token) {
+            $response = $client->get(
+                'https://oauth.vk.com/access_token',
+                [
+                    'query' => [
+                        'client_id' => getenv('VK_APP_ID'),
+                        'client_secret' => getenv('VK_SECRET'),
+                        'v' => 5.37,
+                        'grant_type' => 'client_credentials',
+                    ]
+                ]
+            );
+            self::$token = json_decode($response->getBody(), true)['access_token'];
+        }
+
         $params['access_token'] = self::$token;
         $params['client_secret'] = getenv('VK_SECRET');
         $response = $client->get(
