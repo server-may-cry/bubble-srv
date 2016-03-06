@@ -51,7 +51,7 @@ class VK
                 'query' => $params
             ]
         );
-        $body = $response->getBody();
+        $body = (string) $response->getBody();
         $arrayBody = json_decode($body, true);
         if (array_key_exists('error', $arrayBody)) {
             throw new \Exception('VK send error: '.$body);
