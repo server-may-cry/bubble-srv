@@ -13,8 +13,12 @@ abstract class Market
     public static function init()
     {
         self::$functions = [
-            'set' => function(&$param, $value){$param = $value;},
-            'increase' => function(&$param, $value){$param += $value;},
+            'set' => function (&$param, $value) {
+                $param = $value;
+            },
+            'increase' => function (&$param, $value) {
+                $param += $value;
+            },
         ];
     }
 
@@ -414,7 +418,7 @@ abstract class Market
         if(isset($item['reward'])) {
             foreach($item['reward'] as $action => $reward) {
                 foreach($reward as $name => $value) {
-                    call_user_func_array( self::$functions[$action], [&$user->$name, $value] );
+                    call_user_func_array(self::$functions[$action], [&$user->$name, $value]);
                 }
             }
             if($user->remainingTries >= UserParams::DEFAULT_REMAINING_TRIES) {

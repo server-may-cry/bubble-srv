@@ -33,8 +33,7 @@ class CronMissionCommand extends AbstractPimpleCommand
     protected function configure()
     {
         $this
-            ->setName('cron:mission')
-        ;
+            ->setName('cron:mission');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -48,15 +47,15 @@ class CronMissionCommand extends AbstractPimpleCommand
             echo '. ';
 
             switch($event->type) {
-                case 1:
-                    $notifs[0][ $event->extId ] = $event->value;
-                    break;
-                case 2:
-                    $notifs[1][ $event->extId ] = $event->value;
-                    break;
-                default:
-                    echo 'TYPE?';
-                    break 2;
+            case 1:
+                $notifs[0][ $event->extId ] = $event->value;
+                break;
+            case 2:
+                $notifs[1][ $event->extId ] = $event->value;
+                break;
+            default:
+                echo 'TYPE?';
+                break 2;
             }
             $event->status = 1;
             \R::store($event);

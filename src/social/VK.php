@@ -37,10 +37,12 @@ class VK
 
     public static function sendNotification(array $ids, $message)
     {
-        return self::send('secure.sendNotification', [
+        return self::send(
+            'secure.sendNotification', [
             'user_ids' => implode(',', $ids),
             'message' => $message,
-        ]);
+            ]
+        );
     }
 
     public static function setUsersLevel(array $levels)
@@ -49,25 +51,31 @@ class VK
         foreach($levels as $user => $level) {
             $prepare[] = $user.':'.$level;
         }
-        return self::send('secure.setUserLevel', [
+        return self::send(
+            'secure.setUserLevel', [
             'levels' => implode(',', $prepare),
-        ]);
+            ]
+        );
     }
 
     public static function setUserLevel($id, $level)
     {
-        return self::send('secure.setUserLevel', [
+        return self::send(
+            'secure.setUserLevel', [
             'user_id' => $id,
             'level' => $level,
-        ]);
+            ]
+        );
     }
 
     public static function addEvent($userId, $activityId, $value = 0)
     {
-        return self::send('secure.addAppEvent', [
+        return self::send(
+            'secure.addAppEvent', [
             'user_id' => $userId,
             'activity_id' => $activityId,
             'value' => $value,
-        ]);
+            ]
+        );
     }
 }

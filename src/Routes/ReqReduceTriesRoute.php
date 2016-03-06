@@ -15,10 +15,12 @@ use config\UserParams;
     "userId":null
 }
 */
-abstract class ReqReduceTriesRoute {
-    public static function action(Application $app, Request $request) {
+abstract class ReqReduceTriesRoute
+{
+    public static function action(Application $app, Request $request) 
+    {
         $req = requestData($request);
-        $user = findUser( $req['userId'] );
+        $user = findUser($req['userId']);
 
         $timestamp = time();
         if ($user->restoreTriesAt != 0 and $timestamp >= $user->restoreTriesAt) {
