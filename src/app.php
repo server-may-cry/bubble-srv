@@ -17,17 +17,17 @@ $app->error(
             $ravenClient->captureException(
                 $exception,
                 [
-                'extra' => [
-                'php_version' => phpversion(),
-                ],
+                    'extra' => [
+                        'php_version' => phpversion(),
+                    ],
                 ]
             );
 
             $data = [
-             'error' => get_class($exception),
-             'message' => $exception->getMessage(),
-             'file' => $exception->getFile(),
-             'line' => $exception->getLine(),
+                'error' => get_class($exception),
+                'message' => $exception->getMessage(),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
             ];
             if($code !== 404) {
                 $code = 500;

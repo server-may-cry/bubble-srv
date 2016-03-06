@@ -11,6 +11,6 @@ abstract class PayRoute
 {
     public static function action(Application $app, Request $request) 
     {
-        // TODO
+        throw new \Exception('Route not ready yet');
     }
 }
