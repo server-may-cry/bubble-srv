@@ -18,11 +18,13 @@ use config\Market;
     "levelMode":"arcade"
 }
 */
-abstract class ReqBuyProductRoute {
-    public static function action(Application $app, Request $request) {
+abstract class ReqBuyProductRoute
+{
+    public static function action(Application $app, Request $request) 
+    {
         $req = requestData($request);
 
-        $user = findUser( $req['userId'] );
+        $user = findUser($req['userId']);
 
         Market::buy($app, $user, $req['productId']);
 

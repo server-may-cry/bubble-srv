@@ -9,38 +9,42 @@ use Symfony\Component\HttpFoundation\Request;
 $ravenClient = new Raven_Client(getenv('RAVEN_URL'));
 
 $app = new Application();
-$app->error( function (Exception $exception, $code) use ($app, $ravenClient) {
-    if($app['debug']) {
-        throw $exception;
-    } else {
-        $ravenClient->captureException(
-            $exception,
-            [
-                'extra' => [
-                    'php_version' => phpversion(),
-                ],
-            ]
-        );
+$app->error(
+    function (Exception $exception, $code) use ($app, $ravenClient) {
+        if($app['debug']) {
+            throw $exception;
+        } else {
+            $ravenClient->captureException(
+                $exception,
+                [
+                    'extra' => [
+                        'php_version' => phpversion(),
+                    ],
+                ]
+            );
 
-        $data = [
-            'error' => get_class($exception),
-            'message' => $exception->getMessage(),
-            'file' => $exception->getFile(),
-            'line' => $exception->getLine(),
-        ];
-        if($code !== 404) {
-            $code = 500;
+            $data = [
+                'error' => get_class($exception),
+                'message' => $exception->getMessage(),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+            ];
+            if($code !== 404) {
+                $code = 500;
+            }
+            return $app->json($data, $code);
         }
-        return $app->json($data, $code);
     }
-});
+);
 
 $app->register(new \Saxulum\Console\Provider\ConsoleProvider());
-$app['console.command.paths'] = $app->extend('console.command.paths', function ($paths) {
-    $paths[] = ROOT.'src/Commands';
+$app['console.command.paths'] = $app->extend(
+    'console.command.paths', function ($paths) {
+        $paths[] = ROOT.'src/Commands';
 
-    return $paths;
-});
+        return $paths;
+    }
+);
 
 // Install error handlers and shutdown function to catch fatal errors
 $error_handler = new Raven_ErrorHandler($ravenClient);

@@ -17,8 +17,7 @@ class NotificationCommand extends AbstractPimpleCommand
             ->addArgument(
                 'message',
                 InputArgument::REQUIRED
-            )
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

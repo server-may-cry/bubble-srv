@@ -18,28 +18,30 @@ use config\UserParams;
     "referer":null
 }
 */
-abstract class ReqEnterRoute {
-    public static function action(Application $app, Request $request) {
+abstract class ReqEnterRoute
+{
+    public static function action(Application $app, Request $request) 
+    {
         $req = requestData($request);
 
         switch($req['sysId']) {
-            case 'test':
-                $sysId = 0;
-                break;
-            case 'VK':
-                $sysId = 1;
-                if($req['authKey'] !== md5(getenv('VK_APP_ID').'_'.$req['extId'].'_'.getenv('VK_SECRET'))) {
-                    throw new \Exception("Invalid auth key");
-                }
-                break;
-            case 'OK':
-                $sysId = 2;
-                if($req['authKey'] !== md5($req['extId'].$req['sessionKey'].getenv('OK_SECRET'))) {
-                    throw new \Exception("Invalid auth key");
-                }
-                break;
-            default:
-                throw new \Exception('Unknown platform '.$req['sysId']);
+        case 'test':
+            $sysId = 0;
+            break;
+        case 'VK':
+            $sysId = 1;
+            if($req['authKey'] !== md5(getenv('VK_APP_ID').'_'.$req['extId'].'_'.getenv('VK_SECRET'))) {
+                throw new \Exception("Invalid auth key");
+            }
+            break;
+        case 'OK':
+            $sysId = 2;
+            if($req['authKey'] !== md5($req['extId'].$req['sessionKey'].getenv('OK_SECRET'))) {
+                throw new \Exception("Invalid auth key");
+            }
+            break;
+        default:
+            throw new \Exception('Unknown platform '.$req['sysId']);
         }
 
         $user = \R::findOne('users', 'sys_id = ? AND ext_id = ?', [ $sysId, $req['extId'] ]);
@@ -60,7 +62,7 @@ abstract class ReqEnterRoute {
         $firstGame = 0;
         $needUpdate = false;
         $triesRestore = 0;
-        if($user === NULL) {
+        if($user === null) {
             $firstGame = 1;
             $user = \R::dispense('users');
             $user->sysId = $sysId;
@@ -125,7 +127,7 @@ abstract class ReqEnterRoute {
             'triesMin'=>UserParams::DEFAULT_REMAINING_TRIES,
             'triesRegenSecondsInterval'=>UserParams::INTERVAL_TRIES_RESTORATION,
             'secondsUntilTriesRegen'=>$triesRestore,
-            'credits'=>max($user->credits,0),
+            'credits'=>max($user->credits, 0),
             'inifinityExtra00'=>$user->inifinityExtra00, // Целое положительное число
             'inifinityExtra01'=>$user->inifinityExtra01, // Целое положительное число
             'inifinityExtra02'=>$user->inifinityExtra02, // Целое положительное число
@@ -150,11 +152,13 @@ abstract class ReqEnterRoute {
 
         $redisStandartLevels = [];
         if (file_exists(ROOT.'cache/standartLevels.php') and filemtime(ROOT.'cache/standartLevels.php') + CACHE_TIME_ISLANDS > time()) {
-            $template['stagesProgressStat01'] = require ROOT.'cache/standartLevels.php';
+            $template['stagesProgressStat01'] = include ROOT.'cache/standartLevels.php';
         } else {
-            $usersProgresStandartRaw = \R::getAll('select count(*) as "count", reached_stage01 from users
+            $usersProgresStandartRaw = \R::getAll(
+                'select count(*) as "count", reached_stage01 from users
                 where reached_stage01 > 0
-             group by reached_stage01 order by reached_stage01 desc;');
+             group by reached_stage01 order by reached_stage01 desc;'
+            );
             $usersProgresStandart = [0,0,0,0,0,0,0];
             foreach($usersProgresStandartRaw as $row) {
                 $i = -1;

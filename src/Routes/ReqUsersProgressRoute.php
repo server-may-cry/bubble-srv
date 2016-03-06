@@ -17,10 +17,12 @@ use Symfony\Component\HttpFoundation\Request;
     "userId":null
 }
 */
-abstract class ReqUsersProgressRoute {
-    public static function action(Application $app, Request $request) {
+abstract class ReqUsersProgressRoute
+{
+    public static function action(Application $app, Request $request) 
+    {
         $req = requestData($request);
-        $user = findUser( $req['userId'] );
+        $user = findUser($req['userId']);
 
         $friendsIds = $req['socIds'];
         if(count($friendsIds) === 0) {
@@ -29,7 +31,7 @@ abstract class ReqUsersProgressRoute {
 
         $friends = \R::find(
             'users', 
-            'sys_id = '.$user->sysId.' AND ext_id IN ('.\R::genSlots( $friendsIds ).')',
+            'sys_id = '.$user->sysId.' AND ext_id IN ('.\R::genSlots($friendsIds).')',
             $friendsIds
         );
         $template = ['usersProgress'=>[]];

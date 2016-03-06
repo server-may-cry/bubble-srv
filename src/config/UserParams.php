@@ -2,7 +2,8 @@
 
 namespace config;
 
-abstract class UserParams {
+abstract class UserParams
+{
     const DEFAULT_REMAINING_TRIES = 5;
     const DEFAULT_CREDITS = 1000;
     const DEFAULT_CREDITS_OK = 3000;

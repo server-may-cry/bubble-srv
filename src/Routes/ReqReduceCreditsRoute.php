@@ -15,12 +15,14 @@ use Symfony\Component\HttpFoundation\Request;
     "userId":null
 }
 */
-abstract class ReqReduceCreditsRoute {
-    public static function action(Application $app, Request $request) {
+abstract class ReqReduceCreditsRoute
+{
+    public static function action(Application $app, Request $request) 
+    {
         $req = requestData($request);
-        $user = findUser( $req['userId'] );
+        $user = findUser($req['userId']);
 
-        $user->credits -= max( $req['amount'], 0 );
+        $user->credits -= max($req['amount'], 0);
 
         \R::store($user);
 

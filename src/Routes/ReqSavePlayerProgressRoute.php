@@ -24,64 +24,64 @@ use social\VK;
     которые приходят в ReqEnter`e, если же "arcade" то reachedStage02 и reachedSubStage02
 }
 */
-abstract class ReqSavePlayerProgressRoute {
-    public static function action(Application $app, Request $request) {
+abstract class ReqSavePlayerProgressRoute
+{
+    public static function action(Application $app, Request $request) 
+    {
         $req = requestData($request);
-        $user = findUser( $req['userId'] );
+        $user = findUser($req['userId']);
 
         $levelMode = 0;
         $needUpdate = false;
         switch($req['levelMode']) {
-            case 'standart':
-                $levelMode = 0;
-                if($req['reachedStage'] > $user->reachedStage01) {
+        case 'standart':
+            $levelMode = 0;
+            if($req['reachedStage'] > $user->reachedStage01) {
+                $needUpdate = true;
+                $user->reachedStage01 = (int)$req['reachedStage'];
+                $user->reachedSubStage01 = (int)$req['reachedSubStage'];
+            } elseif ($req['reachedStage'] == $user->reachedStage01) {
+                if($req['reachedSubStage'] > $user->reachedSubStage01) {
                     $needUpdate = true;
-                    $user->reachedStage01 = (int)$req['reachedStage'];
                     $user->reachedSubStage01 = (int)$req['reachedSubStage'];
-                } elseif ($req['reachedStage'] == $user->reachedStage01) {
-                    if($req['reachedSubStage'] > $user->reachedSubStage01) {
-                        $needUpdate = true;
-                        $user->reachedSubStage01 = (int)$req['reachedSubStage'];
-                    }
                 }
-                break;
-            default:
-                throw new \Exception("Unknown level mode ".$req['levelMode']);
+            }
+            break;
+        default:
+            throw new \Exception("Unknown level mode ".$req['levelMode']);
         }
 
         switch($levelMode) {
-            case 0:
-                $progress = json_decode($user->progressStandart, true);
-                break;
-            default:
-                throw new \Exception("Unknown level mode ".$levelMode);
+        case 0:
+            $progress = json_decode($user->progressStandart, true);
+            break;
+        default:
+            throw new \Exception("Unknown level mode ".$levelMode);
         }
         $curStage = (int)$req['currentStage'];
         $subStage = (int)$req['completeSubStage'];
         $starCount = (int)$req['completeSubStageRecordStat'];
-        if(
-            !isset($progress[ $curStage ])
+        if(!isset($progress[ $curStage ])
         ) {
-            if( isset($progress[ $curStage-1 ]) ) {
+            if(isset($progress[ $curStage-1 ]) ) {
                 $progress[] = [];
             } else {
                 throw new \Exception("Cannot save progress stage ".$curStage.' user id: '.$user->id);
             }
         }
-        if(
-            !isset($progress[ $curStage ][ $subStage ]) and
-            !isset($progress[ $curStage ][ $subStage-1 ]) and
-            (int)$req['completeSubStage'] !== 0 // first level dont have previos
+        if(!isset($progress[ $curStage ][ $subStage ]) 
+            and !isset($progress[ $curStage ][ $subStage-1 ]) 
+            and (int)$req['completeSubStage'] !== 0 // first level dont have previos
         ) {
             throw new \Exception("Cannot save progress sub stage ".$subStage.' user id: '.$user->id);
         }
-        if( !isset($progress[ $curStage ][ $subStage ]) or $progress[ $curStage ][ $subStage ] < $starCount) {
+        if(!isset($progress[ $curStage ][ $subStage ]) or $progress[ $curStage ][ $subStage ] < $starCount) {
             $needUpdate = true;
             $progress[ $curStage ][ $subStage ] = $starCount;
             switch($levelMode) {
-                case 0:
-                    $user->progressStandart = json_encode($progress);
-                    break;
+            case 0:
+                $user->progressStandart = json_encode($progress);
+                break;
             }
         }
 
@@ -110,7 +110,8 @@ abstract class ReqSavePlayerProgressRoute {
                 $event->value = $levelOrder;
                 try {
                     \R::store($event);
-                } catch (\Exception $e) {}                
+                } catch (\Exception $e) {
+                }                
             }
 
             // social event (island)
@@ -135,7 +136,8 @@ abstract class ReqSavePlayerProgressRoute {
                         $event->value = $eventId;
                         try {
                             \R::store($event);
-                        } catch (\Exception $e) {}
+                        } catch (\Exception $e) {
+                        }
                     }
                 }
             }
