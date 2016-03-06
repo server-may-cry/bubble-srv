@@ -12,7 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 * проверка корректности платежа, сохранение информации о платеже,
 * ответ на запрос сервера одноклассников.
 */
-abstract class PayOkRoute {
+abstract class PayOkRoute
+{
     const ERROR_TYPE_UNKNOWN = 1;
     const ERROR_TYPE_SERVISE = 2;
     const ERROR_TYPE_CALLBACK_INVALID_PYMENT = 3;
@@ -97,7 +98,7 @@ abstract class PayOkRoute {
         $el = $dom->createElement('error_code');
         $el->appendChild($dom->createTextNode($errorCode));
         $root->appendChild($el);
-        if (array_key_exists($errorCode, self::$errors)){
+        if (array_key_exists($errorCode, self::$errors)) {
             $el = $dom->createElement('error_msg');
             $el->appendChild($dom->createTextNode(self::$errors[$errorCode]));
             $root->appendChild($el);
@@ -154,17 +155,16 @@ abstract class PayOkRoute {
         self::$appSecretKey = getenv('OK_SECRET');
         $request_params = $request->query->all();
         try {
-            if (
-                !array_key_exists("product_code", $request_params)
+            if (!array_key_exists("product_code", $request_params)
                 or !array_key_exists("amount", $request_params)
                 or !array_key_exists("sig", $request_params)
             ) {
                 throw new \Exception("Not enought arguments", self::ERROR_TYPE_CALLBACK_INVALID_PYMENT);
             }
-            if (!self::checkPayment($request_params["product_code"], $request_params["amount"], $app)){
+            if (!self::checkPayment($request_params["product_code"], $request_params["amount"], $app)) {
                 throw new \Exception("Invalid product_code or amount", self::ERROR_TYPE_CALLBACK_INVALID_PYMENT);
             }
-            if ($request_params["sig"] !== self::calcSignature($request_params)){
+            if ($request_params["sig"] !== self::calcSignature($request_params)) {
                 throw new \Exception("Invalid signature", self::ERROR_TYPE_PARAM_SIGNATURE);
             }
             self::saveTransaction($request_params, $app);
