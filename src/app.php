@@ -13,27 +13,27 @@ $app->error(
     function (Exception $exception, $code) use ($app, $ravenClient) {
         if($app['debug']) {
             throw $exception;
-        } else {
-            $ravenClient->captureException(
-                $exception,
-                [
-                    'extra' => [
-                        'php_version' => phpversion(),
-                    ],
-                ]
-            );
-
-            $data = [
-                'error' => get_class($exception),
-                'message' => $exception->getMessage(),
-                'file' => $exception->getFile(),
-                'line' => $exception->getLine(),
-            ];
-            if($code !== 404) {
-                $code = 500;
-            }
-            return $app->json($data, $code);
         }
+
+        $ravenClient->captureException(
+            $exception,
+            [
+                'extra' => [
+                    'php_version' => phpversion(),
+                ],
+            ]
+        );
+
+        $data = [
+            'error' => get_class($exception),
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+        ];
+        if($code !== 404) {
+            $code = 500;
+        }
+        return $app->json($data, $code);
     }
 );
 
@@ -46,10 +46,9 @@ $app['console.command.paths'] = $app->extend(
     }
 );
 
-// Install error handlers and shutdown function to catch fatal errors
 $error_handler = new Raven_ErrorHandler($ravenClient);
 $error_handler->registerExceptionHandler();
-// test $error_handler->registerErrorHandler();
+$error_handler->registerErrorHandler();
 $error_handler->registerShutdownFunction();
 $app['raven'] = $error_handler;
 
