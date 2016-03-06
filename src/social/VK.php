@@ -29,7 +29,7 @@ class VK
             );
         }
         if(!self::$token) {
-            $response = $client->get(
+            $response = self::$client->get(
                 'https://oauth.vk.com/access_token',
                 [
                     'query' => [
@@ -45,7 +45,7 @@ class VK
 
         $params['access_token'] = self::$token;
         $params['client_secret'] = getenv('VK_SECRET');
-        $response = $client->get(
+        $response = self::$client->get(
             $method,
             [
                 'query' => $params
