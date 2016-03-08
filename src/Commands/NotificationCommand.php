@@ -48,7 +48,7 @@ class NotificationCommand extends AbstractPimpleCommand
                     $rst = array_merge($rst, $sp);
                 }
                 $ids = [];
-                sleep(5);
+                sleep(2);
             }
         }
         $r = VK::sendNotification($ids, $msg);
@@ -59,7 +59,7 @@ class NotificationCommand extends AbstractPimpleCommand
             $rst = array_merge($rst, $sp);
         }
         $ids = [];
-        sleep(5);
+        sleep(2);
         var_dump(count($rst));
     }
 }
