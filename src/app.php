@@ -15,17 +15,20 @@ $app->error(
             throw $exception;
         }
 
-        $ravenClient->captureException(
-            $exception,
-            [
-                'extra' => [
-                    'php_version' => phpversion(),
-                ],
-            ]
+        $eventID = $client->getIdent(
+            $ravenClient->captureException(
+                $exception,
+                [
+                    'extra' => [
+                        'php_version' => phpversion(),
+                    ],
+                ]
+            )
         );
 
         $data = [
             'error' => get_class($exception),
+            'id' => $eventID,
             'message' => $exception->getMessage(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
