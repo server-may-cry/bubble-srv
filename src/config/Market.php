@@ -72,514 +72,385 @@ abstract class Market
         return $item;
     }
 
-    private static $items = [
-      'bonus04_1' => 
-      [
-        'price' => 
-        [
+    static $items = [
+      'bonus04_1' => [
+        'price' => [
           'vk' => 100,
           'ok' => 769,
         ],
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Открыть все острова',
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'reachedStage01' => 7,
             'reachedSubStage01' => 14,
           ],
         ],
       ],
-      'bonus04_2' => 
-      [
-        'price' => 
-        [
+      'bonus04_2' => [
+        'price' => [
           'vk' => 100,
           'ok' => 769,
         ],
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Открыть все острова',
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'reachedStage02' => 7,
             'reachedSubStage02' => 14,
           ],
         ],
       ],
-      'bonus05' => 
-      [
-        'price' => 
-        [
+      'bonus05' => [
+        'price' => [
           'vk' => 20,
           'ok' => 449,
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'ignoreSavePointBlock' => 1,
           ],
         ],
         'photo' => 'bonus05',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Навсегда разблокировать все флаги',
         ],
       ],
-      'bonus06_1' => 
-      [
-        'price' => 
-        [
+      'bonus06_1' => [
+        'price' => [
           'vk' => 10,
           'ok' => 299,
         ],
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Открыть следующий остров',
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'reachedSubStage01' => 0,
           ],
-          'increase' => 
-          [
+          'increase' => [
             'reachedStage01' => 1,
           ],
         ],
       ],
-      'bonus06_2' => 
-      [
-        'price' => 
-        [
+      'bonus06_2' => [
+        'price' => [
           'vk' => 10,
           'ok' => 299,
         ],
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Открыть следующий остров',
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'reachedSubStage02' => 0,
           ],
-          'increase' => 
-          [
+          'increase' => [
             'reachedStage02' => 1,
           ],
         ],
       ],
-      'infExt00Lvl3' => 
-      [
-        'price' => 
-        [
+      'infExt00Lvl3' => [
+        'price' => [
           'vk' => 1,
           'ok' => 29,
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'inifinityExtra00' => 1,
           ],
         ],
         'photo' => 'infExt00Lvl3',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Радужный шар',
         ],
       ],
-      'infExt01Lvl2' => 
-      [
-        'price' => 
-        [
+      'infExt01Lvl2' => [
+        'price' => [
           'vk' => 1,
           'ok' => 29,
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'inifinityExtra01' => 1,
           ],
         ],
         'photo' => 'infExt01Lvl2',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Шар-бомба',
         ],
       ],
-      'infExt02Lvl1' => 
-      [
-        'price' => 
-        [
+      'infExt02Lvl1' => [
+        'price' => [
           'vk' => 3,
           'ok' => 89,
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'inifinityExtra02' => 1,
           ],
         ],
         'photo' => 'infExt02Lvl1',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Огненный шар',
         ],
       ],
-      'infExt03Lvl2' => 
-      [
-        'price' => 
-        [
+      'infExt03Lvl2' => [
+        'price' => [
           'vk' => 2,
           'ok' => 58,
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'inifinityExtra03' => 1,
           ],
         ],
         'photo' => 'infExt03Lvl2',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Горизонтальную молния',
         ],
       ],
-      'infExt04Lvl1' => 
-      [
-        'price' => 
-        [
+      'infExt04Lvl1' => [
+        'price' => [
           'vk' => 3,
           'ok' => 89,
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'inifinityExtra04' => 1,
           ],
         ],
         'photo' => 'infExt04Lvl1',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Супер бомба',
         ],
       ],
-      'infExt05Lvl2' => 
-      [
-        'price' => 
-        [
+      'infExt05Lvl2' => [
+        'price' => [
           'vk' => 2,
           'ok' => 58,
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'inifinityExtra05' => 1,
           ],
         ],
         'photo' => 'infExt05Lvl2',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Вертикальную молния',
         ],
       ],
-      'infExt06Lvl1' => 
-      [
-        'price' => 
-        [
+      'infExt06Lvl1' => [
+        'price' => [
           'vk' => 3,
           'ok' => 89,
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'inifinityExtra06' => 1,
           ],
         ],
         'photo' => 'infExt06Lvl1',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Шар-черная дыра',
         ],
       ],
-      'infExt07Lvl1' => 
-      [
-        'price' => 
-        [
+      'infExt07Lvl1' => [
+        'price' => [
           'vk' => 4,
           'ok' => 116,
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'inifinityExtra07' => 1,
           ],
         ],
         'photo' => 'infExt07Lvl1',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Дополнитальные 5 выстрелов',
         ],
       ],
-      'infExt08Lvl1' => 
-      [
-        'price' => 
-        [
+      'infExt08Lvl1' => [
+        'price' => [
           'vk' => 4,
           'ok' => 116,
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'inifinityExtra08' => 1,
           ],
         ],
         'photo' => 'infExt08Lvl1',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Дополнительные 30 секунд',
         ],
       ],
-      'infExt09Lvl1' => 
-      [
-        'price' => 
-        [
+      'infExt09Lvl1' => [
+        'price' => [
           'vk' => 3,
           'ok' => 89,
         ],
-        'reward' => 
-        [
-          'set' => 
-          [
+        'reward' => [
+          'set' => [
             'inifinityExtra09' => 1,
           ],
         ],
         'photo' => 'infExt09Lvl1',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Иммунитет к ядовитым шарам',
         ],
       ],
-      'helpPack01' => 
-      [
-        'price' => 
-        [
+      'helpPack01' => [
+        'price' => [
           'vk' => 1,
           'ok' => 29,
         ],
-        'reward' => 
-        [
-          'increase' => 
-          [
+        'reward' => [
+          'increase' => [
             'remainingTries' => 5,
             'credits' => 650,
           ],
         ],
         'photo' => 'helpPack01',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Экстра помощь',
         ],
       ],
-      'additionalShots' => 
-      [
-        'price' => 
-        [
+      'additionalShots' => [
+        'price' => [
           'vk' => 1,
           'ok' => 89,
         ],
-        'reward' => 
-        [
+        'reward' => [
         ],
         'photo' => 'additionalShots',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Дополнительные выстрелы',
         ],
       ],
-      'additionalTime' => 
-      [
-        'price' => 
-        [
+      'additionalTime' => [
+        'price' => [
           'vk' => 1,
           'ok' => 89,
         ],
-        'reward' => 
-        [
+        'reward' => [
         ],
         'photo' => 'additionalTime',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Дополнительное время',
         ],
       ],
-      'creditsPack01' => 
-      [
-        'price' => 
-        [
+      'creditsPack01' => [
+        'price' => [
           'vk' => 1,
           'ok' => 29,
         ],
-        'reward' => 
-        [
-          'increase' => 
-          [
+        'reward' => [
+          'increase' => [
             'credits' => 140,
           ],
         ],
         'photo' => 'creditsPack01',
-        'title' => 
-        [
+        'title' => [
           'ru' => '140 золотых монет',
         ],
       ],
-      'creditsPack01_test' => 
-      [
-        'price' => 
-        [
+      'creditsPack01_test' => [
+        'price' => [
           'vk' => 1,
           'ok' => 1,
         ],
-        'reward' => 
-        [
-          'increase' => 
-          [
+        'reward' => [
+          'increase' => [
             'credits' => 1,
           ],
         ],
         'photo' => 'creditsPack01',
-        'title' => 
-        [
+        'title' => [
           'ru' => 'Тестовая покупка одной монеты',
         ],
       ],
-      'creditsPack02' => 
-      [
-        'price' => 
-        [
+      'creditsPack02' => [
+        'price' => [
           'vk' => 2,
           'ok' => 89,
         ],
-        'reward' => 
-        [
-          'increase' => 
-          [
+        'reward' => [
+          'increase' => [
             'credits' => 650,
           ],
         ],
         'photo' => 'creditsPack02',
-        'title' => 
-        [
+        'title' => [
           'ru' => '650 золотых монет',
         ],
       ],
-      'creditsPack03' => 
-      [
-        'price' => 
-        [
+      'creditsPack03' => [
+        'price' => [
           'vk' => 9,
           'ok' => 299,
         ],
-        'reward' => 
-        [
-          'increase' => 
-          [
+        'reward' => [
+          'increase' => [
             'credits' => 3000,
           ],
         ],
         'photo' => 'creditsPack03',
-        'title' => 
-        [
+        'title' => [
           'ru' => '3000 золотых монет',
         ],
       ],
-      'creditsPack04' => 
-      [
-        'price' => 
-        [
+      'creditsPack04' => [
+        'price' => [
           'vk' => 16,
           'ok' => 449,
         ],
-        'reward' => 
-        [
-          'increase' => 
-          [
+        'reward' => [
+          'increase' => [
             'credits' => 6000,
           ],
         ],
         'photo' => 'creditsPack04',
-        'title' => 
-        [
+        'title' => [
           'ru' => '6000 золотых монет',
         ],
       ],
-      'creditsPack05' => 
-      [
-        'price' => 
-        [
+      'creditsPack05' => [
+        'price' => [
           'vk' => 34,
           'ok' => 769,
         ],
-        'reward' => 
-        [
-          'increase' => 
-          [
+        'reward' => [
+          'increase' => [
             'credits' => 16000,
           ],
         ],
         'photo' => 'creditsPack05',
-        'title' => 
-        [
+        'title' => [
           'ru' => '16000 золотых монет',
         ],
       ],
-      'bonus01' => 
-      [
-        'reward' => 
-        [
-          'increase' => 
-          [
+      'bonus01' => [
+        'reward' => [
+          'increase' => [
             'credits' => -75,
             'remainingTries' => 1,
           ],
         ],
       ],
-      'bonus02' => 
-      [
-        'reward' => 
-        [
-          'increase' => 
-          [
+      'bonus02' => [
+        'reward' => [
+          'increase' => [
             'credits' => -300,
             'remainingTries' => 5,
           ],
         ],
       ],
-      'bonus03' => 
-      [
-        'reward' => 
-        [
-          'increase' => 
-          [
+      'bonus03' => [
+        'reward' => [
+          'increase' => [
             'credits' => -500,
             'remainingTries' => 10,
           ],
