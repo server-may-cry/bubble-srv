@@ -27,6 +27,8 @@ abstract class IndexRoute
     public static function debug(Application $app) 
     {
         $memory = memory_get_peak_usage(true);
+        phpinfo();
+        die();
 
         return $app->json(
             [
