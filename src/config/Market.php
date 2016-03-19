@@ -22,396 +22,12 @@ abstract class Market
         ];
     }
 
-    private static $bonus04_1 = [
-        'price' => [
-            'vk' => 100,
-            'ok' => 769,
-        ],
-        'title' => [
-            'ru' => 'Открыть все острова',
-        ],
-        'reward' => [
-            'set' => [
-                'reachedStage01' => 7,
-                'reachedSubStage01' => 14,
-            ],
-        ],
-    ];
-    private static $bonus04_2 = [
-        'price' => [
-            'vk' => 100,
-            'ok' => 769,
-        ],
-        'title' => [
-            'ru' => 'Открыть все острова',
-        ],
-        'reward' => [
-            'set' => [
-                'reachedStage02' => 7,
-                'reachedSubStage02' => 14,
-            ],
-        ],
-    ];
-    private static $bonus05 = [
-        'price' => [
-            'vk' => 20,
-            'ok' => 449,
-        ],
-        'reward' => [
-            'set' => [
-                'ignoreSavePointBlock' => 1,
-            ]
-        ],
-        'photo' => 'bonus05',
-        'title' => [
-            'ru' => 'Навсегда разблокировать все флаги',
-        ],
-    ];
-    private static $bonus06_1 = [
-        'price' => [
-            'vk' => 10,
-            'ok' => 299,
-        ],
-        'title' => [
-            'ru' => 'Открыть следующий остров',
-        ],
-        'reward' => [
-            'set' => [
-                'reachedSubStage01' => 0,
-            ],
-            'increase' => [
-                'reachedStage01' => 1,
-            ]
-        ],
-    ];
-    private static $bonus06_2 = [
-        'price' => [
-            'vk' => 10,
-            'ok' => 299,
-        ],
-        'title' => [
-            'ru' => 'Открыть следующий остров',
-        ],
-        'reward' => [
-            'set' => [
-                'reachedSubStage02' => 0,
-            ],
-            'increase' => [
-                'reachedStage02' => 1,
-            ]
-        ],
-    ];
-    private static $infExt00Lvl3 = [
-        'price' => [
-            'vk' => 1,
-            'ok' => 29,
-        ],
-        'reward' => [
-            'set' => [
-                'inifinityExtra00' => 1,
-            ],
-        ],
-        'photo' => 'infExt00Lvl3',
-        'title' => [
-            'ru' => 'Радужный шар',
-        ],
-    ];
-    private static $infExt01Lvl2 = [
-        'price' => [
-            'vk' => 1,
-            'ok' => 29,
-        ],
-        'reward' => [
-            'set' => [
-                'inifinityExtra01' => 1,
-            ],
-        ],
-        'photo' => 'infExt01Lvl2',
-        'title' => [
-            'ru' => 'Шар-бомба',
-        ],
-    ];
-    private static $infExt02Lvl1 = [
-        'price' => [
-            'vk' => 3,
-            'ok' => 89,
-        ],
-        'reward' => [
-            'set' => [
-                'inifinityExtra02' => 1,
-            ],
-        ],
-        'photo' => 'infExt02Lvl1',
-        'title' => [
-            'ru' => 'Огненный шар',
-        ],
-    ];
-    private static $infExt03Lvl2 = [
-        'price' => [
-            'vk' => 2,
-            'ok' => 58,
-        ],
-        'reward' => [
-            'set' => [
-                'inifinityExtra03' => 1,
-            ],
-        ],
-        'photo' => 'infExt03Lvl2',
-        'title' => [
-            'ru' => 'Горизонтальную молния',
-        ],
-    ];
-    private static $infExt04Lvl1 = [
-        'price' => [
-            'vk' => 3,
-            'ok' => 89,
-        ],
-        'reward' => [
-            'set' => [
-                'inifinityExtra04' => 1,
-            ],
-        ],
-        'photo' => 'infExt04Lvl1',
-        'title' => [
-            'ru' => 'Супер бомба',
-        ],
-    ];
-    private static $infExt05Lvl2 = [
-        'price' => [
-            'vk' => 2,
-            'ok' => 58,
-        ],
-        'reward' => [
-            'set' => [
-                'inifinityExtra05' => 1,
-            ],
-        ],
-        'photo' => 'infExt05Lvl2',
-        'title' => [
-            'ru' => 'Вертикальную молния',
-        ],
-    ];
-    private static $infExt06Lvl1 = [
-        'price' => [
-            'vk' => 3,
-            'ok' => 89,
-        ],
-        'reward' => [
-            'set' => [
-                'inifinityExtra06' => 1,
-            ],
-        ],
-        'photo' => 'infExt06Lvl1',
-        'title' => [
-            'ru' => 'Шар-черная дыра',
-        ],
-    ];
-    private static $infExt07Lvl1 = [
-        'price' => [
-            'vk' => 4,
-            'ok' => 116,
-        ],
-        'reward' => [
-            'set' => [
-                'inifinityExtra07' => 1,
-            ],
-        ],
-        'photo' => 'infExt07Lvl1',
-        'title' => [
-            'ru' => 'Дополнитальные 5 выстрелов',
-        ],
-    ];
-    private static $infExt08Lvl1 = [
-        'price' => [
-            'vk' => 4,
-            'ok' => 116,
-        ],
-        'reward' => [
-            'set' => [
-                'inifinityExtra08' => 1,
-            ],
-        ],
-        'photo' => 'infExt08Lvl1',
-        'title' => [
-            'ru' => 'Дополнительные 30 секунд',
-        ],
-    ];
-    private static $infExt09Lvl1 = [
-        'price' => [
-            'vk' => 3,
-            'ok' => 89,
-        ],
-        'reward' => [
-            'set' => [
-                'inifinityExtra09' => 1,
-            ],
-        ],
-        'photo' => 'infExt09Lvl1',
-        'title' => [
-            'ru' => 'Иммунитет к ядовитым шарам',
-        ],
-    ];
-    private static $helpPack01 = [
-        'price' => [
-            'vk' => 1,
-            'ok' => 29,
-        ],
-        'reward' => [
-            'increase' => [
-                'remainingTries' => 5,
-                'credits' => 650,
-            ],
-        ],
-        'photo' => 'helpPack01',
-        'title' => [
-            'ru' => 'Экстра помощь',
-        ],
-    ];
-    private static $additionalShots = [
-        'price' => [
-            'vk' => 1,
-            'ok' => 89,
-        ],
-        'reward' => [],
-        'photo' => 'additionalShots',
-        'title' => [
-            'ru' => 'Дополнительные выстрелы',
-        ],
-    ];
-    private static $additionalTime = [
-        'price' => [
-            'vk' => 1,
-            'ok' => 89,
-        ],
-        'reward' => [],
-        'photo' => 'additionalTime',
-        'title' => [
-            'ru' => 'Дополнительное время',
-        ],
-    ];
-    private static $creditsPack01 = [
-        'price' => [
-            'vk' => 1,
-            'ok' => 29,
-        ],
-        'reward' => [
-            'increase' => [
-                'credits' => 140,
-            ],
-        ],
-        'photo' => 'creditsPack01',
-        'title' => [
-            'ru' => '140 золотых монет',
-        ],
-    ];
-    private static$creditsPack01_test = [
-        'price' => [
-            'vk' => 1,
-            'ok' => 1,
-        ],
-        'reward' => [
-            'increase' => [
-                'credits' => 1,
-            ],
-        ],
-        'photo' => 'creditsPack01',
-        'title' => [
-            'ru' => 'Тестовая покупка одной монеты',
-        ],
-    ]; 
-    private static $creditsPack02 = [
-        'price' => [
-            'vk' => 2,
-            'ok' => 89,
-        ],
-        'reward' => [
-            'increase' => [
-                'credits' => 650,
-            ],
-        ],
-        'photo' => 'creditsPack02',
-        'title' => [
-            'ru' => '650 золотых монет',
-        ],
-    ];
-    private static $creditsPack03 = [
-        'price' => [
-            'vk' => 9,
-            'ok' => 299,
-        ],
-        'reward' => [
-            'increase' => [
-                'credits' => 3000,
-            ],
-        ],
-        'photo' => 'creditsPack03',
-        'title' => [
-            'ru' => '3000 золотых монет',
-        ],
-    ];
-    private static $creditsPack04 = [
-        'price' => [
-            'vk' => 16,
-            'ok' => 449,
-        ],
-        'reward' => [
-            'increase' => [
-                'credits' => 6000,
-            ],
-        ],
-        'photo' => 'creditsPack04',
-        'title' => [
-            'ru' => '6000 золотых монет',
-        ],
-    ];
-    private static $creditsPack05 = [
-        'price' => [
-            'vk' => 34,
-            'ok' => 769,
-        ],
-        'reward' => [
-            'increase' => [
-                'credits' => 16000,
-            ],
-        ],
-        'photo' => 'creditsPack05',
-        'title' => [
-            'ru' => '16000 золотых монет',
-        ],
-    ];
-
-    // in game
-    public static $bonus01 = [
-        'reward' => [
-            'increase' => [
-                'credits' => -75,
-                'remainingTries' => 1,
-            ],
-        ]
-    ];
-    public static $bonus02 = [
-        'reward' => [
-            'increase' => [
-                'credits' => -300,
-                'remainingTries' => 5,
-            ],
-        ]
-    ];
-    public static $bonus03 = [
-        'reward' => [
-            'increase' => [
-                'credits' => -500,
-                'remainingTries' => 10,
-            ],
-        ]
-    ];
-
     public static function buy(Application $app, $user, $itemName, $platform = null, $paid = null)
     {
-        if(!isset(self::$$itemName)) {
+        if(!isset(self::$items[$itemName])) {
             throw new Exception("Unknown item ".$itemName);
         }
-        $item = self::$$itemName;
+        $item = self::$items[$itemName];
         if($paid and $paid != $item['price'][$platform]) {
             throw new Exception("Incorrect price ".$paid." expect ".$item['price'][$platform]);
         }
@@ -435,10 +51,10 @@ abstract class Market
 
     public static function info($itemName, $platform, $lang)
     {
-        if(!isset(self::$$itemName)) {
+        if(!isset(self::$items[$itemName])) {
             throw new Exception("Unknown item ".$itemName);
         }
-        $item = self::$$itemName;
+        $item = self::$items[$itemName];
         if(!isset($item['price'][$platform])) {
             throw new Exception("Unknown platform ".$platform." on item ".$itemName);
         }
@@ -456,5 +72,519 @@ abstract class Market
         return $item;
     }
 
+    private static $items = array (
+      'bonus04_1' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 100,
+          'ok' => 769,
+        ),
+        'title' => 
+        array (
+          'ru' => 'Открыть все острова',
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'reachedStage01' => 7,
+            'reachedSubStage01' => 14,
+          ),
+        ),
+      ),
+      'bonus04_2' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 100,
+          'ok' => 769,
+        ),
+        'title' => 
+        array (
+          'ru' => 'Открыть все острова',
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'reachedStage02' => 7,
+            'reachedSubStage02' => 14,
+          ),
+        ),
+      ),
+      'bonus05' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 20,
+          'ok' => 449,
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'ignoreSavePointBlock' => 1,
+          ),
+        ),
+        'photo' => 'bonus05',
+        'title' => 
+        array (
+          'ru' => 'Навсегда разблокировать все флаги',
+        ),
+      ),
+      'bonus06_1' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 10,
+          'ok' => 299,
+        ),
+        'title' => 
+        array (
+          'ru' => 'Открыть следующий остров',
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'reachedSubStage01' => 0,
+          ),
+          'increase' => 
+          array (
+            'reachedStage01' => 1,
+          ),
+        ),
+      ),
+      'bonus06_2' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 10,
+          'ok' => 299,
+        ),
+        'title' => 
+        array (
+          'ru' => 'Открыть следующий остров',
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'reachedSubStage02' => 0,
+          ),
+          'increase' => 
+          array (
+            'reachedStage02' => 1,
+          ),
+        ),
+      ),
+      'infExt00Lvl3' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 1,
+          'ok' => 29,
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'inifinityExtra00' => 1,
+          ),
+        ),
+        'photo' => 'infExt00Lvl3',
+        'title' => 
+        array (
+          'ru' => 'Радужный шар',
+        ),
+      ),
+      'infExt01Lvl2' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 1,
+          'ok' => 29,
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'inifinityExtra01' => 1,
+          ),
+        ),
+        'photo' => 'infExt01Lvl2',
+        'title' => 
+        array (
+          'ru' => 'Шар-бомба',
+        ),
+      ),
+      'infExt02Lvl1' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 3,
+          'ok' => 89,
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'inifinityExtra02' => 1,
+          ),
+        ),
+        'photo' => 'infExt02Lvl1',
+        'title' => 
+        array (
+          'ru' => 'Огненный шар',
+        ),
+      ),
+      'infExt03Lvl2' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 2,
+          'ok' => 58,
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'inifinityExtra03' => 1,
+          ),
+        ),
+        'photo' => 'infExt03Lvl2',
+        'title' => 
+        array (
+          'ru' => 'Горизонтальную молния',
+        ),
+      ),
+      'infExt04Lvl1' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 3,
+          'ok' => 89,
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'inifinityExtra04' => 1,
+          ),
+        ),
+        'photo' => 'infExt04Lvl1',
+        'title' => 
+        array (
+          'ru' => 'Супер бомба',
+        ),
+      ),
+      'infExt05Lvl2' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 2,
+          'ok' => 58,
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'inifinityExtra05' => 1,
+          ),
+        ),
+        'photo' => 'infExt05Lvl2',
+        'title' => 
+        array (
+          'ru' => 'Вертикальную молния',
+        ),
+      ),
+      'infExt06Lvl1' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 3,
+          'ok' => 89,
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'inifinityExtra06' => 1,
+          ),
+        ),
+        'photo' => 'infExt06Lvl1',
+        'title' => 
+        array (
+          'ru' => 'Шар-черная дыра',
+        ),
+      ),
+      'infExt07Lvl1' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 4,
+          'ok' => 116,
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'inifinityExtra07' => 1,
+          ),
+        ),
+        'photo' => 'infExt07Lvl1',
+        'title' => 
+        array (
+          'ru' => 'Дополнитальные 5 выстрелов',
+        ),
+      ),
+      'infExt08Lvl1' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 4,
+          'ok' => 116,
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'inifinityExtra08' => 1,
+          ),
+        ),
+        'photo' => 'infExt08Lvl1',
+        'title' => 
+        array (
+          'ru' => 'Дополнительные 30 секунд',
+        ),
+      ),
+      'infExt09Lvl1' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 3,
+          'ok' => 89,
+        ),
+        'reward' => 
+        array (
+          'set' => 
+          array (
+            'inifinityExtra09' => 1,
+          ),
+        ),
+        'photo' => 'infExt09Lvl1',
+        'title' => 
+        array (
+          'ru' => 'Иммунитет к ядовитым шарам',
+        ),
+      ),
+      'helpPack01' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 1,
+          'ok' => 29,
+        ),
+        'reward' => 
+        array (
+          'increase' => 
+          array (
+            'remainingTries' => 5,
+            'credits' => 650,
+          ),
+        ),
+        'photo' => 'helpPack01',
+        'title' => 
+        array (
+          'ru' => 'Экстра помощь',
+        ),
+      ),
+      'additionalShots' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 1,
+          'ok' => 89,
+        ),
+        'reward' => 
+        array (
+        ),
+        'photo' => 'additionalShots',
+        'title' => 
+        array (
+          'ru' => 'Дополнительные выстрелы',
+        ),
+      ),
+      'additionalTime' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 1,
+          'ok' => 89,
+        ),
+        'reward' => 
+        array (
+        ),
+        'photo' => 'additionalTime',
+        'title' => 
+        array (
+          'ru' => 'Дополнительное время',
+        ),
+      ),
+      'creditsPack01' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 1,
+          'ok' => 29,
+        ),
+        'reward' => 
+        array (
+          'increase' => 
+          array (
+            'credits' => 140,
+          ),
+        ),
+        'photo' => 'creditsPack01',
+        'title' => 
+        array (
+          'ru' => '140 золотых монет',
+        ),
+      ),
+      'creditsPack01_test' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 1,
+          'ok' => 1,
+        ),
+        'reward' => 
+        array (
+          'increase' => 
+          array (
+            'credits' => 1,
+          ),
+        ),
+        'photo' => 'creditsPack01',
+        'title' => 
+        array (
+          'ru' => 'Тестовая покупка одной монеты',
+        ),
+      ),
+      'creditsPack02' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 2,
+          'ok' => 89,
+        ),
+        'reward' => 
+        array (
+          'increase' => 
+          array (
+            'credits' => 650,
+          ),
+        ),
+        'photo' => 'creditsPack02',
+        'title' => 
+        array (
+          'ru' => '650 золотых монет',
+        ),
+      ),
+      'creditsPack03' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 9,
+          'ok' => 299,
+        ),
+        'reward' => 
+        array (
+          'increase' => 
+          array (
+            'credits' => 3000,
+          ),
+        ),
+        'photo' => 'creditsPack03',
+        'title' => 
+        array (
+          'ru' => '3000 золотых монет',
+        ),
+      ),
+      'creditsPack04' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 16,
+          'ok' => 449,
+        ),
+        'reward' => 
+        array (
+          'increase' => 
+          array (
+            'credits' => 6000,
+          ),
+        ),
+        'photo' => 'creditsPack04',
+        'title' => 
+        array (
+          'ru' => '6000 золотых монет',
+        ),
+      ),
+      'creditsPack05' => 
+      array (
+        'price' => 
+        array (
+          'vk' => 34,
+          'ok' => 769,
+        ),
+        'reward' => 
+        array (
+          'increase' => 
+          array (
+            'credits' => 16000,
+          ),
+        ),
+        'photo' => 'creditsPack05',
+        'title' => 
+        array (
+          'ru' => '16000 золотых монет',
+        ),
+      ),
+      'bonus01' => 
+      array (
+        'reward' => 
+        array (
+          'increase' => 
+          array (
+            'credits' => -75,
+            'remainingTries' => 1,
+          ),
+        ),
+      ),
+      'bonus02' => 
+      array (
+        'reward' => 
+        array (
+          'increase' => 
+          array (
+            'credits' => -300,
+            'remainingTries' => 5,
+          ),
+        ),
+      ),
+      'bonus03' => 
+      array (
+        'reward' => 
+        array (
+          'increase' => 
+          array (
+            'credits' => -500,
+            'remainingTries' => 10,
+          ),
+        ),
+      ),
+    );
 }
 Market::init();
