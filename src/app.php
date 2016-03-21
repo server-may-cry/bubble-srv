@@ -15,7 +15,7 @@ $app->error(
             throw $exception;
         }
 
-        $eventID = $client->getIdent(
+        $eventID = $ravenClient->getIdent(
             $ravenClient->captureException(
                 $exception,
                 [
