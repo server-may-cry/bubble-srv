@@ -30,7 +30,7 @@ abstract class IndexRoute
 
         return $app->json(
             [
-            'cur_memory' => $memory,
+                'cur_memory' => $memory,
             ]
         );
     }
