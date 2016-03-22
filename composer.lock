@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f0510d550219c15c1e95fe762244d955",
-    "content-hash": "940d9897ebbc7cd71203743571caf306",
+    "hash": "4f577f3c6c57f917c4ffc12b954097f4",
+    "content-hash": "190dada6644cb5cec11e3ef61879a072",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -463,12 +463,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/silexphp/Silex.git",
-                "reference": "800912d3b2ca4a273b1e5657e07b7fbed91daaa5"
+                "reference": "a8cc0ae4ed1035c08b22c8d9f21d4b44b5287276"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Silex/zipball/800912d3b2ca4a273b1e5657e07b7fbed91daaa5",
-                "reference": "800912d3b2ca4a273b1e5657e07b7fbed91daaa5",
+                "url": "https://api.github.com/repos/silexphp/Silex/zipball/a8cc0ae4ed1035c08b22c8d9f21d4b44b5287276",
+                "reference": "a8cc0ae4ed1035c08b22c8d9f21d4b44b5287276",
                 "shasum": ""
             },
             "require": {
@@ -538,7 +538,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2016-02-08 07:46:50"
+            "time": "2016-03-10 11:48:44"
         },
         {
             "name": "symfony/console",
@@ -902,7 +902,7 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -1443,16 +1443,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.23",
+            "version": "4.8.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6e351261f9cd33daf205a131a1ba61c6d33bd483"
+                "reference": "a1066c562c52900a142a0e2bbf0582994671385e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6e351261f9cd33daf205a131a1ba61c6d33bd483",
-                "reference": "6e351261f9cd33daf205a131a1ba61c6d33bd483",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a1066c562c52900a142a0e2bbf0582994671385e",
+                "reference": "a1066c562c52900a142a0e2bbf0582994671385e",
                 "shasum": ""
             },
             "require": {
@@ -1511,7 +1511,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-02-11 14:56:33"
+            "time": "2016-03-14 06:16:08"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2188,7 +2188,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~5.6"
+        "php": "~7.0.4",
+        "ext-newrelic": "*"
     },
     "platform-dev": []
 }
